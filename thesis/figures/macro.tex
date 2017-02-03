@@ -1,0 +1,323 @@
+%--------------------------------------------DEMOS-------------------------------------
+
+\newcommand{\mb}{\mathbb}
+\newcommand{\tb}[1]{\tilde{\mathbb{#1}}}
+\newcommand{\mr}{\mathrm}
+\newcommand{\mc}{\mathcal}
+\newcommand{\tc}[1]{\tilde{\mathcal{#1}}}
+\newcommand{\mbf}{\mathbf}
+\newcommand{\msf}{\mathsf}
+\newcommand{\Ch}{\mathsf{Ch}}
+\newcommand{\mcP}{\mathcal{P}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Pol}{\mathcal{P}}
+\newcommand{\negl}{\mathsf{negl}}
+\newcommand{\poly}{\mathsf{poly}}
+\newcommand{\la}{\lambda}
+\newcommand{\bin}[2]{#1_{n-1}\cdots#1_{#2}}
+\newcommand{\Si}{\mathcal{S}}
+
+\newcommand{\set}[1]  {\left\{#1\right\}}
+\newcommand{\abs}[1]  {\left|#1\right|}
+\newcommand{\odds}[1] {\mathsf{odds}\left(#1\right)}
+\newcommand{\floor}[1]{\lfloor #1\rfloor}
+\newcommand{\ceil} [1]{\lceil #1\rceil}
+
+\newcommand{\pick} [1] {\overset{#1}{\leftarrow}}
+\newcommand{\Adv}{\mathsf{Adv}}
+\newcommand{\bind}{\mathsf{bind}}
+\newcommand{\hide}{\mathsf{hide}}
+
+
+\newcommand{\param}{\mathsf{Param}}
+\newcommand{\DL}{\mathsf{Dlog}}
+\newcommand{\pk}{\mathsf{pk}}
+\newcommand{\sk}{\mathsf{sk}}
+\newcommand{\Gen}{\mathsf{Gen}}
+\newcommand{\Enc}{\mathsf{Enc}}
+\newcommand{\Dec}{\mathsf{Dec}}
+\newcommand{\accept}{\mathsf{accept}}
+\newcommand{\reject}{\mathsf{reject}}
+\newcommand{\Sig}{\mathsf{Sig}}
+\newcommand{\GenBP}{\mathsf{Gen}_{\mathsf{bp}}}
+\newcommand{\Opt}{\mathsf{Opt}}
+
+\newcommand{\VerSig}{\mathsf{Ver}_{\mathsf{sig}}}
+
+%commitment
+\newcommand{\Com}  {\mathsf{Com}}
+\newcommand{\ck}{\mathsf{ck}}
+\newcommand{\Ver}{\mathsf{Ver}}
+
+\newcommand{\view}{\mathsf{view}}
+
+
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\vect}[1]{\overset{\rightarrow}{#1}}
+
+\newcommand{\eatitemspace}{}
+
+\newcommand{\putbox}{\hspace*{\fill}$\Box$}
+
+
+
+\newcommand{\Prob}{\mbox{\( \mathbf{ Prob } \)}}
+
+\def\squareforqed{\hbox{\(\blacksquare\)}}
+\def\qed{\ifmmode\squareforqed\else{\unskip\nobreak\hfill\penalty50\hskip1em\null\nobreak\hfil\squareforqed\parfillskip=0pt\finalhyphendemerits=0\endgraf}\fi}
+\setlength\belowrulesep{0pt}
+\setlength\aboverulesep{-1.3pt}
+\newcommand{\thickhline}{\midrule[1.2pt]}
+\newcommand{\bad}{\mathsf{bad}}
+
+
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+\newcommand{\VS}{\mathbfcal{VS}}
+\newcommand{\VCr}{\mathbfcal{VC}}
+\newcommand{\EA}{\mathsf{EA}}
+\newcommand{\BB}{\mathsf{BB}}
+\newcommand{\BDS}{\mathsf{BDS}}
+\newcommand{\VSD}{\mathsf{VSD}}
+\newcommand{\ASD}{\mathsf{ASD}}
+\newcommand{\VC}{\mathsf{VC}}
+\newcommand{\CD}{\mathsf{CD}}
+\newcommand{\Admin}{\mathsf{Admin}}
+\newcommand{\info}{\mathsf{info}}
+\newcommand{\aux}{\mathsf{aux}}
+\newcommand{\st}{\mathsf{st}}
+\newcommand{\vid}{\mathsf{vid}}
+\newcommand{\ch}{\mathsf{Ch}}
+
+\newcommand{\cala}{\mathcal{A}}
+\newcommand{\calb}{\mathcal{B}}
+\newcommand{\calc}{\mathcal{C}}
+\newcommand{\cals}{\mathcal{S}}
+\newcommand{\calr}{\mathcal{R}}
+\newcommand{\calm}{\mathcal{M}}
+\newcommand{\calk}{\mathcal{K}}
+\newcommand{\calx}{\mathcal{X}}
+\newcommand{\caly}{\mathcal{Y}}
+\newcommand{\calf}{\mathcal{F}}
+\newcommand{\Z}{\mathcal{Z}}
+\newcommand{\calp}{\mathcal{P}}
+\newcommand{\calv}{\mathcal{V}}
+\newcommand{\call}{\mathcal{L}}
+\newcommand{\calo}{\mathcal{O}}
+\newcommand{\calu}{\mathcal{U}}
+\newcommand{\calt}{\mathcal{T}}
+
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\GF}{\mathbb{GF}}
+\newcommand{\GG}{\mathbb{G}}
+
+\newcommand{\Open}{\mathsf{Open}}
+\newcommand{\SXDH}{\mathsf{sxdh}}
+\newcommand{\Sim}{\mathsf{Sim}}
+\newcommand{\td}{\mathsf{td}}
+\newcommand{\Prov}{\mathsf{Prov}}
+\newcommand{\Vrfy}{\mathsf{Vrfy}}
+\newcommand{\crs}{\mathsf{crs}}
+%\newcommand{\ch}{\mathsf{ch}}
+\newcommand{\opt}{\mathsf{opt}}
+\newcommand{\rec}{\mathsf{rec}}
+\newcommand{\eid}{\mathsf{eid}}
+%\newcommand{\hash}{\mathsf{hash}}
+
+
+
+\newcommand{\NIZK}{\mathsf{NIZK}}
+
+\newcommand{\name}{PoWorK}
+\newcommand{\steps}{\msf{Steps}}
+
+
+\newcommand{\Setup}{\mathbf{Setup}}
+\newcommand{\Cast}{\mathbf{Cast}}
+\newcommand{\Tally}{\mathbf{Tally}}
+\newcommand{\Result}{\mathbf{Result}}
+\newcommand{\Verify}{\mathbf{Verify}}
+
+\newcommand{\blt}{\mathbf{blt}}
+\newcommand{\ta}{\mathbf{ta}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------ENVIRONMENTS---------------------------------------------------
+
+\newenvironment{proofsketch}{\noindent\textit{Proof sketch:}}{\putbox}
+\newenvironment{PhDproof}{\noindent {\em Proof:}}{\putbox}
+%
+\newenvironment{boxfig}[2]{%
+     \begin{figure}[h!]
+     \newcommand{\FigCaption}{#1}
+     \newcommand{\FigLabel}{#2}
+%     \vspace{-0.25cm}
+     \begin{center}
+       \begin{small}
+         \begin{tabular}{@{}|@{~~}l@{~~}|@{}}
+           \hline
+           \rule[-1.5ex]{0pt}{1ex}\begin{minipage}[b]{.9\linewidth}
+             \vspace{1ex}
+             \smallskip
+             }{%
+           \end{minipage}\\
+           \hline
+         \end{tabular}
+       \end{small}
+%       \vspace{-0.25cm}
+      \caption{\FigCaption}
+%       \figlab{\FigLabel}
+     \end{center}
+     \vspace{-0.5cm}
+   \end{figure}
+}
+%
+%
+\newtcolorbox{phdshadebox}[1][]{
+  enhanced, %drop shadow east,
+  boxrule=1.5pt,arc=.3em,boxsep=-1mm,
+  left=.5em,right=.5em,top=5pt,bottom=5pt,
+  colback=white,#1
+}
+%
+\newenvironment{shadowfig}[2]{%
+     \begin{figure}[H]
+     \newcommand{\FigCaption}{#1}
+     \newcommand{\FigLabel}{#2}
+     \begin{phdshadebox}
+%
+\begin{center}
+\begin{small}
+\begin{minipage}{0.95\linewidth}
+\medskip
+%
+}{
+%
+\smallskip
+\end{minipage}
+\end{small}
+\end{center}
+\end{phdshadebox}
+\smallskip
+  \caption{\FigCaption}
+    \label{\FigLabel}
+\end{figure}
+}
+
+
+\newenvironment{experiment}{
+%\medskip
+\begin{center}\begin{boxedminipage}{\linewidth}}{\end{boxedminipage}\end{center}
+%\medskip
+}
+
+%
+\newtcolorbox{shadebox}[1][]{
+  enhanced,drop shadow shouthwest,
+  boxrule=1pt,arc=1pt,boxsep=0pt,
+  left=.5em,right=.5em,top=1ex,bottom=1ex,
+  colback=white,#1
+}
+%
+%
+\newtcolorbox{eqbox}[1][]{
+  enhanced, %drop shadow east,
+  boxrule=1pt,arc=2mm, outer arc=2mm,boxsep=-1mm,colframe=mygray!20!black,
+  left=.5em,right=.5em,top=10pt,bottom=10pt,halign=center,fuzzy shadow={2pt}{-2pt}{0pt}{0.2pt}{mygray},%drop large lifted shadow,
+  colback=white, attach boxed title to top center={yshift=-0.8mm},#1
+}
+%
+\newtcolorbox{stepbox}[1][]{
+  enhanced,%drop shadow shouthwest,
+  boxrule=0.75pt,arc=1pt,boxsep=0mm,
+  left=.25em,right=.25em,top=10pt,bottom=10pt, attach boxed title to top center={yshift=-0.8mm},
+  colback=white,#1
+}
+
+\tikzset{% 
+    trustee/.style={%
+        draw,align = center, text width = 32pt, text height = 20pt,line width=1.2pt,rounded corners=2pt,fill = white, 
+        blur shadow={shadow xshift=2pt}
+        }
+}
+
+\tikzset{% 
+    voter/.style={%
+        draw,circle,align = center, text width = 18pt, line width=1.2pt,fill = white, blur shadow={shadow xshift=1pt}
+    }
+}
+\tikzset{% 
+    human/.style={%
+        draw,circle,align = center, text width = 16pt, line width=1.2pt,fill = white, drop shadow={shadow xshift=2.5pt, shadow yshift=-1.5pt, fill=mygray}
+    }
+}
+
+\tikzset{% 
+    SD/.style={%
+        draw,align = center, text width = 27pt, text height = 15pt,line width=1.2pt,rounded corners=2pt,fill = white, 
+       drop shadow={shadow xshift=2.5pt, shadow yshift=-1.5pt, fill=mygray}
+        }
+}
+\tikzset{
+sarrow/.style={
+  draw,
+  double arrow,
+  text width=15pt,
+  text height=10pt,
+  fill=black
+  }}
+%%extractor
+\newcommand{\Ext}{\mathsf{Ext}}
+\newcommand{\pok}{\mathit{PoK}}
+\newcommand{\pow}{\mathit{PoW}}
+
+%%puzzle
+\newcommand{\true}{\mathsf{true}}
+\newcommand{\false}{\mathsf{false}}
+\newcommand{\puz}{\mathsf{puz}}
+\newcommand{\soln}{\mathsf{soln}}
+\newcommand{\PuzSys}{\mathsf{PuzSys}}
+\newcommand{\GenP}{\mathsf{GenPuz}}
+\newcommand{\SolveP}{\mathsf{Solve}}
+\newcommand{\Sample}{\mathsf{Sample}}
+\newcommand{\SampleP}{\mathsf{SampleSol}}
+\newcommand{\VerP}{\mathsf{Verify}}
+\newcommand{\PuzzleS}{\mathcal{PS}}
+\newcommand{\HardS}{\mathcal{HS}}
+\newcommand{\SolutionS}{\mathcal{SS}}
+\newcommand{\Params}{\mathsf{params}}
+\newcommand{\LSB}{\mathsf{LSB}}
+\newcommand{\CS}{\mathcal{CS}}
+
+\newcommand{\AAA}{\mathcal{A}}
+\newcommand{\BBB}{\mathcal{B}}
+\newcommand{\EEE}{\mathsf{E}}
+\newcommand{\FFF}{\mathcal{F}}
+\newcommand{\CCC}{\mathcal{C}}
+\newcommand{\DDD}{\mathcal{D}}
+\newcommand{\III}{\mathcal{I}}
+\newcommand{\RRR}{\mathcal{R}}
+\newcommand{\LLL}{\mathcal{L}}
+\newcommand{\KKK}{\mathcal{K}}
+\newcommand{\PPP}{\mathsf{P}}
+\newcommand{\VVV}{\mathsf{V}}
+\newcommand{\SSS}{\mathcal{S}}
+\newcommand{\XXX}{\mathcal{X}}
+\newcommand{\ZZZ}{\mathcal{Z}}
+
+\newcommand{\Pone}{\mathsf{P1}}
+\newcommand{\Ptwo}{\mathsf{P2}}
+\newcommand{\KK}{\mathsf{K}}
+%\newcommand{\B}{\mathcal{B}}
+
+\newcommand{\ignore}[1]{\relax} 
+%------------------NOTES-----------------------------
+\newif\ifNotes
+%\Notestrue
+\Notesfalse
+\newcommand{\note}[1]{\ifNotes\textcolor{blue}{\textsc{Note}: #1}\else{}\fi}
+%
+
+\renewcommand{\figurename}{\textsc{Figure}}
+\renewcommand{\tablename}{\textsc{Table}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}

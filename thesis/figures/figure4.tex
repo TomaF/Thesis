@@ -1,0 +1,70 @@
+% Tikz File 'mytikz.tex'
+\documentclass{standalone}
+\usepackage{amsmath,xparse}
+\DeclareMathOperator{\vsd}{VSD}
+\DeclareMathOperator{\asd}{ASD}
+\DeclareMathOperator{\ea}{EA}
+\DeclareMathOperator{\bb}{BB}
+\DeclareMathOperator{\voc}{VC}
+\usepackage{tikz}
+
+\pgfdeclarelayer{bg} 
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, text width=2em, 
+    text centered, minimum height=2.5em]
+ \tikzstyle{s}=[draw, text width=6em, 
+    text centered, minimum height=5em]
+ \tikzstyle{sim}=[draw, text width=8em, 
+    text centered, minimum height=6em]
+\tikzstyle{ann} = [above, text width=5em]
+\tikzstyle{a} = [sensor, text width=6em,
+    minimum height=8em, rounded corners]
+ \tikzstyle{v} =[circle, thick, minimum size=0.8cm, draw=black]
+  \tikzstyle{vv} =[circle, thick,  dashed,draw=black!50]
+  \def\blockdist{2.3}
+\def\edgedist{2.5}
+\begin{document}
+\begin{tikzpicture}
+    \node (s) [a] {$\mathcal{F}$};
+    \path (s.east)+(1.5*\blockdist,3) node (g) [sensor] {$\mathcal{G}_{BB}$};
+    \path (s.east)+(1.5*\blockdist,0) node (system) [sim] {};
+    \path (s.east)+(1.1*\blockdist,0) node (adv) [sensor] {$\mathcal{A}$};
+     \path (s.east)+(1.9*\blockdist,0) node (ss) [sensor] {$\Pi$};
+    \path (ss.east) +(0.7*\blockdist,-4) node (v0) [v] {$V_0$};
+    \path (ss.east) +(0.7*\blockdist,-3) node (v1) [v] {$V_1$};
+     \path (ss.east) +(0.7*\blockdist, -2) node (vn) [v] {$V_n$};
+    \path (s.east) +(\blockdist, -5) node (RE) {Ideal Execution};
+     \path (s.east) +(1.5*\blockdist, -1) node (ssimulator) {$\mathcal{S}$};
+    \draw[transform canvas={yshift=0.7ex},->] (system) -- (s);
+    \draw[transform canvas={yshift=-0.7ex},<-] (system) -- (s);
+    \draw[transform canvas={xshift=0.7ex},->] (system) -- (g);
+    \draw[transform canvas={xshift=-0.7ex},<-] (system) -- (g);
+    \draw[transform canvas={yshift=0.7ex},->] (ss) -- (adv);
+    \draw[transform canvas={yshift=-0.7ex},<-] (ss) -- (adv);
+     \path [draw, <-] (s) |-  (v1.west);
+      \path [draw, <-] (s) |- (v0.west);
+      \path [draw, <-] (s) |-  (vn.west);
+    \draw [<-] (v0.-40)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$U_0$};
+      \draw [<-] (v1.-40)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$U_1$};
+     \draw [<-] (vn.-40)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$U_n$};
+     \draw [->] (v0.40)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$response_0$};
+      \draw [->] (v1.40)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$response_1$};
+     \draw [->] (vn.40)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$response_n$};
+        \draw [<-] (system.20)-- node [ann] {} + (\edgedist,0) 
+        node[right] {$election\_params$};
+    \begin{pgfonlayer}{background}
+        \path (s.west |- g.north)+(-0.5,0.3) node (a) {};
+        \path (RE.south -| v0.east)+(+0.3,-0.2) node (b) {};
+        \path[rounded corners, draw=black, dashed]
+            (a) rectangle (b);
+    \end{pgfonlayer}
+\end{tikzpicture}
+\end{document}

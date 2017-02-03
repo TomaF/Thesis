@@ -1,0 +1,154 @@
+% Tikz File 'mytikz.tex'
+\documentclass{standalone}
+\usepackage{amsmath,xparse}
+\usepackage{tikz}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{shapes, arrows, decorations.markings}
+\usepackage{amsmath,bm,times}
+\usepackage{verbatim}
+\usepackage{etex}
+\usetikzlibrary{calc,through,intersections}
+\usepackage[many]{tcolorbox}
+\usepackage{array}
+\usepackage{booktabs}
+\usetikzlibrary{shadows.blur,shadings}
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{main,bg}  % set the order of the layers (main is the standard layer)
+
+\DeclareMathOperator{\vsd}{VSD}
+\DeclareMathOperator{\asd}{ASD}
+\DeclareMathOperator{\ea}{EA}
+\DeclareMathOperator{\bb}{BB}
+\DeclareMathOperator{\voc}{VC}
+
+
+\pgfdeclarelayer{bg} 
+\pgfsetlayers{main,bg}  % set the order of the layers (main is the standard layer)
+%-------------------------------------------------MACROS--------------------------------------------------------------------------------
+\input{macro}
+\definecolor{mygray}{RGB}{200,200,200}
+\definecolor{lightgray}{RGB}{220,220,220}
+\definecolor{darkgray}{RGB}{100,100,100}
+\definecolor{ultradarkgray}{RGB}{30,30,30}
+\definecolor{ultralightgray}{RGB}{230,230,230}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, text width=2em, 
+    text centered, minimum height=2.5em]
+ \tikzstyle{v} =[circle, thick, minimum size=0.8cm, draw=black]
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
+\renewcommand\labelenumi{(\theenumi)}
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+
+\begin{document}
+\begin{tikzpicture}
+  %\draw[step=10pt,gray,very thin] (0,0) grid (30,30);
+  
+  %\draw[step=1pt,thick] (25,15) rectangle (28,16.5) ;
+  \node[draw, align = center, text width = 60pt, text height=40pt,rounded corners=2.5pt,line width=2pt,fill = white, drop shadow={shadow xshift=3.5pt, shadow yshift=-2pt, fill=mygray}]  (EA) at (7,24) {};
+  
+    \node[draw, align = center, text width = 60pt, text height=40pt,rounded corners=2.5pt,line width=2pt,fill = white, drop shadow={shadow xshift=3.5pt, shadow yshift=-2pt, fill=mygray}]  (VC) at (10,20) {};
+    
+      \node[draw, align = center, text width = 60pt, text height=40pt,rounded corners=2.5pt,line width=2pt,fill = white, drop shadow={shadow xshift=3.5pt, shadow yshift=-2pt, fill=mygray}]  (T) at (5,20) {};
+    
+  \node at (EA) {\Large{\textbf{EA}}};
+ \node at (VC) {\Large{\textbf{VC}}};
+  \node at (T) {\Large{\textbf{T}}};
+%
+
+
+
+ %
+% \node (CD) at (11,23.5) {};
+
+ 
+\node[draw, fill =white, align = center, text width = 85pt,text height=50pt,rounded corners=3pt,line width=2.2pt, drop shadow={shadow xshift=3.5pt, shadow yshift=-3pt, fill=mygray}] (BB) at (10,16) {}; 
+
+ \node[below right, inner sep=6pt] at (BB.north west) {\Large{\textbf{BB}}};
+ 
+  \draw[->,>=stealth,line width=2pt] (VC)--(BB) ;
+    \draw[->,>=stealth,line width=2pt] (EA.south) |- (BB.west);
+    \draw[->,>=stealth,line width=2pt] (T.south) |- (BB.west);
+
+ 
+ %
+  \node[SD](VSD1) at (13,22.75) {};
+        \node[SD](VSD2) at (13,20.75) {};
+     \node[SD](VSDn) at (13,17.75) {};
+   
+      \node[SD](V-ASD1) at (16,22.75) {};
+   \draw[->,>=stealth,dotted,very thick] ([xshift=-80pt]V-ASD1)|-([yshift=25pt]BB);
+      \node[SD](V-ASD2) at (16,20.75) {};     
+      \draw[->,>=stealth,dotted, very thick] (V-ASD2)|-(BB);      
+           \node[SD](V-ASDn) at (16,17.75) {};
+         \draw[->,>=stealth,dotted, ,very thick] ([xshift=40pt]V-ASDn)|-([yshift=-25pt]BB);
+         
+         
+     \node[align = center, text width = 22pt, thick]  (Vdots) at (14.5,19.5) {\Large{$\vdots$}}  ; 
+     %
+         %
+    \node[human]  (Vn) at (14.5,17.75) {\Large{$V_n$}}  ;      
+   \node at (VSDn) {{\textsf{VSD}}};
+   \node at (V-ASDn) {{\textsf{ASD}}};
+   \draw[->,>=stealth,line width=2pt] (7.2,24.8)--(7.2,25.8) -|([xshift=-60pt]Vn) ;
+ \draw[-,>=stealth,dashed,line width=1pt,color=white] (7.2,24.9)--(7.2,25.8) -|([xshift=-60pt,yshift=-25pt]Vn) ;
+
+         %         
+    \node[human]  (V2) at (14.5,20.75) {\Large{$V_2$}}  ; 
+   \node at (VSD2) {{\textsf{VSD}}};
+   \node at (V-ASD2) {{\textsf{ASD}}};
+  \draw[->,>=stealth,line width=2pt] (7,24.8)--(7,26) -|(V2) ;
+    \draw[-,>=stealth,dashed,line width=1pt,color=white] (7,24.9)--(7,26) -|([yshift=-25pt]V2) ;
+%         
+   \node[human]  (V1) at (14.5,22.75) {{\Large{$V_1$}}}  ; 
+   \node at (VSD1) {{\textsf{VSD}}};  
+   \node at (V-ASD1) {{\textsf{ASD}}};
+   \draw[->,>=stealth,line width=2pt] (6.8,24.8)--(6.8,26.3) -|([xshift=25pt]V1) ;
+  \draw[-,>=stealth,dashed,line width=1pt,color=white] (6.8,24.9)--(6.8,26.3) -|([xshift=25pt,yshift=-25pt]V1) ;
+
+ %
+
+   %
+\draw [->,>=stealth,line width=1pt] (V-ASD1)--(V1) -- (VSD1)-|([xshift=55pt]VC) ;
+\draw [->,>=stealth,line width=1pt] (V-ASD2)--(V2) -- (VSD2)|-(VC) ;
+\draw [->,>=stealth,line width=1pt] (V-ASDn)--(Vn)-- (VSDn)-|([xshift=60pt]VC) ;
+
+ \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C1b) at (7.5,17.8) {};
+ \node at (C1b) {1b} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C1a) at (7,25.7) {};
+ \node at (C1a) {1a} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C3) at (5.5,17.8) {};
+ \node at (C3) {4} ;
+  %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C2b) at (10.5,17.8) {};
+ \node at (C2b) {3} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C41) at (13,16.3) {};
+ \node at (C41) {5} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C42) at (14,16) {};
+ \node at (C42) {5} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C4n) at (15,15.7) {};
+ \node at (C4n) {5} ;
+ 
+   \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C21) at (11.2,21.5) {};
+ \node at (C21) {2} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C22) at (11.9,19.58) {};
+ \node at (C22) {2} ;
+ %
+  \node[draw,circle,text width=6pt,line width=0.8pt,fill = lightgray] (C2n) at (11.5,18.45) {};
+ \node at (C2n) {2} ;
+\end{tikzpicture}
+\end{document}

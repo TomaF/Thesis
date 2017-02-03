@@ -1,0 +1,13 @@
+
+*.aux
+
+*.log
+
+*.gz
+
+thesis/figures/.DS_Store
+
+thesis/.DS_Store
+
+
+*.sta
