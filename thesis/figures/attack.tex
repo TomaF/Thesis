@@ -1,0 +1,166 @@
+% Tikz File 'mytikz.tex'
+\documentclass{standalone}
+\usepackage{amsmath,xparse}
+\usepackage{tikz}
+\usepackage[shortlabels]{enumitem}
+\usetikzlibrary{shapes, arrows, decorations.markings}
+\usepackage{amsmath,bm,times}
+\usepackage{verbatim}
+\usepackage{etex}
+\usetikzlibrary{calc,through,intersections}
+\usepackage[many]{tcolorbox}
+\usepackage{array}
+\usepackage{booktabs}
+\usetikzlibrary{shadows.blur,shadings}
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{main,bg}  % set the order of the layers (main is the standard layer)
+
+\DeclareMathOperator{\vsd}{VSD}
+\DeclareMathOperator{\asd}{ASD}
+\DeclareMathOperator{\ea}{EA}
+\DeclareMathOperator{\bb}{BB}
+\DeclareMathOperator{\voc}{VC}
+
+
+\pgfdeclarelayer{bg} 
+\pgfsetlayers{main,bg}  % set the order of the layers (main is the standard layer)
+%-------------------------------------------------MACROS--------------------------------------------------------------------------------
+\input{macro}
+\definecolor{mygray}{RGB}{200,200,200}
+\definecolor{lightgray}{RGB}{220,220,220}
+\definecolor{darkgray}{RGB}{100,100,100}
+\definecolor{ultradarkgray}{RGB}{30,30,30}
+\definecolor{ultralightgray}{RGB}{230,230,230}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\tikzstyle{sensor}=[draw, text width=2em, 
+    text centered, minimum height=2.5em]
+ \tikzstyle{v} =[circle, thick, minimum size=0.8cm, draw=black]
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{innerWhite} = [semithick, white,line width=1.4pt, shorten >= 4.5pt]
+\renewcommand\labelenumi{(\theenumi)}
+\newcommand{\mx}[1]{\mathbf{\bm{#1}}} % Matrix command
+\newcommand{\vc}[1]{\mathbf{\bm{#1}}} % Vector command
+\newcommand{\Cross}{$\mathbin{\tikz [x=2.4ex,y=2.4ex,line width=.6ex, red] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$}%
+
+\tikzstyle{ann} = [above, text width=5em]
+\def\blockdist{2.3}
+\def\edgedist{2.5}
+\begin{document}
+\begin{tikzpicture}
+  %\draw[step=10pt,gray,very thin] (0,0) grid (30,30);
+  
+  %\draw[step=1pt,thick] (25,15) rectangle (28,16.5) ;
+  \node[draw, align = center, text width = 60pt, text height=40pt,rounded corners=2.5pt,line width=2pt,fill = gray!60, drop shadow={shadow xshift=3.5pt, shadow yshift=-2pt, fill=mygray}]  (EA) at (7,24) {};
+  
+    \node[draw, align = center, text width = 60pt, text height=40pt,rounded corners=2.5pt,line width=2pt,fill =  gray!60, drop shadow={shadow xshift=3.5pt, shadow yshift=-2pt, fill=mygray}]  (VC) at (10,20) {};
+    
+      \node[draw, align = center, text width = 60pt, text height=40pt,rounded corners=2.5pt,line width=2pt,fill =  gray!60, drop shadow={shadow xshift=3.5pt, shadow yshift=-2pt, fill=mygray}]  (T) at (5,20) {};
+    
+  \node at (EA) {\Large{\textbf{EA}}};
+ \node at (VC) {\Large{\textbf{VC}}};
+  \node at (T) {\Large{\textbf{T}}};
+%
+
+
+
+ %
+% \node (CD) at (11,23.5) {};
+
+ 
+\node[draw, fill =white, align = center, text width = 85pt,text height=50pt,rounded corners=3pt,line width=2.2pt, drop shadow={shadow xshift=3.5pt, shadow yshift=-3pt, fill=mygray}] (BB) at (10,16) {}; 
+
+ \node[below right, inner sep=6pt] at (BB.north west) {\Large{\textbf{BB}}};
+ 
+  \draw[->,>=stealth,line width=2pt] (VC)--(BB) ;
+    \draw[->,>=stealth,line width=2pt] (EA.south) |- (BB.west);
+    \draw[->,>=stealth,line width=2pt] (T.south) |- (BB.west);
+    
+    
+
+ 
+ %
+  \node[SD, fill = gray!60](VSD1) at (13,22.75) {};
+        \node[SD, fill = gray!60](VSD2) at (13,20.75) {};
+     \node[SD, fill = gray!60](VSDn) at (13,17.75) {};
+   
+      \node[SD](V-ASD1) at (16,22.75) {};
+   \draw[->,>=stealth,dotted,very thick] ([xshift=-80pt]V-ASD1)|-([yshift=25pt]BB);
+      \node[SD](V-ASD2) at (16,20.75) {};     
+      \draw[->,>=stealth,dotted, very thick] (V-ASD2)|-(BB);      
+           \node[SD](V-ASDn) at (16,17.75) {};
+         \draw[->,>=stealth,dotted, ,very thick] ([xshift=40pt]V-ASDn)|-([yshift=-25pt]BB);
+         
+         
+     \node[align = center, text width = 22pt, thick]  (Vdots) at (14.5,19.5) {\Large{$\vdots$}}  ; 
+     %
+         %
+            \node[human, dashed, fill = gray!60](fn) at (13,19) {$V_n'$};
+              \node[human, dashed, fill = gray!60](f2) at (12,21.7) {$V_2'$};
+                 \node at (12.3,18.5) {$U_a$};
+                 \node at (12.9,22) {$U_a$};
+                 \node at (10,16) {\huge{$\tau'$}};
+              \draw[->,line width=1pt] (fn) -- (VSDn);
+                \draw[->,line width=1pt] (f2) -| (VSD2);
+          
+    \node[human]  (Vn) at (14.5,17.75) {\Large{$V_n$}}  ;      
+   \node at (VSDn) {{\textsf{VSD}}};
+   \node at (V-ASDn) {{\textsf{ASD}}};
+   \draw[->,>=stealth,line width=2pt] (7.2,24.8)--(7.2,25.8) -|([xshift=-60pt]Vn) ;
+ \draw[-,>=stealth,dashed,line width=1pt,color=white] (7.2,24.9)--(7.2,25.8) -|([xshift=-60pt,yshift=-25pt]Vn) ;
+    \node at (14.5,17.75) {\Cross};
+         %         
+     
+    \node[human]  (V2) at (14.5,20.75) {\Large{$V_2$}}  ; 
+      \node at (14.5,20.75) {\Cross};
+   \node at (VSD2) {{\textsf{VSD}}};
+   \node at (V-ASD2) {{\textsf{ASD}}};
+  \draw[->,>=stealth,line width=2pt] (7,24.8)--(7,26) -|(V2) ;
+    \draw[-,>=stealth,dashed,line width=1pt,color=white] (7,24.9)--(7,26) -|([yshift=-25pt]V2) ;
+%         
+   \node[human, fill = gray!60]  (V1) at (14.5,22.75) {{\Large{$V_1$}}}  ; 
+   \node at (VSD1) {{\textsf{VSD}}};  
+   \node at (V-ASD1) {{\textsf{ASD}}};
+   \draw[->,>=stealth,line width=2pt] (6.8,24.8)--(6.8,26.3) -|([xshift=25pt]V1) ;
+  \draw[-,>=stealth,dashed,line width=1pt,color=white] (6.8,24.9)--(6.8,26.3) -|([xshift=25pt,yshift=-25pt]V1) ;
+
+ %
+ \node at (17.5,25.5) {\Huge{$\mathcal{Z}$}}  ; 
+   %
+\draw [->,>=stealth,line width=1pt] (V-ASD1)--(V1) -- (VSD1)-|([xshift=55pt]VC) ;
+\draw [->,>=stealth,line width=1pt] (V-ASD2)--(V2) -- (VSD2)|-(VC) ;
+\draw [->,>=stealth,line width=1pt] (V-ASDn)--(Vn)-- (VSDn)-|([xshift=60pt]VC) ;
+
+\draw [->,>=stealth,line width=1pt] (V1.70) |- node [ann] {} + (\edgedist,0) 
+        node[right] {$response_1$};
+\draw [->,>=stealth,line width=1pt] (V2.70) |- node [ann] {} + (\edgedist,0) 
+        node[right] {$response_2$};
+\draw [->,>=stealth,line width=1pt] (Vn.70) |- node [ann] {} + (\edgedist,0) 
+        node[right] {$response_n$};
+        
+        
+\draw [<-,>=stealth,line width=1pt] (V1.-70) -| node [ann] {} + (\edgedist,0) 
+        node[right]{$'no~one'$};
+\draw [<-,>=stealth,line width=1pt] (V2.-70) -| node [ann] {} + (\edgedist,0) 
+        node[right] {$'no~one'$};
+\draw [<-,>=stealth,line width=1pt] (Vn.-70) -| node [ann] {} + (\edgedist,0) 
+        node[right] {$'no~one'$};
+        
+ \draw [->,>=stealth,line width=1pt] (BB.-20) -- node [ann] {} + (2.5*\edgedist,0) 
+        node[right] {\Huge{$\tau'$}};
+        
+ \begin{pgfonlayer}{background}
+        \path (T.west |- EA.north)+(-0.5,1.5) node (a) {};
+        \path (BB.south -| V-ASDn.east)+(+0.3,-0.2) node (b) {};
+        \path[rounded corners, draw=black, dashed]
+            (a) rectangle (b);
+    \end{pgfonlayer}
+
+ \end{tikzpicture}
+\end{document}
