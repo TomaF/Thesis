@@ -5,6 +5,7 @@
 \usetikzlibrary{shapes, arrows, decorations.markings}
 \usepackage{amsmath,bm,times}
 \usepackage{verbatim}
+\usepackage{amsfonts}
 \usepackage{etex}
 \usetikzlibrary{calc,through,intersections}
 \usepackage[many]{tcolorbox}
@@ -64,7 +65,13 @@
 \def\edgedist{2.5}
 \begin{document}
 \maketitle
-{\textbf{\huge{Strict privacy and Privacy}}}\\\\\\
+\section{Preliminaries} 
+\subsection{Notations}
+Through this paper, we denote $\lambda$ as the security parameter. We use $negl(\lambda)$ to denote a negligible function in $\lambda$, i.e., it always holds that $negl(\lambda) < \frac{1}{\lambda^c}$ for any $0<c \in \mathbb{Z}$ for sufficient large $\lambda$. 
+\section{E-voting model}
+\subsection{Syntax} 
+An e-voting system is an interactive protocol $\Pi$ among a set of entities and voters, that takes  voters' preferences as and input and aims to return a tally. \\
+
 In this modelling, the election system involves five types of entities, the voters $V_1, \dots , V_n$, possibly equipped with the voting supporting device ($\vsd$) and the auditing supporting device ($\asd$), the election authority ($\ea$), the vote collector ($\voc$), the trustee ($T$), and the bulletin board ($\bb$) whose only role is to provide storage for the election transcript for the purpose of verification. 
 \begin{enumerate}
 \item $\bb$ is completely passive and is only writeable by the $\voc$ and readable by anyone. 
@@ -187,22 +194,22 @@ An e-voting system $\Pi$ is a quintuple of algorithms and protocols  \textbf{(Se
 \item The algorithm \textbf{Result} is executed by $T$ and outputs the result $\tau$ for the election or returns $\perp$ in case such result is undefined.
 \item  The algorithm \textbf{Verify} outputs a value in $\{0,1\}$, where  $\alpha$ is a voter receipt (that corresponds to the voter's output from the \textbf{Cast} protocol).
 \end{enumerate}
-In some e-voting systems \textbf{Registration} part is omitted and voters are expected to receive their credentials via secure channel such as post mail, pulling place etc.\\\\
-{\textbf{\large{Correctness}}}\\\\
-A system $\Pi$ has (perfect) correctness, if for any honest execution of any subset of not abstained voters that results in a public transcript $\tau$, where the voters $V_1, . . . , V_n$ cast votes for options $U_1, . . . , U_n$, it holds that $Result(\tau) = f(U_1,...,U_n)$, where $f(U_1,...,U_n)$ is the m-vector whose i-th location is equal to the number of times a candidate $P_i \in \{P_1,\dots, P_m\}$ was chosen in the candidate selections $U_1, . . . , U_n$.\\\\\\
-{\textbf{\large{Privacy with respect to entities}}}\\\\
-\textbf{EA only:}\\\\
+In some e-voting systems \textbf{Registration} part is omitted and voters are expected to receive their credentials via secure channel such as post mail, pulling place etc.
+\subsection{Correctness of a system}
+We say that a system $\Pi$ has (perfect) correctness, if for any honest execution of any subset of not abstained voters that results in a public transcript $\tau$, where the voters $V_1, . . . , V_n$ cast votes for options $U_1, . . . , U_n$, it holds that $Result(\tau) = f(U_1,...,U_n)$, where $f(U_1,...,U_n)$ is the m-vector whose i-th location is equal to the number of times a candidate $P_i \in \{P_1,\dots, P_m\}$ was chosen in the candidate selections $U_1, . . . , U_n$.
+\section{Privacy with respect to entities}
+\subsection{EA only}
 If $\ea$ is trusted and all other entities ($T,\vsd,\voc$) are corrupted ($\bb$ is completely passive and simply posts all information received from $\voc$) it is impossible to preserve voter's privacy. \\\\
 Proof:\\\\
-Suppose there is some e-voting system $\Pi$ which doesn't allow any adversary to learn anything about individual voters' intents in case when only $\ea$ is trusted. $\mathcal{A}$ strategy is to calculate tally after every vote submission and compare it with the previous tally to learn the voter's intent. Due to a correctness, $\Pi$ should be able to produce meaningful election tally for any turnout, including just one voter. Since an adversary $\mathcal{A}$ controls a trustee $T$, he should be able to compute results after very first cast procedure is done. This means that either $\mathcal{A}$  may learn voters' choices one by one or $\Pi$ fails to produce results for any subset of abstained voters  and therefore is not correct. \\\\
- \textbf{EA + VC}\\
- It's not enough for privacy, an adversary can perform exactly the same attack as for '$\ea$ only case'\\
- \textbf{EA + T}\\
-Private. Example: Demos\\ 
- \textbf{EA + VSD}\\
- In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. \\\\
- \textbf{VSD only:}\\\\
- VSD is trusted, all other entities ($T,\ea,\voc$) are controlled by an adversary. $\bb$ is completely passive and simply posts all information received from $\voc$. \\\\
+Suppose there is some e-voting system $\Pi$ which doesn't allow any adversary to learn anything about individual voters' intents in case when only $\ea$ is trusted. $\mathcal{A}$ strategy is to calculate tally after every vote submission and compare it with the previous tally to learn the voter's intent. Due to a correctness, $\Pi$ should be able to produce meaningful election tally for any turnout, including just one voter. Since an adversary $\mathcal{A}$ controls a trustee $T$, he should be able to compute results after very first cast procedure is done. This means that either $\mathcal{A}$  may learn voters' choices one by one or $\Pi$ fails to produce results for any subset of abstained voters  and therefore is not correct. 
+\subsubsection{EA + VC}
+ It's not enough for privacy, an adversary can perform exactly the same attack as for '$\ea$ only case'
+\subsubsection{EA + T}
+Private. Example: Demos 
+\subsubsection{EA + VSD}
+ In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy.
+\subsection{VSD only:}
+ VSD is trusted, all other entities ($T,\ea,\voc$) are controlled by an adversary. $\bb$ is completely passive and simply posts all information received from $\voc$. 
 Consider the following e-voting system $\Pi$:
 \begin{enumerate}
  \item $\ea$ generates a large random number $R$ and commitments bases $g,h$. Also $\ea$ picks a random id  $x_i$ for every candidate $cand_i$. $R,g,h, \{cand_i,x_i\}$  - $\Pi$'s public information. 
@@ -210,33 +217,57 @@ Consider the following e-voting system $\Pi$:
  \item after the last voter cast his vote, $\vsd$ submits a commitment $g^{x_{abs}}h^{r_{vsd}}$, where $x_{abs}$ corresponds to the abstain option and $r_{vsd} = R - \sum_{l=0}^{l=n}r_l$, n - number of voters.  
  \item $T$ computes the product of all hiding commitments and opens the result.
  \end{enumerate}
-  In order to break voters' privacy, an adversary has to break perfectly hiding commitments. \\\\
-  \textbf{VC only:}\\\\
-  Impossible.   An adversary can perform exactly the same attack as for '$\ea$ only case.\\
-   \textbf{VC + T}\\
- Due to the assumption that voters are not able to collaborate for protecting their privacy and all complex math operation performed by $\vsd$ or $\ea$, it's impossible to have privacy in this case. A voter provides $\vsd$ with an input which is either in a plain text or calculated by $\ea$ line and therefore immediately gives away his choice.\\
-   \textbf{VC + VSD}\\
-    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. \\
-   \textbf{VC + EA}\\
- Impossible. See the EA + VC  case for details. \\\\
-   \textbf{T only:}\\\\
-  Impossible. Same reasoning as VC + T case.\\
-  \textbf{T + VC}\\
-   seems meaningless\\
-   \textbf{T + VSD}\\
-    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. \\
-    \textbf{T + EA}\\
-   Private. See the EA + T case for details. \\ 
-  \newpage 
-{\textbf{\large{Strict privacy}}}\\\\
-   \underline{$\ea$ and $T$ are honest: $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}\\
+  In order to break voters' privacy, an adversary has to break perfectly hiding commitments. 
+\subsection{VC only}
+  Impossible.   An adversary can perform exactly the same attack as for '$\ea$ only case.
+\subsubsection{VC + T}
+ Due to the assumption that voters are not able to collaborate for protecting their privacy and all complex math operation performed by $\vsd$ or $\ea$, it's impossible to have privacy in this case. A voter provides $\vsd$ with an input which is either in a plain text or calculated by $\ea$ line and therefore immediately gives away his choice.
+\subsubsection{VC + VSD}
+    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. 
+\subsubsection{VC + EA}
+ Impossible. See the EA + VC  case for details. 
+\subsection{T only}
+  Impossible. Same reasoning as VC + T case.
+\subsubsection{T + VC}
+   seems meaningless
+\subsubsection{T + VSD}
+    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. 
+\subsubsection{T + EA}
+   Private. See the EA + T case for details. 
+\section{Strict privacy notion}
+Voter privacy implies that a voter is capable of casting his own vote secretly and freely without letting others' parties, namely an adversary, to learn some information about his preferences or interfere in it.\\
+
+In general, the goal of the adversary who attacks voter privacy is to learn some information about the candidate selections of the honest voters. We define an attack against voters privacy successful, if there is an election result*, for which an adversary is capable of distinguishing how the honest voters voted while it can observe the whole e-voting network** and corrupt some part of honest voter and some entities and also has access to honest voters' receipts. \\
+
+*Obviously, it doesn't include trivial election results, where all voters voted for the same option. \\
+**Except channels that are marked as untrappable. \\
+
+
+
+In this section we use term strict privacy to imply that an adversary interacts with an e-voting system on behalf of all voters and there is no such thing as honest voters. In general, strict privacy means that even the person who cast a vote can not break his own privacy after the Cast phase is completed. \\
+
+We formally define the strict voter privacy via a Voter Privacy game, denotes as $G_{strict,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, that takes as input the security parameter $\lambda${\color{red}*} and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios. All meaningful* cases of collusion fall into two scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
+{\color{red} Thomas, do you think that m and n (the number of candidates and the number of voters)  should be added as the input parameters to the Voter Privacy game? Now, it's up to adversary to define an election parameters. }\\
+*In cases where only $\ea$ or $T$ can be trusted it is not possible to have voter privacy. \\
+
+ According to the game rules, an adversary is allowed to define an election parameters, act on behalf of all voters and corrupted entities. During the game $\mathcal{C}$ plays the role of honest parties and returns to the adversary simulated and real view in order defined by a coin $a$ (If $a=0$, $\mathcal{C}$ returns $(simulated\_view,real\_view)$ and  $(real\_view,simulated\_view)$ otherwise). A challenger flips the coin $a$ only once, before interaction with $\mathcal{A}$.  Note that the result of the game heavily depends on an efficiency of the simulator that is used by the challenger for producing a simulated view. \\
+
+We will show that the notion of strict privacy is the weakest level of privacy that contradicts end-to-end verifiability. 
+
+\subsection{$\ea$ and $T$ are honest: $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
+In the case of trusted $\ea$ and $T$,  $\mathcal{C}$ uses a simulator $Sim$ to generate a fake credentials so an adversary would not be able to distinguish the result of the \textbf{Cast} protocol with his intent and real credentials and with another candidates selection and fake credential given as input. \\
+
+$\mathcal{C}$  behaviour in the  $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ game captures the ability of a honest voter to lie about his vote in code-based e-voting schemes. Suppose, an adversary  makes a voter V to cast his vote for an option $U_{\mathcal{A}}$ instead of the voter's original intent $U_{V}$.  V still can cast vote for the option $U_{V}$ and fake his credentials in a way that his actual receipt would correspond to the option $U_{\mathcal{A}}$. If by faking credential V can fool an adversary into believing that he cast vote for $U_{\mathcal{A}}$, his privacy is preserved. \\
+
+For every vote that an adversary cast, $\mathcal{C}$ creates a fake voter who cast exactly the same vote. Every round the sum of an adversarial vote and an challenger's vote would give $U_{\mathcal{A}}$ + $U_{V}$. An actual vote distribution depends on the credentials choice. If $\mathcal{A}$ uses real credentials he votes for the $U_{\mathcal{A}}$ and  $\mathcal{C}$ --  for the $U_{V}$. Otherwise , $\mathcal{A}$' vote corresponds to  the  option $U_{V}$  and  $\mathcal{C}'$ vote to the $U_{\mathcal{A}}$. $\mathcal{A}$ is provided with both credentials real and fake in order defined by $\mathcal{C}$ 's coin $a$. If $a=0$ $\mathcal{C}$  returns $(fake\_credentials,real\_credentials)$ and $(real\_credentials,fake\_credentials)$ otherwise. An adversary tries to guess the coin $a$. $\mathcal{A}$ may stop the game in any moment  {\color{red}*}. \\
+{\color{red} Not really. An adversary can not stop the game in the moment after he cast his vote and before $\mathcal{C}$ posts a fake voter's vote.}
+
    \begin{figure}[h!]
-      
  \includestandalone[mode=buildnew]{figures/figure1}
         \caption{$G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
         \label{EAT is honest}
-\end{figure}\\
-In the game defined above, an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
+\end{figure}
+In the game   $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ , an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
 After an adversary  $\mathcal{A}$  defined an election parameters, $\mathcal{C}$  doubles the voters, computes setup data and starts the election. This duplication of voters is needed because $\mathcal{C}$ would post another ballot for every adversarial's cast ballot. If $\mathcal{A}$ abstains, $\mathcal{C}$ abstains as well. During the game, we will refer to duplicated voters as fake ones. \\\\
 $\mathcal{A}$ 1) picks and sends two options $U_{i_1},U_{i_2}$ to the challenger $\mathcal{C}$. One of the options $U_{i_1}, U_{i_2}$ is his intent, the other -- the option that the challenger would use in order to produce an indistinguishable from the intent's ballot and receipt view*. After sending options, 2) $\mathcal{A}$ runs the   \textbf{Registration} as if he is $V_i$. $\mathcal{C}$ creates a fake credentials $\tilde{s_i}$ and 3) generates real credentials $s_i$ for him. 4) $\mathcal{C}$ responds $\mathcal{A}$ with a pair of credentials $s_0,s_1$, where one of the credentials are real and the other were generated using the simulator $Sim$ in a such way, that no matter what credential $s_0$ or $s_1$ $\mathcal{A}$ uses to cast a vote for $U_{i_1}$, the produced ballot would also correspond to the result of the \textbf{Cast} protocol for an option $U_{i_2}$ with the other credentials and vice versa. If 5) $\mathcal{A}$ choses to post the ballot $b_i$ to $\bb$, 6) $\mathcal{C}$  posts exactly the same ballot to $\bb$ on behalf of the fake voter. When $\mathcal{A}$ stops the election, 7) $\mathcal{C}$ posts the tally $\tau$ **. \\\\
 Remarks:\\
@@ -273,13 +304,13 @@ $Sim$ works in a way that the fake credentials satisfy both of the following rul
 \textcolor{red}{*  indistinguishable ?}\\\\
 \underline{\textbf{Strict privacy: $\ea$ and $T$ are honest:}}\\\\
 The e-voting system $\Pi$ achieves strict voter privacy in case of trusted $\ea$ and $T$, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1]- \frac{1}{2} |= negl(\lambda)$\\\\\\\\
- \underline{$\vsd$ is honest: $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}\\
+ $|\Pr[G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1]- \frac{1}{2} |= negl(\lambda)$
+\subsection{$\vsd$ is honest: $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
   \begin{figure}[h!]
  \includestandalone[mode=buildnew]{figures/figure2}
         \caption{ $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
         \label{VSD is honest}
-\end{figure}\\
+\end{figure}
 %This case is meaningful for e-voting, only if there exists some entity, let us call it a trustee $T$, which must participate in the $Tally$ protocol for an election transcript to be produced. If there is no such trusted entity, than an adversary, who corrupts $\ea$, has all necessary information for breaking everyone's privacy. It happens due to the following e-voting assumption: voters are not expected to collaborate in order to preserve privacy or integrity of an election. \\\\
 %The following definition of strict privacy applies only to cases where $\ea$ is corrupted, $\vsd$ is honest and there is at least one trusted entity, which must participate in the $Tally$ protocol for producing an election tally. \\\\
 In the game defined above, $\mathcal{A}$ operates on behalf of the all voters and all corrupted entities, such as:  $\ea$, $\voc$ and $T$. $\bb$ is completely passive and represents a publicly accessible database.\\
@@ -307,12 +338,12 @@ where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option 
 \underline{\textbf{Strict privacy: $\vsd$ is honest:}}\\\\
 The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ is trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
  $|\Pr[G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
-\underline{\textbf{\large{Privacy}}}\\\\
- \underline{$\ea$ and $T$ are honest: $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}\\
+\section{Privacy}
+ \subsection{$\ea$ and $T$ are honest: $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
   \begin{figure}
  \includestandalone[mode=buildnew]{figures/figure6}
         \caption{  $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
-\end{figure}\\
+\end{figure}
  
 In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$, an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all corrupted voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of honest voters, $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
 After an adversary  $\mathcal{A}$  defined an election parameters, $\mathcal{C}$  doubles the voters, computes setup data and starts the election. This duplication of voters is needed because $\mathcal{C}$ would post another ballot for every adversarial's cast ballot. If $\mathcal{A}$ abstains, $\mathcal{C}$ abstains as well. During the game, we will refer to duplicated voters as fake ones. \\\\
@@ -358,11 +389,11 @@ $Sim$ works in a way that the fake credentials satisfy both of the following rul
 The e-voting system $\Pi$ achieves voter privacy in case of honest $T$ and $\ea$  for at most $t$ corrupted voters if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
  $|\Pr[G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\\\
  %%%%%%%%%
-\underline{$\vsd$ is honest: $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}\\
+\subsection{$\vsd$ is honest: $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
      \begin{figure}[h!]
  \includestandalone[mode=buildnew]{figures/figure7}
         \caption{ $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
-\end{figure}\\
+\end{figure}
 
  In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$, an adversary $\mathcal{A}$  operates on behalf of the all voters and all corrupted entities, such as:  $\ea$, $\voc$ and $T$. $\bb$ is completely passive and represents a publicly accessible database.\\
  1) an adversary $\mathcal{A}$ picks and sends options $U_{i_1}, U_{i_2}$ to the challenger $\mathcal{C}$.  After that 2) $\mathcal{A}$ schedules the \textbf{Cast} protocol with $\mathcal{C}$ on behalf of some voter $V_i$*. $\mathcal{C}$ 3) generates a real ballot and receipt and uses $Sim$ to create a fake ones.  At the end 4) $\mathcal{C}$ responses with a pair of ballots and receipts $b_0,r_0,b_1,r_1$, where one ballot and receipt corresponds to an option $U_{i_1}$, the other was generated using the simulator $Sim$ for an option $U_{i_2}$. \\\\
@@ -395,8 +426,7 @@ where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option 
 \underline{\textbf{Privacy: $\vsd$ is honest:}}\\\\
 The e-voting system $\Pi$ achieves voter privacy in case of honest $\vsd$, for at most $t$ corrupted voters , if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
  $|\Pr[G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
- \newpage 
-{\textbf{\huge{Strict privacy vs E2E Verifiability}}}\\\\
+\section{Strict privacy vs E2E Verifiability}
 Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable.\\
 The Real and Ideal executions in this case are shown on the figure 6.
  \begin{figure}
@@ -486,8 +516,7 @@ The Real and Ideal executions in this case are shown on the figure 6.
 Security requires existence of some simulator program $\mathcal{S}$ such that the real and ideal executions are indistinguishable for and any environment  $\mathcal{Z}$. Unfortunately, as we are about to show, no such simulator exists.\\\\
 \textbf{Proposition:}\\ 
 For any system $\Pi$ that satisfies the definition of strict privacy, there is an adversary $\mathcal{A}$  such that for any simulator $\mathcal{S}$, there is an environment $\mathcal{Z}$ that distinguishes ideal and real executions $\exec_{\mathcal{Z}, \mathcal{S}}^{\mathcal{F}, \mathcal{G}_{BB}} \not \approx \exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}}$ \\\\
-\textbf{Proof:}\\
-PART 1.\\
+\subsection{Proof: part 1}
 Suppose we have a system $\Pi$, which is strictly private in case ``$\ea$ is corrupted, but $\vsd$ is honest".\\
 Consider the following attack against E2E Verifiability: \\
 \fbox{\begin{minipage}{30em}
@@ -565,7 +594,7 @@ $ \begin{cases}
 \end{minipage}}.
 $\tilde{\mathcal{Z}}$ would still output 1 in case of the real execution since the number of non-blank votes would be at least $\gamma$ due to successful attack  $\mathcal{A}$. However  $\tilde{\mathcal{Z}}$ would not find at least $\gamma$ non-blank votes and output 0 in the ideal execution. \\\\
 Thus, there is the attacker $\mathcal{A}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z}}$ or $\mathcal{Z}$ which can always distinguish real and ideal executions. \\\\
-PART 2.\\
+\subsection{Proof: part 2}
 Suppose we have a system $\Pi'$, which is strictly private in case ``$\ea$ is honest, but $\vsd$ is corrupted".\\
 Consider the following attack against E2E Verifiability: \\
 \fbox{\begin{minipage}{30em}
