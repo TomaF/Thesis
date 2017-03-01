@@ -340,6 +340,9 @@ where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option 
 The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ is trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
  $|\Pr[G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
 \section{Privacy}
+We formally define the voter privacy via a Voter Privacy game, denotes as $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, that takes as input the security parameter $\lambda$ and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
+The only difference between Strict privacy and Privacy is the number of corrupted voters. In Strict privacy games \textbf{all} voters are corrupted and  $\mathcal{A}$ vote on their behalf. On the contrary, in the Privacy games at most t voters are corrupted and all others are honest. The crucial moment is that honest voters are able to verify that their vote was cast as intended, but an adversary can not since he does not know the intent and does not control all entities. Therefore, voters may lie about vote while an adversary have no ways to learn the truth and not to win the game $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$. 
+
  \subsection{$\ea$ and $T$ are honest: $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
   \begin{figure}
  \includestandalone[mode=buildnew]{figures/figure6}
@@ -670,5 +673,55 @@ $ \begin{cases}
 \end{cases}$
 \end{minipage}}.
 $\tilde{\mathcal{Z'}}$ would still output 1 in case of the real execution since the number of non-blank votes would be at least $\gamma$ due to successful attack  $\mathcal{A}$. However  $\tilde{\mathcal{Z'}}$ would not find at least $\gamma$ non-blank votes and output 0 in the ideal execution. \\\\
-Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z'}}$ or $\mathcal{Z'}$ which can always distinguish real and ideal executions. \\\\
+Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z'}}$ or $\mathcal{Z'}$ which can always distinguish real and ideal executions. 
+\section {Blind signature e-voting scheme}
+Here is the description of a blind signature e-voting system for 1-out-of-m elections.\\
+The Blind signature scheme 
+\textbf{Setup ($1^{\lambda}, \mathcal{P} = \{P_1,\dots,P_m\}, \mathcal{V} = \{V_1,\dots,V_n\}, \mathcal{U} =  \{\{P_1\},\dots,\{P_m\}\})$.}\\\\
+Let ($GenBL, EncrB, SignBL)$ be the PPT algorithms that constitutive the RSA blind signature scheme,  $PRG_{str}$  - a function for pseudo random string generation, $PRG_{prime}$  - a function for pseudo-random prime number generation and $(Gen, Encr, Decr)$ - PPT algorithms for the ELGamal encryption scheme. The EA runs $GenBL(Param, 1^{\lambda})$ to generate the blind signature scheme keys $(bsk, bpk)$ and $Gen(Param, 1^{\lambda})$ to generate ELGamal keys $(sk,pk)$. Public keys $bpk,pk$ and functions $EncrB,Encr, PRG_{str}, PRG_{prime}$ are posted on the BB.\\
+Then, for every voter $V_l$, where $l \in [n]$, EA runs $PRG_{str}(1^{\lambda})$ function to generate random string $seed_l$.\\\\
+\textbf{Registration}\\\\
+Let $(GenAES, EncrAES, DecrAES)$ be the publicly known PPT algorithms that implements AES encryption scheme and $Hash$ - hash algorithm.  \\\\
+Every voter $V_l$ completes the following procedure: \\
+--  uses the published on the BB function $PRG_{str}(1^{\lambda})$ to generate his alias $x_l$ and  $PRG_{prime}(bpk)$ to generate a blinding factor $z_l$. \\
+-- calculates value $p_l = Hash(x_l)EncrB(z_l)$.\\
+--  chooses his secret password $password_l$ and runs  $ GenAES(password_l, s_l)$ to generate his key for symmetric encryption $key_l$, where $s_l = PRG_{str}(seed_l)$.\\
+--  encrypts $x_l$ and $z_l$ by running  $EncrAES(key_l,x_l)$ and $EncrAES(key_l,z_l)$ respectively to get encrypted values $\hat{x_l},\hat{z_l}$\\
+-- sends $p_l,\hat{x_l},\hat{z_l}$ to the EA\\\\
+ EA:\\
+Upon receiving $p_l,\hat{x_l},\hat{z_l}$ from a voter, EA posts all information to the BB.\\
+When registration is closed, EA runs  $SignBL(bsk, p_l)$ for every entry in the BB and post the result in the corresponding line as $p^{sign}_l$.\\\\
+\textbf{Cast:}\\
+Let $e_l = (e_{1_l},e_{2_l},\dots,e_{m_l})$ be the characteristic vector corresponding to the voter's selection, where $e_{j_l}=1$ if the option $opt_j$ is selected by the voter $V_l$.\\ 
+Every voter $V_l$ completes the following procedure:\\
+-- gets all information from the BB - $\{p_l,\hat{x_l},\hat{z_l}\}$.\\
+-- finds his entry and decrypts $x_l$ and $z_l$ by running $DecrAES(key_l,\hat{x_l})$ and $DecrAES(key_l,\hat{z_l})$ respectively, where $key_l =  GenAES(password_l, s_l)$ and  $s_l = PRG_{str}(seed_l)$\\
+-- computes  $\sigma_l$ - signature for $x_l$  by calculating  $p^{signed}_lz_l^{-1}$\\
+-- computes $\Pi_l$ -- NIZK proof of signature knowledge .\\
+-- chooses his vote-option $e_{j_l}$ and writes the corresponding characteristic vector $e_l$\\
+-- for $j \in [m]$ compute $c_{j_l} =  Encr(pk,e_{j_l})$\\
+-- computes NIZK proofs $\pi_{j_l}$ that each $c_{j_l}$ is an encryption of 1 or 0.\\
+-- sends $b_l = (x_l, \sigma_l, \Pi_l, c_l, \pi_l)$ to the EA.\\
+-- keeps $x_l$ as receipt.\\
+-- If EA accept $b_l$, protocol terminates successfully.\\ 
+*Optional: every voter can export the randomness to check that the ballot was cast as intended.\\\\
+Upon receiving $(x_l, \sigma_l, \Pi_l, c_l, \pi_l)$ from a voter, EA checks NIZK proofs and, if it's valid, accepts the ballot and posts all information to the BB.\\\\
+\textbf{Tally: }\\
+After election is closed, EA computes $\mathcal{C}$ -- the sum of all $c_l$ and runs $Decr(sk, \mathcal{C})$ to decrypt Tally $\tau$. EA posts the $\tau$ along with the proof of tally correctness $Proof$.\\\\
+\textbf{Result:} \\
+result is straightforward.\\\\
+\textbf{Verify:} \\
+The algorithm returns 1 only if the following checks are true:\\
+--  exported randomness is correct or voter choose not to check.\\
+-- there is ballot with $x_l$\\
+-- all $\Pi_l, \pi_l$ are valid\\
+-- number of ballots less or equal to the number of registered voters\\
+-- $Proof$ is correct\\
+-- sum of all scores at $\tau$ are less than or equal to ballot numbers\\\\
+\textbf{Construction of the vote extractor.}\\ 
+$\mathcal{E}$ has input $\tau$ and the set of receipts  $\{x_l\}_{V_l \in \tilde{\mathcal{V}}}$ where $\tilde{\mathcal{V}}$ is the set of the honest voters that voted successfully.  If $Result(\tau) = \perp$ (i.e., the transcript is not meaningful), then $\mathcal{E}$ outputs $\perp$. Otherwise, $\mathcal{E}$ (arbitrarily) arranges the voters in $\mathcal{V} \backslash \tilde{\mathcal{V}}$ and the tags not included in $\{x_l\}_{V_l \in \tilde{\mathcal{V}}}$ as $\langle V_l^{\mathcal{E}} \rangle_{l \in  [n - |\tilde{\mathcal{V}}|]}$ and $\langle tag_l^{\mathcal{E}} \rangle_{l \in  [n - |\tilde{\mathcal{V}}|]}$ respectively. Next, for every $l \in [n - |\tilde{\mathcal{V}}|]$:\\
+\begin{enumerate}
+\item  $\mathcal{E}$ finds at the BB entry with   $x_l = tag_l^{\mathcal{E}}$ and brute-force the corresponding ELGamal cipher to open the selected candidate $\mathcal{P}_l^{\mathcal{E}}$. If $\mathcal{P}_l^{\mathcal{E}}$ is the valid candidate's selection, then $\mathcal{E}$ sets $\mathcal{U}_l^{\mathcal{E}} = \{\mathcal{P}_l^{\mathcal{E}}\}$. Otherwise it inputs $\perp$.
+\end{enumerate}
+Finally $\mathcal{E}$ outputs  $\langle \mathcal{U}_l^{\mathcal{E}} \rangle_{V_l \in \mathcal{V} \backslash \tilde{\mathcal{V}}  }$
 \end{document}
