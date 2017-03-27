@@ -429,7 +429,22 @@ where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option 
 
 \underline{\textbf{Privacy: $\vsd$ is honest:}}\\\\
 The e-voting system $\Pi$ achieves voter privacy in case of honest $\vsd$, for at most $t$ corrupted voters , if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
+ $|\Pr[G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$
+ \subsection{Comparison with existing definitions}
+ \subsubsection{Helious. Ballot privacy.}
+ Ballot privacy attempts to capture the idea that during its execution a secure protocol does not reveal information about the votes cast, beyond what the result of the election leaks. In some works, ballot privacy defined even stronger: "a voter's vote is not revealed to anyone". However, in most cases ballot privacy targets specifically vote-casting procedure end \\ 
+  
+Informally, ballot privacy is satisfied if an adversary in control of arbitrarily many voters cannot distinguish between real ballots and fake ballots, where ballots are replaced by ballots for some fixed vote $\epsilon$ chosen by adversary. The adversary $\mathcal{A}$ has read access to public $\bb$ and may observe communication channels between the honest parties and $\bb$. Note, that $\mathcal{A}$  is not allowed to corrupt any entities. \\
+
+Definition: Ballot privacy for Helious:\\
+The challenger $\mathcal{C}$ starts by flipping a coin $a$, which defines in what world the game between $\mathcal{C}$ and an adversary  $\mathcal{A}$ would take place.  If $a=0$, the world is real, otherwise -- fake. Also $\mathcal{C}$  maintains two bulletin boards $\bb,\bb'$ initialized via the setup algorithm, where $\bb'$ always contains ballots for the real votes.  The adversary $\mathcal{A}$ is always given access $\bb$ and can issue two types of queries: \textbf{vote} and \textbf{ballot}.  In the real world a \textbf{vote} query causes a ballot for the given vote to be placed on the both $\bb$: hidden $\bb'$ and public $\bb$. In the fake one, the same query causes a ballot for the given vote to be placed on the $\bb'$ and a ballot for $\epsilon$  to be placed on $\bb$. A \textbf{ballot} query always causes the submitted ballot to be processed on both boards. At some point, the adversary $\mathcal{A}$ asks to see the result. The challenger computes tally based on $\bb'$. The adversarial goal is to determine whether the world is real or fake.\\
+
+The Ballot privacy for Helious contradicts verifiability notion by nature. Intuitively, verifiability means that it's possible to check that a vote was cast as intended, recorded as cast, tallied as recorded and, if the tally is encrypted, final result was encrypted as required. The definition states that an adversary can not distinguish real and fake world, assuming that he observes communications channels and has access to the public $\bb$ only. In general case $\bb$ and $\bb'$ contains different sets of votes, though tallying is always done using $\bb'$. The result of an election corresponds to evaluating an arbitrary function $\rho$ that takes a list of votes as input and returns the election result on the underlying votes. Suppose, that there is a proof $\pi$ that the result was tallied as recorded. $\pi$ guarantees that tallying procedure was performed on the given $\bb$ and non vote has been modified or excluded. If there is such proof, an adversary agains ballot privacy could easily check that produced result, even if decrypted correctly, was computed for some other $\bb$ and therefore guess the challenger's coin $a$ with an overwhelming probability. \\
+
+To defend against this attack, $\mathcal{C}$ should be able to fake proof $\pi$. Suppose there is a simulator that can fake the proof $\pi$ without using a global setup. That would mean that secure schemes would not satisfy tally uniqueness, since simulator allows any result to be accepted as the valid one. So , the same $\bb$ would have multiple valid election results, which contradicts verifiability. \\ 
+
+Another case - using global setup or trapdoors. 
+ 
 \section{Strict privacy vs E2E Verifiability}
 Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable.\\
 The Real and Ideal executions in this case are shown on the figure 6.
