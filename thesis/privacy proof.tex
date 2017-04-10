@@ -289,8 +289,8 @@ $ \begin{cases}
  \text{else}~~  (s_0,s_1) = (s_i,\tilde{s_i})
 \end{cases}$\\
 
- \item[] -- Using one of the credentials $\mathcal{A}$ schedules the \textbf{Cast} protocol executions and sends the produced ballot to $\mathcal{C}$.
-\item[] --  If  $\mathcal{A}$ posts a ballot to $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$
+ \item[] -- Using one of the credentials $\mathcal{A}$ schedules the \textbf{Cast} protocol executions to vote for an option $U_{i_1}$ and sends the produced ballot $b$ to $\mathcal{C}$. If  $\mathcal{A}$ used the real credentials, then the obtained ballot $b$ indeed contains a vote for an option  $U_{i_1}$. Otherwise, ballot $b$ was generated for the fake credentials and in reality it corresponds to the option $U_{i_2}$. Since $\mathcal{A}$'s ballots are always tallied by $\mathcal{C}$ as if real credentials  were used, ballot  $b$ would be a vote for an option $U_{i_1}$ only if  $\mathcal{A}$ picks the real credentials. 
+\item[] --  If  $\mathcal{A}$ posts a ballot to $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$. Since $\mathcal{C}$'s ballots are tallied with respect to the fake credentials, the ballot produced by $\mathcal{A}$ in this case would correspond to the remaining option. So if  $\mathcal{A}$ piked the real credentials, $\mathcal{C}$'s ballot is for the vote   $U_{i_1}$, and for the vote  $U_{i_2}$ otherwise. $\bb$ contains $\mathcal{A}$'s and $\mathcal{C}$'s ballots and the resulting Tally is the summ of all options    $U_{i_1}$ and  $U_{i_2}$ picked by  $\mathcal{A}$
 \end{enumerate}
 \item  $\mathcal{C}$ executes the $Tally$ protocol.  
 \item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $a^*$
@@ -303,6 +303,16 @@ $Sim$ works in a way that the fake credentials satisfy both of the following rul
  \item The fake credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical to ballot and receipt produced for the real credentials and  $U_{i_2}$ option.
  \end{enumerate}
 \textcolor{red}{*  indistinguishable ?}\\\\
+
+For understanding logic behind the privacy definition defined above, consider the following toy example:\\
+There are just 3 voters and 3 possible options $op_1,op_2,op_3$. Challenger's coin $a=0$, so the fake credentials are always would be the first credentials in the credentials pair.
+Suppose  $\mathcal{A}$' schedules three vote casting protocols: \\
+1) $U_{i_1} = op_3, U_{i_2} = op_1$ and picks the second credentials for generating the ballot $b_1$ for $op_3$. Since  $\mathcal{A}$ picked the fake credentials, the ballot $b_1$ in the Tallying process would result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_1$ ballot $\tilde{b_1}$ that corresponds to an option $op_3$.
+2) $U_{i_1} = op_1, U_{i_2} = op_2$ and picks the first credentials for generating the ballot $b_2$ for $op_1$. Since  $\mathcal{A}$ picked the real credentials, the ballot $b_2$ in the Tallying process would correctly result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_2$ ballot $\tilde{b_2}$ that corresponds to an option $op_2$.
+2) $U_{i_1} = op_3, U_{i_2} = op_1$ and picks the first credentials for generating the ballot $b_3$ for $op_3$. Since  $\mathcal{A}$ picked the fake credentials, the ballot $b_2$ in the Tallying process would  result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_3$ ballot $\tilde{b_3}$ that corresponds to an option $op_3$.
+At the end of this mini election,  $\mathcal{A}$ would get the following result $op_1 = 3, op_2 = 1, op_3 = 2$. \\
+Even though  $\mathcal{A}$ intended to vote for options $op_3,op_1,op_3$, his real choices are $op_1,op_1,op_1$. If privacy holds, $\mathcal{A}$  is unable to understand whether he voted for $U_{i_1}$ and the challenger for an option $U_{i_2}$ or vice versa. \\
+
 \underline{\textbf{Strict privacy: $\ea$ and $T$ are honest:}}\\\\
 The e-voting system $\Pi$ achieves strict voter privacy in case of trusted $\ea$ and $T$, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
  $|\Pr[G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1]- \frac{1}{2} |= negl(\lambda)$
