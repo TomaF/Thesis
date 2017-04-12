@@ -22,6 +22,13 @@
 \definecolor{ultradarkgray}{RGB}{30,30,30}
 \definecolor{ultralightgray}{RGB}{230,230,230}
 
+\usepackage{todonotes}
+\usepackage[normalem]{ulem}
+\newcommand{\thomas}[1] {\todo[author=\textbf{Tom},inline, color=red!10]{\small #1}}
+\newcommand{\thomasside}[1] {\todo[author=\textbf{Tom}, color=red!10]{\small #1}}
+\usepackage{cancel}
+\newcommand{\fix}[2]{\sout{#1}$\rightarrow$\textcolor{red}{#2}}
+
 \author{Tamara Finogina}
 \title{Exploring boundaries of privacy in e2e verifiable e-voting systems.}
 \date{}
@@ -70,11 +77,11 @@
 Through this paper, we denote $\lambda$ as the security parameter. We use $negl(\lambda)$ to denote a negligible function in $\lambda$, i.e., it always holds that $negl(\lambda) < \frac{1}{\lambda^c}$ for any $0<c \in \mathbb{Z}$ for sufficient large $\lambda$. 
 \section{E-voting model}
 \subsection{Syntax} 
-An e-voting system is an interactive protocol $\Pi$ among a set of entities and voters, that takes  voters' preferences as and input and aims to return a tally. \\
+An e-voting system is a tuple of interactive protocols and algorithms $\Pi$ among a set of entities and voters, that takes  voters' preferences as and input and aims to return a tally. \\
 
 In this modelling, the election system involves five types of entities, the voters $V_1, \dots , V_n$, possibly equipped with the voting supporting device ($\vsd$) and the auditing supporting device ($\asd$), the election authority ($\ea$), the vote collector ($\voc$), the trustee ($T$), and the bulletin board ($\bb$) whose only role is to provide storage for the election transcript for the purpose of verification. 
 \begin{enumerate}
-\item $\bb$ is completely passive and is only writeable by the $\voc$ and readable by anyone. 
+\item $\bb$ is completely passive and is only writeable by the $\voc$, $T$ and $\ea$ and readable by anyone. 
 \item Voters submit their votes by engaging in the ballot casting protocol to the $\voc$ and they are not allowed to interact with each other. 
 \item $\voc$ only role is to collect votes and write them to $\bb$
 \item $T$ is responsible for computing the tally and announcing the election result.
@@ -189,166 +196,17 @@ In this modelling, the election system involves five types of entities, the vote
 Protocols
 An e-voting system $\Pi$ is a quintuple of algorithms and protocols  \textbf{(Setup, Cast, Tally, Result, Verify)} specified as follows:
 \begin{enumerate}
-\item The algorithm \textbf{Setup} is executed by the $\ea$ and $T$ separately. During the setup phase $\ea$ generates $\Pi$'s public parameters $Pub$ (which include $P, V, U$) and the voters' secrets $s_1, \dots , s_n$. The part of the algorithm during which $\ea$ distributes secrets among voters is defined as \textbf{Registration}. At the same time, $T$ generates pre-election $\bb$ data and posts it on $\bb$.
+\item The interactive protocol \textbf{Setup} is executed by the $\ea$ and $T$ . During the setup phase $\ea$ generates $\Pi$'s public parameters $Pub$ (which include $P, V, U$) and the voters' secrets $s_1, \dots , s_n$. The part of the interactive protocol during which $\ea$ distributes secrets among voters is defined as \textbf{Registration}. At the same time, $T$ generates pre-election $\bb$ data and posts it on $\bb$.
 \item The interactive protocol \textbf{Cast} is executed between three parties, the voter $V_l$, the $\bb$ and the $\voc$. During this interaction, the voter uses $\vsd$, his secret $s_l$ and an option $U_l$ to generate the ballot $b_l$ and sends this ballot to $\voc$. Upon successful termination, $\voc$ posts ballot $b_l$ to $\bb$ and the voter $V_l$ receives a receipt $\alpha_l$.
 \item The algorithm \textbf{Result} is executed by $T$ and outputs the result $\tau$ for the election or returns $\perp$ in case such result is undefined.
-\item  The algorithm \textbf{Verify} outputs a value in $\{0,1\}$, where  $\alpha$ is a voter receipt (that corresponds to the voter's output from the \textbf{Cast} protocol).
+\item  The algorithm \textbf{Verify} on input $\alpha,\tau$ outputs a value in $\{0,1\}$, where  $\alpha$ is a voter receipt (that corresponds to the voter's output from the \textbf{Cast} protocol).
 \end{enumerate}
 In some e-voting systems \textbf{Registration} part is omitted and voters are expected to receive their credentials via secure channel such as post mail, pulling place etc.
 \subsection{Correctness of a system}
 We say that a system $\Pi$ has (perfect) correctness, if for any honest execution of any subset of not abstained voters that results in a public transcript $\tau$, where the voters $V_1, . . . , V_n$ cast votes for options $U_1, . . . , U_n$, it holds that $Result(\tau) = f(U_1,...,U_n)$, where $f(U_1,...,U_n)$ is the m-vector whose i-th location is equal to the number of times a candidate $P_i \in \{P_1,\dots, P_m\}$ was chosen in the candidate selections $U_1, . . . , U_n$.
-\section{Privacy with respect to entities}
-\subsection{EA only}
-If $\ea$ is trusted and all other entities ($T,\vsd,\voc$) are corrupted ($\bb$ is completely passive and simply posts all information received from $\voc$) it is impossible to preserve voter's privacy. \\\\
-Proof:\\\\
-Suppose there is some e-voting system $\Pi$ which doesn't allow any adversary to learn anything about individual voters' intents in case when only $\ea$ is trusted. $\mathcal{A}$ strategy is to calculate tally after every vote submission and compare it with the previous tally to learn the voter's intent. Due to a correctness, $\Pi$ should be able to produce meaningful election tally for any turnout, including just one voter. Since an adversary $\mathcal{A}$ controls a trustee $T$, he should be able to compute results after very first cast procedure is done. This means that either $\mathcal{A}$  may learn voters' choices one by one or $\Pi$ fails to produce results for any subset of abstained voters  and therefore is not correct. 
-\subsubsection{EA + VC}
- It's not enough for privacy, an adversary can perform exactly the same attack as for '$\ea$ only case'
-\subsubsection{EA + T}
-Private. Example: Demos 
-\subsubsection{EA + VSD}
- In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy.
-\subsection{VSD only:}
- VSD is trusted, all other entities ($T,\ea,\voc$) are controlled by an adversary. $\bb$ is completely passive and simply posts all information received from $\voc$. 
-Consider the following e-voting system $\Pi$:
-\begin{enumerate}
- \item $\ea$ generates a large random number $R$ and commitments bases $g,h$. Also $\ea$ picks a random id  $x_i$ for every candidate $cand_i$. $R,g,h, \{cand_i,x_i\}$  - $\Pi$'s public information. 
- \item each voter submits vis $\vsd$ a perfectly hiding commitment $g^{x_i}h^{r_l}$, where $r_l$ is a random number less than R picked by $\vsd$. 
- \item after the last voter cast his vote, $\vsd$ submits a commitment $g^{x_{abs}}h^{r_{vsd}}$, where $x_{abs}$ corresponds to the abstain option and $r_{vsd} = R - \sum_{l=0}^{l=n}r_l$, n - number of voters.  
- \item $T$ computes the product of all hiding commitments and opens the result.
- \end{enumerate}
-  In order to break voters' privacy, an adversary has to break perfectly hiding commitments. 
-\subsection{VC only}
-  Impossible.   An adversary can perform exactly the same attack as for '$\ea$ only case.
-\subsubsection{VC + T}
- Due to the assumption that voters are not able to collaborate for protecting their privacy and all complex math operation performed by $\vsd$ or $\ea$, it's impossible to have privacy in this case. A voter provides $\vsd$ with an input which is either in a plain text or calculated by $\ea$ line and therefore immediately gives away his choice.
-\subsubsection{VC + VSD}
-    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. 
-\subsubsection{VC + EA}
- Impossible. See the EA + VC  case for details. 
-\subsection{T only}
-  Impossible. Same reasoning as VC + T case.
-\subsubsection{T + VC}
-   seems meaningless
-\subsubsection{T + VSD}
-    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. 
-\subsubsection{T + EA}
-   Private. See the EA + T case for details. 
-\section{Strict privacy notion}
-Voter privacy implies that a voter is capable of casting his own vote secretly and freely without letting others' parties, namely an adversary, to learn some information about his preferences or interfere in it.\\
-
-In general, the goal of the adversary who attacks voter privacy is to learn some information about the candidate selections of the honest voters. We define an attack against voters privacy successful, if there is an election result*, for which an adversary is capable of distinguishing how the honest voters voted while it can observe the whole e-voting network** and corrupt some part of honest voter and some entities and also has access to honest voters' receipts. \\
-
-*Obviously, it doesn't include trivial election results, where all voters voted for the same option. \\
-**Except channels that are marked as untrappable. \\
-
-
-
-In this section we use term strict privacy to imply that an adversary interacts with an e-voting system on behalf of all voters and there is no such thing as honest voters. In general, strict privacy means that even the person who cast a vote can not break his own privacy after the Cast phase is completed. \\
-
-We formally define the strict voter privacy via a Voter Privacy game, denotes as $G_{strict,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, that takes as input the security parameter $\lambda${\color{red}*} and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios. All meaningful* cases of collusion fall into two scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
-{\color{red} Thomas, do you think that m and n (the number of candidates and the number of voters)  should be added as the input parameters to the Voter Privacy game? Now, it's up to adversary to define an election parameters. }\\
-*In cases where only $\ea$ or $T$ can be trusted it is not possible to have voter privacy. \\
-
- According to the game rules, an adversary is allowed to define an election parameters, act on behalf of all voters and corrupted entities. During the game $\mathcal{C}$ plays the role of honest parties and returns to the adversary simulated and real view in order defined by a coin $a$ (If $a=0$, $\mathcal{C}$ returns $(simulated\_view,real\_view)$ and  $(real\_view,simulated\_view)$ otherwise). A challenger flips the coin $a$ only once, before interaction with $\mathcal{A}$.  Note that the result of the game heavily depends on an efficiency of the simulator that is used by the challenger for producing a simulated view. \\
-
-We will show that the notion of strict privacy is the weakest level of privacy that contradicts end-to-end verifiability. 
-
-\subsection{$\ea$ and $T$ are honest: $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
-In the case of trusted $\ea$ and $T$,  $\mathcal{C}$ uses a simulator $Sim$ to generate a fake credentials so an adversary would not be able to distinguish the result of the \textbf{Cast} protocol with his intent and real credentials and with another candidates selection and fake credential given as input. \\
-
-$\mathcal{C}$  behaviour in the  $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ game captures the ability of a honest voter to lie about his vote in code-based e-voting schemes. Suppose, an adversary  makes a voter V to cast his vote for an option $U_{\mathcal{A}}$ instead of the voter's original intent $U_{V}$.  V still can cast vote for the option $U_{V}$ and fake his credentials in a way that his actual receipt would correspond to the option $U_{\mathcal{A}}$. If by faking credential V can fool an adversary into believing that he cast vote for $U_{\mathcal{A}}$, his privacy is preserved. \\
-
-For every vote that an adversary cast, $\mathcal{C}$ creates a fake voter who cast exactly the same vote. Every round the sum of an adversarial vote and an challenger's vote would give $U_{\mathcal{A}}$ + $U_{V}$. An actual vote distribution depends on the credentials choice. If $\mathcal{A}$ uses real credentials he votes for the $U_{\mathcal{A}}$ and  $\mathcal{C}$ --  for the $U_{V}$. Otherwise , $\mathcal{A}$' vote corresponds to  the  option $U_{V}$  and  $\mathcal{C}'$ vote to the $U_{\mathcal{A}}$. $\mathcal{A}$ is provided with both credentials real and fake in order defined by $\mathcal{C}$ 's coin $a$. If $a=0$ $\mathcal{C}$  returns $(fake\_credentials,real\_credentials)$ and $(real\_credentials,fake\_credentials)$ otherwise. An adversary tries to guess the coin $a$. $\mathcal{A}$ may stop the game in any moment  {\color{red}*}. \\
-{\color{red} Not really. An adversary can not stop the game in the moment after he cast his vote and before $\mathcal{C}$ posts a fake voter's vote.}
-
-   \begin{figure}[h!]
- \includestandalone[mode=buildnew]{figures/figure1}
-        \caption{$G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
-        \label{EAT is honest}
-\end{figure}
-In the game   $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ , an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
-After an adversary  $\mathcal{A}$  defined an election parameters, $\mathcal{C}$  doubles the voters, computes setup data and starts the election. This duplication of voters is needed because $\mathcal{C}$ would post another ballot for every adversarial's cast ballot. If $\mathcal{A}$ abstains, $\mathcal{C}$ abstains as well. During the game, we will refer to duplicated voters as fake ones. \\\\
-$\mathcal{A}$ 1) picks and sends two options $U_{i_1},U_{i_2}$ {\color{red}*} to the challenger $\mathcal{C}$. One of the options $U_{i_1}, U_{i_2}$ is his intent, the other -- the option that the challenger would use in order to produce an indistinguishable from the intent's ballot and receipt view*. After sending options, 2) $\mathcal{A}$ runs the   \textbf{Registration} as if he is $V_i$. $\mathcal{C}$ creates a fake credentials $\tilde{s_i}$ and 3) generates real credentials $s_i$ for him. 4) $\mathcal{C}$ responds $\mathcal{A}$ with a pair of credentials $s_0,s_1$, where one of the credentials are real and the other were generated using the simulator $Sim$ in a such way, that no matter what credential $s_0$ or $s_1$ $\mathcal{A}$ uses to cast a vote for $U_{i_1}$, the produced ballot would also correspond to the result of the \textbf{Cast} protocol for an option $U_{i_2}$ with the other credentials and vice versa. If 5) $\mathcal{A}$ choses to post the ballot $b_i$ to $\bb$, 6) $\mathcal{C}$  posts exactly the same ballot to $\bb$ on behalf of the fake voter. When $\mathcal{A}$ stops the election, 7) $\mathcal{C}$ posts the tally $\tau$ **. \\\\
-{\color{red} *Haven't thought about the case when  $U_{i_1} = U_{i_2}$. Should the challenger return same credentials or Sim would generate something different? On the one hand, it's fine for a Sim to generate exactly the same credentials. If it generates something different, the result of the game depends on how good Sim is. On the other hand, case $U_{i_1} = U_{i_2}$ is a bit weird. This game tries to capture a way how a honest voter fakes his credentials to convince $\mathcal{A}$ that he voted as he was told. There is no point in faking anything if you may as well give back real stuff. } \\
-Remarks:\\
-*If  $\mathcal{C}$ succeeds, $\mathcal{A}$ wouldn't be able to say whether his ballot and receipt corresponds to $U_{i_1}$ or $U_{i_2}$ and $\bb$ would contain both ballots (one for the option $U_{i_1}$ ,the other for the option $ U_{i_2}$) so the tally wouldn't reveal any information. Example: if $\mathcal{A}$  picks real credential for the voter $V_i$ then he casts a vote for the option  $U_{i_1}$ , at the same time exactly the same ballot posted $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials and the option $U_{i_2}$. In this case $\mathcal{A}$  voted for $U_{i_1}$. Else if $\mathcal{A}$ picks fake credentials and tries to vote for the option $U_{i_1}$,  his ballot corresponds to the real credentials and  the option $U_{i_1}$. At the same time, exactly the same ballot posted $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials  and the option $U_{i_1}$. So $\mathcal{A}$  voted for $U_{i_1}$. If this definition holds,  $\mathcal{A}$ has no idea whom he voted for. \\
-** The tally $\tau$ is posted only if all ballots are correctly formed: were produced with one of the provided credentials, for the candidate $U_{i_1}$, for every cast ballot there is a duplicate, etc. \\
-\textcolor{red}{Thomas, may be you are right and here I should use two sets of votes that sums to the same tally. I'm not entirely sure, though. This approach seems quite similar to the 'only $\vsd$ is trusted' case.  Here $\mathcal{A}$ can't say wether he voted for $U_{i_1}$ and $\mathcal{C}$ for $U_{i_2}$ or vice versa. On the one hand, he knows options $U_{i_1}$  and $U_{i_2}$ and just couldn't link them with voters.  $U_{i_1}$ and $U_{i_2}$ are defined by $\mathcal{A}$ and keep changing during the game. Generally, in order to save my privacy, I should be able to lie about my intent. Which means that if adversary told me to vote for  $U_{i_1}$  and I voted for $U_{i_2}$ instead, he should not detect the lie. He even gets less information, since I definitely not going to give him 2 views. This definition addresses exactly this type of lying, however it's not how you defined privacy in Demos. Here $\mathcal{A}$ knows that both options in $\bb$ and knows which entry corresponds to $v_i$ and which one to $\tilde{V_i}$, in Demos only one ballot is posted. Is lying about just one pair is enough? $\mathcal{A}$ himself is not sure wether he voted for $U_{i_1}$ or  for $U_{i_2}$ (if he picks the real credentials then it's $U_{i_1}$, otherwise --  $U_{i_2}$). Here, I've tried to give an adversary as many information and freedom to operate as possible: picking options adaptively instead of fixed set and receiving 2 views instead of just a single one. Does anything here make sense?}
-\\\\
- $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ defined as follows:\\
-\begin{enumerate}
-\item During the game $\mathcal{C}$ plays the role of $\ea$ and $T$. $\mathcal{A}$ operates on behalf of the all voters, $\vsd$ and $\voc$. 
-\item $\mathcal{A}$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$, a set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
-\item $\mathcal{C}$ doubles the set $\mathcal{V}$ adding fake voters $ \{V_1',...,V_n'\}$ and starts the election on behalf of $\ea$. Also, $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated credentials would be returned to $\mathcal{A}$. 
-\item The adversary $\mathcal{A}$ picks two option $U_{i_1},U_{i_2} \in \mathcal{U}$, where $U_{i_1}$ is an option for the real credentials and $U_{i_2}$ is an option for the fake ones.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ runs the \textbf{Registration} protocols on behalf of all voters. For each voter $V_i \in \mathcal{V}$:
-\begin{enumerate}
-\item[] -- $\mathcal{C}$ picks a fake voter $\tilde{V_i}$ and generates credentials $\tilde{s_i}$ for him using $Sim$*.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:\\
-$ \begin{cases}
- \text{if} ~~a =0,~~ (s_0,s_1) = (\tilde{s_i},s_i)  \\ 
- \text{else}~~  (s_0,s_1) = (s_i,\tilde{s_i})
-\end{cases}$\\
-
- \item[] -- Using one of the credentials $\mathcal{A}$ schedules the \textbf{Cast} protocol executions to vote for an option $U_{i_1}$ and sends the produced ballot $b$ to $\mathcal{C}$. If  $\mathcal{A}$ used the real credentials, then the obtained ballot $b$ indeed contains a vote for an option  $U_{i_1}$. Otherwise, ballot $b$ was generated for the fake credentials and in reality it corresponds to the option $U_{i_2}$. Since $\mathcal{A}$'s ballots are always tallied by $\mathcal{C}$ as if real credentials  were used, ballot  $b$ would be a vote for an option $U_{i_1}$ only if  $\mathcal{A}$ picks the real credentials. 
-\item[] --  If  $\mathcal{A}$ posts a ballot to $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$. Since $\mathcal{C}$'s ballots are tallied with respect to the fake credentials, the ballot produced by $\mathcal{A}$ in this case would correspond to the remaining option. So if  $\mathcal{A}$ piked the real credentials, $\mathcal{C}$'s ballot is for the vote   $U_{i_1}$, and for the vote  $U_{i_2}$ otherwise. $\bb$ contains $\mathcal{A}$'s and $\mathcal{C}$'s ballots and the resulting Tally is the summ of all options    $U_{i_1}$ and  $U_{i_2}$ picked by  $\mathcal{A}$
-\end{enumerate}
-\item  $\mathcal{C}$ executes the $Tally$ protocol.  
-\item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $a^*$
-\item The game returns a bit which is 1 if $a = a^*$ and 0 otherwise.
-\end{enumerate}
-\textbf{*Remark:}\\
-$Sim$ works in a way that the fake credentials satisfy both of the following rules: 
-\begin{enumerate}
- \item The real credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical\textcolor{red}{*} to ballot and receipt produced for the fake credentials and  $U_{i_2}$ option.
- \item The fake credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical to ballot and receipt produced for the real credentials and  $U_{i_2}$ option.
- \end{enumerate}
-\textcolor{red}{*  indistinguishable ?}\\\\
-
-For understanding logic behind the privacy definition defined above, consider the following toy example:\\
-There are just 3 voters and 3 possible options $op_1,op_2,op_3$. Challenger's coin $a=0$, so the fake credentials are always would be the first credentials in the credentials pair.
-Suppose  $\mathcal{A}$' schedules three vote casting protocols: \\
-1) $U_{i_1} = op_3, U_{i_2} = op_1$ and picks the second credentials for generating the ballot $b_1$ for $op_3$. Since  $\mathcal{A}$ picked the fake credentials, the ballot $b_1$ in the Tallying process would result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_1$ ballot $\tilde{b_1}$ that corresponds to an option $op_3$.
-2) $U_{i_1} = op_1, U_{i_2} = op_2$ and picks the first credentials for generating the ballot $b_2$ for $op_1$. Since  $\mathcal{A}$ picked the real credentials, the ballot $b_2$ in the Tallying process would correctly result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_2$ ballot $\tilde{b_2}$ that corresponds to an option $op_2$.
-2) $U_{i_1} = op_3, U_{i_2} = op_1$ and picks the first credentials for generating the ballot $b_3$ for $op_3$. Since  $\mathcal{A}$ picked the fake credentials, the ballot $b_2$ in the Tallying process would  result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_3$ ballot $\tilde{b_3}$ that corresponds to an option $op_3$.
-At the end of this mini election,  $\mathcal{A}$ would get the following result $op_1 = 3, op_2 = 1, op_3 = 2$. \\
-Even though  $\mathcal{A}$ intended to vote for options $op_3,op_1,op_3$, his real choices are $op_1,op_1,op_1$. If privacy holds, $\mathcal{A}$  is unable to understand whether he voted for $U_{i_1}$ and the challenger for an option $U_{i_2}$ or vice versa. \\
-
-\underline{\textbf{Strict privacy: $\ea$ and $T$ are honest:}}\\\\
-The e-voting system $\Pi$ achieves strict voter privacy in case of trusted $\ea$ and $T$, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1]- \frac{1}{2} |= negl(\lambda)$
-\subsection{$\vsd$ is honest: $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
-  \begin{figure}[h!]
- \includestandalone[mode=buildnew]{figures/figure2}
-        \caption{ $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
-        \label{VSD is honest}
-\end{figure}
-%This case is meaningful for e-voting, only if there exists some entity, let us call it a trustee $T$, which must participate in the $Tally$ protocol for an election transcript to be produced. If there is no such trusted entity, than an adversary, who corrupts $\ea$, has all necessary information for breaking everyone's privacy. It happens due to the following e-voting assumption: voters are not expected to collaborate in order to preserve privacy or integrity of an election. \\\\
-%The following definition of strict privacy applies only to cases where $\ea$ is corrupted, $\vsd$ is honest and there is at least one trusted entity, which must participate in the $Tally$ protocol for producing an election tally. \\\\
-In the game defined above, $\mathcal{A}$ operates on behalf of the all voters and all corrupted entities, such as:  $\ea$, $\voc$ and $T$. $\bb$ is completely passive and represents a publicly accessible database.\\
-1) an adversary $\mathcal{A}$ picks and sends options $U_{i_1}, U_{i_2}$ to the challenger $\mathcal{C}$.  After that 2) $\mathcal{A}$ schedules the \textbf{Cast} protocol with $\mathcal{C}$  as if he is a voter $V_i$. $\mathcal{C}$ 3) generates a real ballot and receipt and uses $Sim$ to create a fake ones.  At the end 4) $\mathcal{C}$ responses with a pair of ballots and receipts $b_0,r_0,b_1,r_1$, where one ballot and receipt corresponds to an option $U_{i_1}$, the other was generated using the simulator $Sim$ for an option $U_{i_2}$. \\\\
- 
-The game $G_{strict, \vsd}^{\mathcal{A},Sim}(1^{\lambda})$ is defined as follows:
-\begin{enumerate}
-\item During the game $\mathcal{C}$ plays the role of $\vsd$. 
- $\mathcal{A}$ operates on behalf of the all voters and all corrupted entities, such as: $\ea$, $\voc$ and $T$.
-\item $\mathcal{A}$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$, a set of allowed candidates' selections $\mathcal{U}$ and  starts the election.
-\item $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated ballots and receipts would be returned to $\mathcal{A}$.
-\item The adversary A and the challenger $\mathcal{C}$ engages in an interaction where $\mathcal{A}$ runs the Cast protocols on behalf of all voters. For each voter $V_i \in \mathcal{V}$:
-\begin{enumerate}
-\item[] --  $\mathcal{A}$ sends to  $\mathcal{C}$ options $U_{i_1}, U_{i_2}$ and starts with $\mathcal{C}$ the  \textbf{Cast}  protocol on behalf of $V_i$. As a result of the protocol execution $\mathcal{C}$  provides $\mathcal{A}$ with a pair of simulated and real ballot and receipt $(b_0, r_0) (b_1, r_1)$ s.t.:\\
-$ \begin{cases}
- \text{if} ~~a =0,~~ (b_0,r_0) = (\tilde{b_i},\tilde{r_i}) ~~ \text{and} ~~  (b_1,r_1) = (b_i,r_i)   \\ 
- \text{else}~~ (b_0,r_0) =(b_i,r_i)~~  \text{and} ~~  (b_1,r_1) =(\tilde{b_i},\tilde{r_i})
-\end{cases}$\\ 
-where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option $U_{i_1}$ and $(\tilde{b_i},\tilde{r_i})$ is the ballot and receipt for  $U_{i_2}$ option generated via the simulator $Sim$.
-\end{enumerate}
-%\item $\mathcal{A}$ interacts with $\mathcal{C}$ to execute the $Tally$ protocol, during the execution $\mathcal{C}$ plays the role of the trustee $T$.  $\mathcal{C}$ abort the protocol if $\bb$ doesn't contain \textbf{all} generated by $\mathcal{C}$ ballots (including fake ballots).  
-\item Finally, $\mathcal{A}$  executes the $Tally$ protocol  and using all information collected above outputs a bit $a^*$
-\item The game returns a bit which is 1 if $a = a^*$ and 0 otherwise
-\end{enumerate}
-\underline{\textbf{Strict privacy: $\vsd$ is honest:}}\\\\
-The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ is trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
+ %
+%=============================================================================================================
+%
 \section{Privacy}
 We formally define the voter privacy via a Voter Privacy game, denotes as $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, that takes as input the security parameter $\lambda$ and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
 The only difference between Strict privacy and Privacy is the number of corrupted voters. In Strict privacy games \textbf{all} voters are corrupted and  $\mathcal{A}$ vote on their behalf. On the contrary, in the Privacy games at most t voters are corrupted and all others are honest. The crucial moment is that honest voters are able to verify that their vote was cast as intended, but an adversary can not since he does not know the intent and does not control all entities. Therefore, voters may lie about vote while an adversary have no ways to learn the truth and not to win the game $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$. 
@@ -468,8 +326,169 @@ Another case - using global setup or trapdoors.
  
   $\mathcal{A}$ forwards to $\mathcal{C}$ all setup parameters received from $\mathcal{B}$. For all corrupted voters $\mathcal{A}$ simply forwards all $\mathcal{B}$ requests to  $\mathcal{C}$  and returns back all  $\mathcal{C}$ 's responses. For an honest voter $V_l$, $\mathcal{A}$ forwards a pair $U_l^0, U_l^1$ to the challenger and receives a pair for credentials $s_0,s_1$, where $s_a$ is real credentials.  $\mathcal{A}$ always picks the first credentials $s_0$ and uses it to submit a vote for an option $U_l^0$.  $\mathcal{C}$ responses with a two pairs of ballots and receipts $(r_0,b_0)(r_1,b_1)$. If challenger's coin $a = 0$, then $s_0$ is real credentials and $r_0,b_0$ is the ballot and receipt for an option $U_l^0$. Otherwise, $s_0$ is fake credentials and cote casting procedure for an option $U_0$ produces ballot and receipt $r_0,b_0$ which is indistinguishable from the ballot and receipt obtained after voting with real credentials for an option $U_l^1$. Thus,  $\mathcal{A}$ always returns to $\mathcal{B}$ $r_0,b_0$, where $b_0$ is an internal view. In case, when $a=0$, $r_0,b_0$ are ballot and receipt for an option $U_l^0$ and, if $a=1$ $r_0,b_0$ corresponds to option $U_l^1$. At the end of the game, $\mathcal{A}$ outputs $\mathcal{B}$'s guess. 
   
+%
+%=============================================================================================================
+%
+\section{Privacy with respect to entities}
+\subsection{EA only}
+If $\ea$ is trusted and all other entities ($T,\vsd,\voc$) are corrupted ($\bb$ is completely passive and simply posts all information received from $\voc$) it is impossible to preserve voter's privacy. \\\\
+Proof:\\\\
+Suppose there is some e-voting system $\Pi$ which doesn't allow any adversary to learn anything about individual voters' intents in case when only $\ea$ is trusted. $\mathcal{A}$ strategy is to calculate tally after every vote submission and compare it with the previous tally to learn the voter's intent. Due to a correctness, $\Pi$ should be able to produce meaningful election tally for any turnout, including just one voter. Since an adversary $\mathcal{A}$ controls a trustee $T$, he should be able to compute results after very first cast procedure is done. This means that either $\mathcal{A}$  may learn voters' choices one by one or $\Pi$ fails to produce results for any subset of abstained voters  and therefore is not correct. 
+\subsubsection{EA + VC}
+ It's not enough for privacy, an adversary can perform exactly the same attack as for '$\ea$ only case'
+\subsubsection{EA + T}
+Private. Example: Demos 
+\subsubsection{EA + VSD}
+ In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy.
+\subsection{VSD only:}
+ VSD is trusted, all other entities ($T,\ea,\voc$) are controlled by an adversary. $\bb$ is completely passive and simply posts all information received from $\voc$. 
+Consider the following e-voting system $\Pi$:
+\begin{enumerate}
+ \item $\ea$ generates a large random number $R$ and commitments bases $g,h$. Also $\ea$ picks a random id  $x_i$ for every candidate $cand_i$. $R,g,h, \{cand_i,x_i\}$  - $\Pi$'s public information. 
+ \item each voter submits vis $\vsd$ a perfectly hiding commitment $g^{x_i}h^{r_l}$, where $r_l$ is a random number less than R picked by $\vsd$. 
+ \item after the last voter cast his vote, $\vsd$ submits a commitment $g^{x_{abs}}h^{r_{vsd}}$, where $x_{abs}$ corresponds to the abstain option and $r_{vsd} = R - \sum_{l=0}^{l=n}r_l$, n - number of voters.  
+ \item $T$ computes the product of all hiding commitments and opens the result.
+ \end{enumerate}
+  In order to break voters' privacy, an adversary has to break perfectly hiding commitments. 
+\subsection{VC only}
+  Impossible.   An adversary can perform exactly the same attack as for '$\ea$ only case.
+\subsubsection{VC + T}
+ Due to the assumption that voters are not able to collaborate for protecting their privacy and all complex math operation performed by $\vsd$ or $\ea$, it's impossible to have privacy in this case. A voter provides $\vsd$ with an input which is either in a plain text or calculated by $\ea$ line and therefore immediately gives away his choice.
+\subsubsection{VC + VSD}
+    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. 
+\subsubsection{VC + EA}
+ Impossible. See the EA + VC  case for details. 
+\subsection{T only}
+  Impossible. Same reasoning as VC + T case.
+\subsubsection{T + VC}
+   seems meaningless
+\subsubsection{T + VSD}
+    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. 
+\subsubsection{T + EA}
+   Private. See the EA + T case for details. 
+    %
+%=============================================================================================================
+%
+\section{Strict privacy notion}
+Voter privacy implies that a voter is capable of casting his own vote secretly and freely without letting others' parties, namely an adversary, to learn some information about his preferences or interfere in it.\\
 
+In general, the goal of the adversary who attacks voter privacy is to learn some information about the candidate selections of the honest voters. We define an attack against voters privacy as successful, if there is an election result*, for which an adversary is capable of distinguishing how the honest voters voted while it can observe the whole e-voting network** and corrupt some part of honest voters and some entities and also has access to honest voters' receipts. \\
+
+*Obviously, it doesn't include trivial election results, where all voters voted for the same option. \\
+**Except channels that are marked as untrappable. \\
+
+
+
+In this section we use term strict privacy to imply that an adversary interacts with an e-voting system on behalf of all voters and there is no such thing as honest voters. In general, strict privacy means that even the person who cast a vote can not break his own privacy after the \textbf{Cast} protocol is completed. \\
+
+We formally define strict voter privacy via a Voter Privacy game, denoted as $G_{strict,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, and takes as input the security parameter $\lambda${\color{blue}*} and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios. All meaningful* cases of collusion fall into two scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
+{\color{blue} Thomas, do you think that m and n (the number of candidates and the number of voters)  should be added as the input parameters to the Voter Privacy game? Now, it's up to adversary to define an election parameters. }\\
+\fix{}{Reply: good observation! It is not necessary for privacy as long as $n,m$ are polynomial in $\la$, which is the case we consider usually.}
+*In cases where only $\ea$ or $T$ can be trusted it is not possible to have voter privacy. \\
+
+ According to the game rules, an adversary is allowed to define the election parameters and act on behalf of all voters and corrupted entities. During the game $\mathcal{C}$ plays the role of honest parties and returns to the adversary simulated and real view of a voter in order defined by a coin $a$ (If $a=0$, $\mathcal{C}$ returns $(simulated\_view,real\_view)$ and  $(real\_view,simulated\_view)$ otherwise). A challenger flips the coin $a$ only once, before interacting with $\mathcal{A}$.  Note that the result of the game heavily depends on an efficiency of the simulator that is used by the challenger for producing a simulated view. \fix{}{no need to write the last period. If we use complexity leveraging for privacy, the simulator is superpolynomial.}\\
+
+We will show that the notion of strict privacy is the weakest level of privacy that contradicts end-to-end verifiability. \fix{}{Emphasise this statement more. It is your main result.}
+
+\subsection{$\ea$ and $T$ are honest: $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
+In the case of trusted $\ea$ and $T$,  $\mathcal{C}$ uses a simulator $Sim$ to generate a fake credentials so an adversary would not be able to distinguish the result of the \textbf{Cast} protocol run according to its intent and with credentials from a run with another list of candidate selections and fake credentials. \\
+
+The behaviour of $\mathcal{C}$  in the  $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ game captures the ability of an honest voter to lie about his vote in code-based e-voting schemes. Suppose, an adversary  makes a voter V to cast his vote for an option $U_{\mathcal{A}}$ instead of the voter's original intent $U_{V}$.  V still can cast vote for the option $U_{V}$ and fake his credentials in a way that his actual receipt would correspond to the option $U_{\mathcal{A}}$. If by faking credential V can fool an adversary into believing that he cast vote for $U_{\mathcal{A}}$ then his privacy is preserved. \\
+
+For every vote that an adversary cast, $\mathcal{C}$ creates a fake voter who cast exactly the same vote. Every round the sum of an adversarial vote and an challenger's vote would give $U_{\mathcal{A}}$ + $U_{V}$. {\color{red} this sentence does not read well and maybe it could be removed}. An actual vote distribution depends on the credentials choice. If $\mathcal{A}$ uses real credentials he votes for the $U_{\mathcal{A}}$ and  $\mathcal{C}$ --  for the $U_{V}$. Otherwise , $\mathcal{A}$' vote corresponds to  the  option $U_{V}$  and  $\mathcal{C}'$ vote to the $U_{\mathcal{A}}$. $\mathcal{A}$ is provided with both credentials real and fake in order defined by $\mathcal{C}$ 's coin $a$. If $a=0$ $\mathcal{C}$  returns $(fake\_credentials,real\_credentials)$ and $(real\_credentials,fake\_credentials)$ otherwise. An adversary tries to guess the coin $a$. $\mathcal{A}$ may stop the game in any moment  {\color{red}*}. \\
+{\color{red} Not really. An adversary can not stop the game in the moment after he cast his vote and before $\mathcal{C}$ posts a fake voter's vote.}
+
+   \begin{figure}[h!]
+ \includestandalone[mode=buildnew]{figures/figure1}
+        \caption{$G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
+        \label{EAT is honest}
+\end{figure}
+In the game   $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ , an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
+After the adversary  $\mathcal{A}$  defines the election parameters, $\mathcal{C}$  doubles the voters, computes setup data and starts the election. {\color{red} Thomas: Can the adversary create malicious parameters? For example what if it creates trapdoors in the parameter generation like NSA probably does?}. This duplication of voters is needed because $\mathcal{C}$ would post another ballot for every adversarial's cast ballot. If $\mathcal{A}$ abstains, $\mathcal{C}$ abstains as well. During the game, we will refer to duplicated voters as fake ones. \\\\
+$\mathcal{A}$ 1) picks and sends two options $U_{i_1},U_{i_2}$ {\color{red}*} to the challenger $\mathcal{C}$. One of the options $U_{i_1}, U_{i_2}$ is his intent, the other -- the option that the challenger would use in order to produce an indistinguishable from the intent's ballot and receipt view*. After sending options, 2) $\mathcal{A}$ runs the   \textbf{Registration} as if he is $V_i$. $\mathcal{C}$ creates a fake credentials $\tilde{s_i}$ and 3) generates real credentials $s_i$ for him. 4) $\mathcal{C}$ responds $\mathcal{A}$ with a pair of credentials $s_0,s_1$, where one of the credentials are real and the other were generated using the simulator $Sim$ in a such way, that no matter what credential $s_0$ or $s_1$ $\mathcal{A}$ uses to cast a vote for $U_{i_1}$, the produced ballot would also correspond to the result of the \textbf{Cast} protocol for an option $U_{i_2}$ with the other credentials and vice versa. If 5) $\mathcal{A}$ choses to post the ballot $b_i$ to $\bb$, 6) $\mathcal{C}$  posts exactly the same ballot to $\bb$ on behalf of the fake voter. When $\mathcal{A}$ stops the election, 7) $\mathcal{C}$ posts the tally $\tau$ **. \\\\
+{\color{blue} *Haven't thought about the case when  $U_{i_1} = U_{i_2}$. Should the challenger return same credentials or Sim would generate something different? On the one hand, it's fine for a Sim to generate exactly the same credentials. If it generates something different, the result of the game depends on how good Sim is. On the other hand, case $U_{i_1} = U_{i_2}$ is a bit weird. This game tries to capture a way how a honest voter fakes his credentials to convince $\mathcal{A}$ that he voted as he was told. There is no point in faking anything if you may as well give back real stuff. } \\
+{\color{red} \textbf{Thomas:} There is no reason to restrict the adversary from submitting $U_{i_1} = U_{i_2}$. It is just a stupid adversary that will not probably succeed...}
+Remarks:\\
+*If  $\mathcal{C}$ succeeds then $\mathcal{A}$ wouldn't be able to say whether its ballot and receipt corresponds to $U_{i_1}$ or $U_{i_2}$ and $\bb$ would contain both ballots (one for the option $U_{i_1}$ ,the other for the option $ U_{i_2}$) so the tally wouldn't reveal any information. Example: if $\mathcal{A}$  picks real credential for the voter $V_i$ then it casts a vote for the option  $U_{i_1}$ ,then at the same time exactly the same ballot posted by $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials and the option $U_{i_2}$. In this case $\mathcal{A}$  voted for $U_{i_1}$. Else if $\mathcal{A}$ picks fake credentials and tries to vote for the option $U_{i_1}$,  his ballot corresponds to the real credentials and  the option $U_{i_1}$. At the same time, exactly the same ballot posted by $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials  and the option $U_{i_1}$. So $\mathcal{A}$  voted for $U_{i_1}$. If this definition holds,  $\mathcal{A}$ has no idea whom he voted for. {\color{red}Can you maybe edit this remark? It is hard to understand...} \\\\
+** The tally $\tau$ is posted only if all ballots are correctly formed: were produced with one of the provided credentials, for the candidate $U_{i_1}$, for every cast ballot there is a duplicate, etc. \\
+\textcolor{red}{Thomas, may be you are right and here I should use two sets of votes that sums to the same tally. I'm not entirely sure, though. This approach seems quite similar to the 'only $\vsd$ is trusted' case.  Here $\mathcal{A}$ can't say wether he voted for $U_{i_1}$ and $\mathcal{C}$ for $U_{i_2}$ or vice versa. On the one hand, he knows options $U_{i_1}$  and $U_{i_2}$ and just couldn't link them with voters.  $U_{i_1}$ and $U_{i_2}$ are defined by $\mathcal{A}$ and keep changing during the game. Generally, in order to save my privacy, I should be able to lie about my intent. Which means that if adversary told me to vote for  $U_{i_1}$  and I voted for $U_{i_2}$ instead, he should not detect the lie. He even gets less information, since I definitely not going to give him 2 views. This definition addresses exactly this type of lying, however it's not how you defined privacy in Demos. Here $\mathcal{A}$ knows that both options in $\bb$ and knows which entry corresponds to $v_i$ and which one to $\tilde{V_i}$, in Demos only one ballot is posted. Is lying about just one pair is enough? $\mathcal{A}$ himself is not sure wether he voted for $U_{i_1}$ or  for $U_{i_2}$ (if he picks the real credentials then it's $U_{i_1}$, otherwise --  $U_{i_2}$). Here, I've tried to give an adversary as many information and freedom to operate as possible: picking options adaptively instead of fixed set and receiving 2 views instead of just a single one. Does anything here make sense?}
+\\\\
+ $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ defined as follows:\\
+\begin{enumerate}
+\item During the game $\mathcal{C}$ plays the role of $\ea$ and $T$. $\mathcal{A}$ operates on behalf of the all voters, $\vsd$ and $\voc$. 
+\item $\mathcal{A}$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$, a set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
+\item $\mathcal{C}$ doubles the set $\mathcal{V}$ adding fake voters $ \{V_1',...,V_n'\}$ and starts the election on behalf of $\ea$. Also, $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated credentials would be returned to $\mathcal{A}$. 
+\item The adversary $\mathcal{A}$ picks two option $U_{i_1},U_{i_2} \in \mathcal{U}$, where $U_{i_1}$ is an option for the real credentials and $U_{i_2}$ is an option for the fake ones.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ runs the \textbf{Registration} protocols on behalf of all voters. For each voter $V_i \in \mathcal{V}$:
+\begin{enumerate}
+\item[] -- $\mathcal{C}$ picks a fake voter $\tilde{V_i}$ and generates credentials $\tilde{s_i}$ for him using $Sim$*.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:\\
+$ \begin{cases}
+ \text{if} ~~a =0,~~ (s_0,s_1) = (\tilde{s_i},s_i)  \\ 
+ \text{else}~~  (s_0,s_1) = (s_i,\tilde{s_i})
+\end{cases}$\\
+
+ \item[] -- Using one of the credentials $\mathcal{A}$ schedules the \textbf{Cast} protocol executions to vote for an option $U_{i_1}$ and sends the produced ballot $b$ to $\mathcal{C}$. If  $\mathcal{A}$ used the real credentials, then the obtained ballot $b$ indeed contains a vote for an option  $U_{i_1}$. Otherwise, ballot $b$ was generated for the fake credentials and in reality it corresponds to the option $U_{i_2}$. Since $\mathcal{A}$'s ballots are always tallied by $\mathcal{C}$ as if real credentials  were used, ballot  $b$ would be a vote for an option $U_{i_1}$ only if  $\mathcal{A}$ picks the real credentials. 
+\item[] --  If  $\mathcal{A}$ posts a ballot to $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$. Since $\mathcal{C}$'s ballots are tallied with respect to the fake credentials, the ballot produced by $\mathcal{A}$ in this case would correspond to the remaining option. So if  $\mathcal{A}$ piked the real credentials, $\mathcal{C}$'s ballot is for the vote   $U_{i_1}$, and for the vote  $U_{i_2}$ otherwise. $\bb$ contains $\mathcal{A}$'s and $\mathcal{C}$'s ballots and the resulting Tally is the summ of all options    $U_{i_1}$ and  $U_{i_2}$ picked by  $\mathcal{A}$
+\end{enumerate}
+\item  $\mathcal{C}$ executes the $Tally$ protocol.  
+\item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $a^*$
+\item The game returns a bit which is 1 if $a = a^*$ and 0 otherwise.
+\end{enumerate}
+\textbf{*Remark:}\\
+$Sim$ works in a way that the fake credentials satisfy both of the following rules: 
+\begin{enumerate}
+ \item The real credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical\textcolor{red}{*} to ballot and receipt produced for the fake credentials and  $U_{i_2}$ option.
+ \item The fake credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical to ballot and receipt produced for the real credentials and  $U_{i_2}$ option.
+ \end{enumerate}
+\textcolor{red}{*  indistinguishable ?}\\\\
+
+For understanding logic behind the privacy definition defined above, consider the following toy example:\\
+There are just 3 voters and 3 possible options $op_1,op_2,op_3$. Challenger's coin $a=0$, so the fake credentials are always would be the first credentials in the credentials pair.
+Suppose  $\mathcal{A}$' schedules three vote casting protocols: \\
+1) $U_{i_1} = op_3, U_{i_2} = op_1$ and picks the second credentials for generating the ballot $b_1$ for $op_3$. Since  $\mathcal{A}$ picked the fake credentials, the ballot $b_1$ in the Tallying process would result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_1$ ballot $\tilde{b_1}$ that corresponds to an option $op_3$.
+2) $U_{i_1} = op_1, U_{i_2} = op_2$ and picks the first credentials for generating the ballot $b_2$ for $op_1$. Since  $\mathcal{A}$ picked the real credentials, the ballot $b_2$ in the Tallying process would correctly result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_2$ ballot $\tilde{b_2}$ that corresponds to an option $op_2$.
+2) $U_{i_1} = op_3, U_{i_2} = op_1$ and picks the first credentials for generating the ballot $b_3$ for $op_3$. Since  $\mathcal{A}$ picked the fake credentials, the ballot $b_2$ in the Tallying process would  result in a vote for $op_1$. Meanwhile, $\mathcal{C}$ posts identical to the ballot $b_3$ ballot $\tilde{b_3}$ that corresponds to an option $op_3$.
+At the end of this mini election,  $\mathcal{A}$ would get the following result $op_1 = 3, op_2 = 1, op_3 = 2$. \\
+Even though  $\mathcal{A}$ intended to vote for options $op_3,op_1,op_3$, his real choices are $op_1,op_1,op_1$. If privacy holds, $\mathcal{A}$  is unable to understand whether he voted for $U_{i_1}$ and the challenger for an option $U_{i_2}$ or vice versa. \\
+
+\underline{\textbf{Strict privacy: $\ea$ and $T$ are honest:}}\\\\
+The e-voting system $\Pi$ achieves strict voter privacy in case of trusted $\ea$ and $T$, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
+ $|\Pr[G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1]- \frac{1}{2} |= negl(\lambda)$
+\subsection{$\vsd$ is honest: $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
+  \begin{figure}[h!]
+ \includestandalone[mode=buildnew]{figures/figure2}
+        \caption{ $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
+        \label{VSD is honest}
+\end{figure}
+%This case is meaningful for e-voting, only if there exists some entity, let us call it a trustee $T$, which must participate in the $Tally$ protocol for an election transcript to be produced. If there is no such trusted entity, than an adversary, who corrupts $\ea$, has all necessary information for breaking everyone's privacy. It happens due to the following e-voting assumption: voters are not expected to collaborate in order to preserve privacy or integrity of an election. \\\\
+%The following definition of strict privacy applies only to cases where $\ea$ is corrupted, $\vsd$ is honest and there is at least one trusted entity, which must participate in the $Tally$ protocol for producing an election tally. \\\\
+In the game defined above, $\mathcal{A}$ operates on behalf of the all voters and all corrupted entities, such as:  $\ea$, $\voc$ and $T$. $\bb$ is completely passive and represents a publicly accessible database.\\
+1) an adversary $\mathcal{A}$ picks and sends options $U_{i_1}, U_{i_2}$ to the challenger $\mathcal{C}$.  After that 2) $\mathcal{A}$ schedules the \textbf{Cast} protocol with $\mathcal{C}$  as if he is a voter $V_i$. $\mathcal{C}$ 3) generates a real ballot and receipt and uses $Sim$ to create a fake ones.  At the end 4) $\mathcal{C}$ responses with a pair of ballots and receipts $b_0,r_0,b_1,r_1$, where one ballot and receipt corresponds to an option $U_{i_1}$, the other was generated using the simulator $Sim$ for an option $U_{i_2}$. \\\\
  
+The game $G_{strict, \vsd}^{\mathcal{A},Sim}(1^{\lambda})$ is defined as follows:
+\begin{enumerate}
+\item During the game $\mathcal{C}$ plays the role of $\vsd$. 
+ $\mathcal{A}$ operates on behalf of the all voters and all corrupted entities, such as: $\ea$, $\voc$ and $T$.
+\item $\mathcal{A}$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$, a set of allowed candidates' selections $\mathcal{U}$ and  starts the election.
+\item $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated ballots and receipts would be returned to $\mathcal{A}$.
+\item The adversary A and the challenger $\mathcal{C}$ engages in an interaction where $\mathcal{A}$ runs the Cast protocols on behalf of all voters. For each voter $V_i \in \mathcal{V}$:
+\begin{enumerate}
+\item[] --  $\mathcal{A}$ sends to  $\mathcal{C}$ options $U_{i_1}, U_{i_2}$ and starts with $\mathcal{C}$ the  \textbf{Cast}  protocol on behalf of $V_i$. As a result of the protocol execution $\mathcal{C}$  provides $\mathcal{A}$ with a pair of simulated and real ballot and receipt $(b_0, r_0) (b_1, r_1)$ s.t.:\\
+$ \begin{cases}
+ \text{if} ~~a =0,~~ (b_0,r_0) = (\tilde{b_i},\tilde{r_i}) ~~ \text{and} ~~  (b_1,r_1) = (b_i,r_i)   \\ 
+ \text{else}~~ (b_0,r_0) =(b_i,r_i)~~  \text{and} ~~  (b_1,r_1) =(\tilde{b_i},\tilde{r_i})
+\end{cases}$\\ 
+where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option $U_{i_1}$ and $(\tilde{b_i},\tilde{r_i})$ is the ballot and receipt for  $U_{i_2}$ option generated via the simulator $Sim$.
+\end{enumerate}
+%\item $\mathcal{A}$ interacts with $\mathcal{C}$ to execute the $Tally$ protocol, during the execution $\mathcal{C}$ plays the role of the trustee $T$.  $\mathcal{C}$ abort the protocol if $\bb$ doesn't contain \textbf{all} generated by $\mathcal{C}$ ballots (including fake ballots).  
+\item Finally, $\mathcal{A}$  executes the $Tally$ protocol  and using all information collected above outputs a bit $a^*$
+\item The game returns a bit which is 1 if $a = a^*$ and 0 otherwise
+\end{enumerate}
+\underline{\textbf{Strict privacy: $\vsd$ is honest:}}\\\\
+The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ is trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
+ $|\Pr[G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
+ %
+%=============================================================================================================
+%
 \section{Strict privacy vs E2E Verifiability}
 Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable.\\
 The Real and Ideal executions in this case are shown on the figure 6.
@@ -714,6 +733,9 @@ $ \begin{cases}
 \end{minipage}}.
 $\tilde{\mathcal{Z'}}$ would still output 1 in case of the real execution since the number of non-blank votes would be at least $\gamma$ due to successful attack  $\mathcal{A}$. However  $\tilde{\mathcal{Z'}}$ would not find at least $\gamma$ non-blank votes and output 0 in the ideal execution. \\\\
 Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z'}}$ or $\mathcal{Z'}$ which can always distinguish real and ideal executions. 
+%
+%=============================================================================================================
+%
 \section {Blind signature e-voting scheme}
 Here is the description of a blind signature e-voting system for 1-out-of-m elections.\\
 The Blind signature scheme 
