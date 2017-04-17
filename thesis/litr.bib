@@ -1,0 +1,104 @@
+@misc{Chaum1982,
+abstract = {Introduce e-cash},
+author = {Chaum, David},
+booktitle = {Crypto},
+doi = {10.1016/j.ins.2004.10.010},
+file = {:Users/Toma/Downloads/Chaum-blind-signatures.pdf:pdf},
+isbn = {978-1-4757-0604-8, 978-1-4757-0602-4},
+issn = {00200255},
+pages = {199--203},
+title = {{Blind Signatures for Untraceable Payments}},
+volume = {82},
+year = {1982}
+}
+@article{Kiayias2015a,
+abstract = {We present the cryptographic implementation of “DEMOS”, a new e-voting system that is end-to-end verifiable in the standard model, i.e., without any additional “setup” assumption or access to a random oracle (RO). Previously known end-to-end verifiable e-voting systems required such additional assumptions (specifically, either the existence of a “randomness beacon” or were only shown secure in the RO model). In order to analyze our scheme, we also provide a modeling of end-toend verifiability as well as privacy and receipt-freeness that encompasses previous definitions in the form of two concise attack games. Our scheme satisfies end-to-end verifiability information theoretically in the standard model and privacy/receipt-freeness under a computational assumption (subexponential Decisional Diffie Helman). In our construction, we utilize a number of techniques used for the first time in the context of e-voting schemes that include utilizing randomness from bitfixing sources, zero-knowledge proofs with imperfect verifier randomness and complexity leveraging. {\textcopyright} International Association for Cryptologic Research 2015.},
+author = {Kiayias, Aggelos and Zacharias, Thomas and Zhang, Bingsheng},
+doi = {10.1007/978-3-662-46803-6_16},
+file = {:Users/Toma/Documents/Edinburgh/346.pdf:pdf},
+isbn = {9783662468029},
+issn = {16113349},
+journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+pages = {468--498},
+title = {{End-to-end verifiable elections in the standard model}},
+volume = {9057},
+year = {2015}
+}
+@article{Groth2010,
+abstract = {A shuffle consists of a permutation and re-encryption of a set of input ciphertexts. One application of shuffles is to build mix-nets. We suggest an honest verifier zero-knowledge argument for the correctness of a shuffle of homomorphic encryptions.Our scheme is more efficient than previous schemes both in terms of communication and computation. The honest verifier zero-knowledge argument has a size that is independent of the actual cryptosystem being used and will typically be smaller than the size of the shuffle itself. Moreover, our scheme is well suited for the use of multi-exponentiation and batch-verification techniques.Additionally, we suggest a more efficient honest verifier zero-knowledge argument for a commitment containing a permutation of a set of publicly known messages. We also suggest an honest verifier zero-knowledge argument for the correctness of a combined shuffle-and-decrypt operation that can be used in connection with decrypting mix-nets based on ElGamal encryption.All our honest verifier zero-knowledge arguments can be turned into honest verifier zero-knowledge proofs. We use homomorphic commitments as an essential part of our schemes. When the commitment scheme is statistically hiding we obtain statistical honest verifier zero-knowledge arguments; when the commitment scheme is statistically binding, we obtain computational honest verifier zero-knowledge proofs.},
+author = {Groth, Jens},
+doi = {10.1007/s00145-010-9067-9},
+file = {:Users/Toma/Downloads/JournalShuffle.pdf:pdf},
+isbn = {0014501090},
+issn = {09332790},
+journal = {Journal of Cryptology},
+keywords = {Homomorphic encryption,Honest verifier zero-knowledge argument,Mix-net,Shuffle},
+number = {4},
+pages = {546--579},
+title = {{A verifiable secret shuffle of homomorphic encryptions}},
+volume = {23},
+year = {2010}
+}
+@article{Groth2005,
+abstract = {In voting based on homomorphic threshold encryption, the voter en- crypts his vote and sends it in to the authorities that tally the votes. If voters can send in arbitrary plaintexts then they can cheat. It is therefore important that they attach an argument of knowledge of the plaintext being a correctly formed vote. Typically, these arguments are honest verifier zero-knowledge arguments that are made non-interactive using the Fiat-Shamir heuristic. Security is argued in the random oracle model. The simplest case iswhere each voter has a single vote to cast. Practical solutions have already been suggested for the single vote case. However, as we shall see homomorphic threshold encryption can be used for a variety of elections, in par- ticular there are many cases where voters can castmultiple votes at once. In these cases, it remains important to bring down the cost of the NIZK argument. We improve on state of the art in the case of limited votes, where each voter can vote a small number of times. We also improve on the state of the art in shareholder elections, where each voter may have a large number of votes to spend. Moreover, we improve on the state of the art in Borda voting. Finally, we suggest a NIZK argument for correctness of an approval vote. To the best of our knowledge, approval voting has not been considered before in the cryptographic literature.},
+author = {Groth, Jens},
+doi = {10.1007/b137093},
+file = {:Users/Toma/Downloads/ACNS05VoteProofFull.pdf:pdf},
+isbn = {3-540-26223-7},
+issn = {03029743},
+journal = {Applied Cryptography and Network Security},
+pages = {467--482},
+title = {{Non-interactive zero-knowledge arguments for voting}},
+url = {http://link.springer.com/chapter/10.1007/11496137{\_}32},
+year = {2005}
+}
+@article{Kiayias2015,
+abstract = {Recently, Kiayias, Zacharias and Zhang proposed a new E2E verifiable e-voting system called 'DEMOS' that for the first time provides E2E verifiability without relying on external sources of randomness or the random oracle model; the main advantage of such system is in the fact that election auditors need only the election transcript and the feedback from the voters to pronounce the election process unequivocally valid. Unfortunately, DEMOS comes with a huge performance and storage penalty for the election authority (EA) compared to other e-voting systems such as Helios. The main reason is that due to the way the EA forms the proof of the tally result, it is required to precompute a number of ciphertexts for each voter and each possible choice of the voter. This approach clearly does not scale to elections that have a complex ballot and voters have an exponential number of ways to vote in the number of candidates. The performance penalty on the EA appears to be intrinsic to the approach: voters cannot compute an enciphered ballot themselves because there seems to be no way for them to prove that it is a valid ciphertext. In contrast to the above, in this work, we construct a new e-voting system that retains the strong E2E characteristics of DEMOS (but against computational adversaries) while completely eliminating the performance and storage penalty of the EA. We achieve this via a new cryptographic construction that has the EA produce and prove, using voters' coins, the security of a common reference string (CRS) that voters subsequently can use to afix non-interactive zeroknowledge (NIZK) proofs to their ciphertexts. The EA itself uses the CRS to prove via a NIZK the tally correctness at the end. Our construction has similar performance to Helios and is practical. The privacy of our construction relies on the SXDH assumption over bilinear groups via complexity leveraging. {\textcopyright} 2015 ACM.},
+author = {Kiayias, Aggelos and Zacharias, Thomas},
+doi = {10.1145/2810103.2813727},
+file = {:Users/Toma/Documents/Edinburgh/demos2.pdf:pdf},
+isbn = {9781450338325},
+issn = {15437221},
+journal = {Ccs '15},
+keywords = {e-voting systems,end-2-end verifiability,internet voting},
+pages = {352--363},
+title = {{DEMOS-2 : Scalable E2E Verifiable Elections without Random Oracles}},
+url = {http://www.scopus.com/inward/record.url?eid=2-s2.0-84954175627{\&}partnerID=40{\&}md5=2835d5bd7e0884e3fc949a3082f8bca1},
+volume = {2015-Octob},
+year = {2015}
+}
+@article{Bernhard2015,
+author = {Bernhard, David and Cortier, V{\'{e}}ronique and Galindo, David and Pereira, Olivier and Warinschi, Bogdan},
+doi = {10.1109/SP.2015.37},
+file = {:Users/Toma/Downloads/main-sp-merged.pdf:pdf},
+isbn = {9781467369497},
+issn = {10816011},
+journal = {Proceedings - IEEE Symposium on Security and Privacy},
+keywords = {Voting,ballot privacy,cryptography},
+pages = {499--516},
+title = {{SoK: A comprehensive analysis of game-based ballot privacy definitions}},
+volume = {2015-July},
+year = {2015}
+}
+@article{Bernhard2011,
+abstract = {Recent results show that the current implementation of Helios, a practical e-voting protocol, does not ensure independence of the cast votes, and demonstrate the impact of this lack of independence on vote privacy. Some simple fixes seem to be available and security of the revised scheme has been studied with respect to symbolic models. In this paper we study the security of Helios using computational models. Our first contribution is a model for the property known as ballot privacy that generalizes and extends several existing ones. Using this model, we investigate an abstract voting scheme (of which the revised Helios is an instantiation) built from an arbitrary encryption scheme with certain functional properties. We prove, generically, that whenever this encryption scheme falls in the class of voting-friendly schemes that we define, the resulting voting scheme provably satisfies ballot privacy. We explain how our general result yields cryptographic security guarantees for the revised version of Helios (albeit from non-standard assumptions). Furthermore, we show (by giving two distinct constructions) that it is possible to construct voting-friendly encryption, and therefore voting schemes, using only standard cryptographic tools. We detail an instantiation based on ElGamal encryption and Fiat-Shamir non-interactive zero-knowledge proofs that closely resembles Helios and which provably satisfies ballot privacy.},
+annote = {indistinguishability under chosen plaintext attack (abbreviated IND-CPA)
+
+indistinguishability under (non-adaptive) chosen ciphertext attack (IND-CCA1)
+
+indistinguishability under adaptive chosen ciphertext attack (IND-CCA2) 
+
+CCA security implies non-malleability
+
+Malleability - modify cypertext and cause predictable modification in plain text},
+author = {Bernhard, David and Cortier, V??ronique and Pereira, Olivier and Smyth, Ben and Warinschi, Bogdan},
+doi = {10.1007/978-3-642-23822-2_19},
+file = {:Users/Toma/Downloads/helius + appendix.pdf:pdf},
+isbn = {9783642238215},
+issn = {03029743},
+journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+pages = {335--354},
+title = {{Adapting helios for provable ballot privacy}},
+volume = {6879 LNCS},
+year = {2011}
+}

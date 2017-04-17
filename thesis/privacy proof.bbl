@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{Chaum1982}
+D.~Chaum, ``{Blind Signatures for Untraceable Payments},'' 1982.
+
+\bibitem{Groth2010}
+J.~Groth, ``{A verifiable secret shuffle of homomorphic encryptions},'' {\em
+  Journal of Cryptology}, vol.~23, no.~4, pp.~546--579, 2010.
+
+\bibitem{Groth2005}
+J.~Groth, ``{Non-interactive zero-knowledge arguments for voting},'' {\em
+  Applied Cryptography and Network Security}, pp.~467--482, 2005.
+
+\bibitem{Kiayias2015a}
+A.~Kiayias, T.~Zacharias, and B.~Zhang, ``{End-to-end verifiable elections in
+  the standard model},'' {\em Lecture Notes in Computer Science (including
+  subseries Lecture Notes in Artificial Intelligence and Lecture Notes in
+  Bioinformatics)}, vol.~9057, pp.~468--498, 2015.
+
+\bibitem{Kiayias2015}
+A.~Kiayias and T.~Zacharias, ``{DEMOS-2 : Scalable E2E Verifiable Elections
+  without Random Oracles},'' {\em Ccs '15}, vol.~2015-Octob, pp.~352--363,
+  2015.
+
+\bibitem{Bernhard2015}
+D.~Bernhard, V.~Cortier, D.~Galindo, O.~Pereira, and B.~Warinschi, ``{SoK: A
+  comprehensive analysis of game-based ballot privacy definitions},'' {\em
+  Proceedings - IEEE Symposium on Security and Privacy}, vol.~2015-July,
+  pp.~499--516, 2015.
+
+\bibitem{Bernhard2011}
+D.~Bernhard, V.~Cortier, O.~Pereira, B.~Smyth, and B.~Warinschi, ``{Adapting
+  helios for provable ballot privacy},'' {\em Lecture Notes in Computer Science
+  (including subseries Lecture Notes in Artificial Intelligence and Lecture
+  Notes in Bioinformatics)}, vol.~6879 LNCS, pp.~335--354, 2011.
+
+\end{thebibliography}

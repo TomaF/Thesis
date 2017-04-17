@@ -11,6 +11,7 @@
 \usepackage[many]{tcolorbox}
 \usepackage{array}
 \usepackage{booktabs}
+\usepackage{cite}
 \usetikzlibrary{shadows.blur,shadings}
 \pgfdeclarelayer{bg}    % declare background layer
 \pgfsetlayers{main,bg}  % set the order of the layers (main is the standard layer)
@@ -737,9 +738,87 @@ Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal
 %=============================================================================================================
 %
 \section {Blind signature e-voting scheme}
-Here is the description of a blind signature e-voting system for 1-out-of-m elections.\\
-The Blind signature scheme 
-\textbf{Setup ($1^{\lambda}, \mathcal{P} = \{P_1,\dots,P_m\}, \mathcal{V} = \{V_1,\dots,V_n\}, \mathcal{U} =  \{\{P_1\},\dots,\{P_m\}\})$.}\\\\
+\subsection{Presentation of the blind signature e-voting scheme}
+\subsection{Election process}
+The electronic voting procedure consists of 4 stages:
+\begin{enumerate}
+\item Preparation: $\ea$ generates public pre-election data and posts it on the $\bb$. Also $\ea$ creates and distributes envelops with private voters' information among all eligible voters. Meanwhile $T$ obtains secret data that would be used for producing the result and posts its own pre-election data to the $\bb$. 
+\item Registration: A voter and $\ea$ engaged in an interaction during which the voter provides to the $\ea$  his private information from the envelop and proofs his identity and obtains credentials for vote casting. 
+\item Vote casting: An voter starts an interaction with $\vsd$ using his credentials as proof of his eligibility to cast a vote for preferred candidates. Upon successful termination, $\voc$ receives a ballot from $\vsd$ and posts it on the $\bb$. 
+\item Decrypting: After election is closed, sum of all valid ballots is computed and decrypted by $T$. 
+\end{enumerate}
+\subsection{Setup and parameters}
+Throughout the paper, we assume that we have a group of $n$ voters $\mathcal{V} = \{V_1,\dots,V_n\}$ that can choose as many candidates as they like among the set of $m$ candidates $\mathcal{P} = \{P_1,\dots,P_m\}$, $n$ and $m$ are both thought as polynomial functions of security parameter $\lambda$. Also, during the vote casting procedure no 'write-in's votes are allowed, the number of candidates $m$ is fixed. A voter may cast any vote including a blank or an invalid votes. \\
+
+We denote by $M$ a strict upper bound on the number of votes any candidate can receive. In case when each voter has only one vote, M is a strict upper bound on the number of voters $n$.\\ 
+
+We assume that the message space is $\mathbb{Z}_n$ for a suitable $n > M^m$, the $l_R$-bit randomizer size is  $\mathbb{Z}$. For NIZK proofs we use a cryptographic hash-function that outputs an $l_e$-bit number $e$. In case of SHA-256  $l_e$ = 256. A security parameter $l_s$ is such that for any value $a$, its sum with a random $|a| + l_s$-bit number $a + r_a$ and this random number $r_a$ are indistinguishable. Article \cite{Groth2005} suggests to use $l_s = 80$, since this value is large enough to ignore the off chance that $|a+r| > |a|+l_s$.
+
+\subsection{Syntax}
+An e-voting system $\Pi$ is a quintuple of algorithms and protocols $\langle$ \textbf{Setup,Register, Cast,Tally, Result,Verify} $\rangle$ specified as follows:
+\begin{enumerate}
+\item \textbf{Setup}: The algorithm \textbf{Setup($1^{\lambda}, \mathcal{P}, \mathcal{V}, \mathcal{U}$)}  is executed by the $\ea$ and $T$. During the setup phase $\ea$ generates $\Pi$'s public parameters $PubEA$ (which include $P, V, U, pkey, snPkey, params$), where $params$ are public election data, $pkey$ is the public key for encrypting votes and $snPkey$ is the public key that is used during the registration process for obtaining a blind signature. $\ea$ posts  $PubEA$  the on $\bb$ . Also, $\ea$ the voters' secrets $s_1, \dots , s_n$, that includes a unique salt seed $seed_i$ for AES encryption, a voter's login $login_i$ and password $password_i$ that are used for signing in. $\ea$ distributes secrets among all voters. At the same time, $T$  obtains secret keys $skey$ and $snSkey$ for decrypting ballots and signing respectively and generates pre-election $\bb$ data $PubT$ and posts it on $\bb$. We define $Pub = \langle PubEA, PubT \rangle $ 
+\item  \textbf{Register}: The algorithm \textbf{Register($login_i,password_i,id_i$)}  is executed by each voter. A voter $V_i$ randomly chooses a $l_b$-bit string $x_i$ as his alias and a blinding factor $z_i$. He uses $x_i$, $z_i$ and $snPkey$ to construct the value $p_i = Hash(x_i)Enc(z_i;snPkey)$. The voter sends value $p_i$ to the $\ea$ along with his $login_i$, $password_i$ and proofs of identity $id_i$.
+\item  \textbf{Cast}:  The interactive protocol \textbf{Cast($vote_i,x_i$)} is executed between tree parties, the voter $V_l$, the $\bb$and the $\voc$. During this interaction, the voter uses $\vsd$ to cast an encrypted ballot $b_i = \langle C, \alpha_i, \pi_i, hash_i, \rangle$, where $C=Enc(vote_i;r)$, $hash_i$ - HASH of entire ballot,  $\alpha_i$ and $\pi_i$  are non-interactive zero-knowledge proofs of eligibility and vote correctness respectively. Upon successful termination, $\voc$ posts ballot $b_i$ to $\bb$. The voter $V_l$ receives nothing.
+\item  \textbf{Tally}: The interactive protocol \textbf{Tally($Pub$)}  can be executed by anyone due to a homomorphic property of the encryption scheme. The output is an encrypted sum of all valid ballots $\tau$ or $\perp$ in case all entries are invalid.
+\item   \textbf{Result}: The algorithm  \textbf{Result($\tau, sKey$)} performs the decryption and outputs the result $R_{\tau}$ of the election and proofs of correct decryption $\boxed{R_{\tau}}$ or returns  $\perp$in case such result is undefined.
+\item  \textbf{Verify}: The algorithm \textbf{Verify($b_i$)} outputs 1 if ballot $b_i$ is valid and 0 otherwise.
+\end{enumerate}
+
+\subsection{Building blocks}
+\subsubsection{Blind signature}
+The concept of blind signing was introduced by David Chaum in \cite{Chaum1982}. The idea is to obtain a signature for a secret without revealing the secret to a signer. Let's say Alice wants Bob to sign a value x with his private key (d,N) without revealing x. To do so, Alice picks random blinding factor z so gcd(z,N) = 1 and calculates $p=xz^e\bmod N $. She sends p to Bob. Bob signs $p^d\bmod N$ and sends it back to Alice. Alice calculates $p^d\bmod N z^{-1} = x^d\bmod N$ which is a signature for value x. Bob couldn't find out x on his own even if he has a quantum computer since it's multiplied on unknown blinding factor. 
+\subsubsection{Homomorphic Integer Commitment and Homomorphic Cryptosystem}
+There are only a few homomorphic integer commitment schemes \textcolor{red}{add links}, and they are quite similar in structure. For the blind signature scheme we offer the following variant.  We choose a modulus $n$ as a product of two safe primes and random generators $g_1, \dots, g_k,h$ of $QR_n$. In order to commit to integers $m_1,m_2, \dots, m_k$ using randomness $r$, we compute $c = com( m_1,m_2, \dots, m_k; r) = g_1^{m_1}g_2^{m_2}\dots g_k^{m_k}h^r$. The commitment is statistically hiding if the randomness choice $r \leftarrow \{0,1\}^{l_r}$.\\
+
+Root extracting property: When proving soundness and knowledge in our protocols we need a root extraction property, which says that if a ciphertext raised to a nontrivial exponent encrypts 1, then the ciphertext itself encrypts 1 \cite{Groth2010}. For the homomorphic encryption generalisation of this property can be formalized as follows \cite{Groth2005}: \\
+
+\fbox{\begin{minipage}{30em}
+If there is a ciphertext $C$ and $e \neq  0$ so $|e| < l_e$ and $C^e = E(M;R)$, then it must be possible to find $\mu, \rho$ so $M = e\mu$,$R = e\rho$ and $C = E(\mu; \rho)$. 
+\end{minipage}}\\
+
+ElGamal encryption is semantically secure, have the root extraction property and admit threshold decryption  \cite{Groth2010}. 
+\subsubsection{Proving blind signature knowledge}
+\fbox{\begin{minipage}{30em}
+\textbf{Argument:}\\
+$\sigma = H(x)^d\bmod N$\\
+Choose random $A \in _R Z_N$\\
+$R = A^e\bmod N$\\
+$c = \hat{H}(Encr(vote)||\dots||R)$\\
+$S = A\sigma^c\bmod N$\\
+Proofs: $(c,S)$\\
+\textbf{Verify:}\\
+$\hat{R} = \frac{S^e}{H(x)^c}\bmod N$\\
+$\hat{c} = \hat{H}(Encr(vote)||\dots||\hat{R})$\\
+Check that $\hat{c} = c$
+\end{minipage}}\\
+if $\hat{c} = \hat{H}(Encr(vote)||\dots|| \frac{S^e}{H(x)^c}\bmod N )= \hat{H}(Encr(vote)||\dots|| A^e\bmod N ) =  \hat{H}(Encr(vote)||\dots||R) = c$ then proofs of signature knowledge are valid.
+\subsubsection{Proving that a ciphertext encrypts 0 or 1}
+
+Each voter $V_i$ can vote for as many candidates from the set of all candidates as he likes. The voter specifies his choice by setting $a_j = 1$ if he wishes to vote for candidate $j$ and $a_j = 0$ if he does not. The plaintext vote is $VOTE_i =\sum_{j=0}^{m-1}a_jM^j$. The voter encrypts this to get a ciphertext $C = E(\sum_{j=0}^{m-1}a_jM^j;R)$. He now needs to prove that indeed the plaintext is on the right form so $a_j = 0 \vee 1$ for all $j \in [0,m-1]$. \\\\
+\fbox{\begin{minipage}{30em}
+\textbf{Non-Interactive Zero-Knowledge Argument for Correctness of the encrypted vote:}\\\\
+We prove correctness of the vote by producing:\\
+$NIZK[(v,\rho,a_0,\dots, a_{m-1}): C = Encr(v;\rho) \text{ and   } v = \sum_{j=0}^{m-1}a_jM^j $\\
+$\text{ and } \sum_{j=0}^{m-1}(a_j^2 - a_j) = 0]$\\\\
+\textbf{Argument:}\\
+Choose $r_{a_0},\dots r_{a_{m-1}} \leftarrow \{0,1\}^{1+l_s+l_e}$ and let $\Delta = \sum_{j=0}^{m-1}(2a_j -1)r_{a_j}$ \\
+Choose $r \leftarrow \{0,1\}^{l_r}$ and set $c = com(a_0,\dots,a_{m-1},\delta;r)$\\
+Choose $r_r \leftarrow \{0,1\}^{l_r+l_s + l_e}$ and set $c_r  = com(r_{a_0},\dots,r_{a_{m-1}},\sum_{j=0}^{m-1}r_{a_j}^2;r_r)$\\
+$R_v = \sum{j=0}^{m-1}r_{a_j}M^j$, choose $R_R \leftarrow \{0,1\}^{l_R +l_e+l_s}$ and set $C_R = Encr(R_V;R_R)$\\
+Compute a challenge $e \leftarrow hash(C,C_R,c,c_r)$\\
+Set $\boxed{R} = eR + R_R$. Set $\boxed{a_j} = ea_j + r_{a_j}$ and $\boxed{r} = er + r_r$\\
+The argument is: $C_R,c,c_r, \boxed{R},\boxed{a_0},\dots,\boxed{a_{m-1}},\boxed{r}$\\\\
+ \textbf{Verification:}\\
+ Compute $e$ as above.\\
+ Define $\boxed{V} = \sum_{j=0}^{m-1}\boxed{a_j}M^j$ and \\
+ $\boxed{\Delta} = \sum_{j=0}^{m-1}(\boxed{a_j}^2 - e\boxed{a_j}).$
+ Verify $C^eC_R = Encr(\boxed{V};\boxed{R})$ and $c^ec_r = com(\boxed{a_0},\dots,\boxed{a_{m-1}},\boxed{\Delta};\boxed{r})$ 
+\end{minipage}}\\
+\subsection{System Design}
+Here is the description of a blind signature e-voting system for r-out-of-m elections, where $0\leq r\leq m$.\\
+The Blind signature scheme:\\ 
+\textbf{Setup ($1^{\lambda}, \mathcal{P}, \mathcal{V}, \mathcal{U}$).}\\\\
 Let ($GenBL, EncrB, SignBL)$ be the PPT algorithms that constitutive the RSA blind signature scheme,  $PRG_{str}$  - a function for pseudo random string generation, $PRG_{prime}$  - a function for pseudo-random prime number generation and $(Gen, Encr, Decr)$ - PPT algorithms for the ELGamal encryption scheme. The EA runs $GenBL(Param, 1^{\lambda})$ to generate the blind signature scheme keys $(bsk, bpk)$ and $Gen(Param, 1^{\lambda})$ to generate ELGamal keys $(sk,pk)$. Public keys $bpk,pk$ and functions $EncrB,Encr, PRG_{str}, PRG_{prime}$ are posted on the BB.\\
 Then, for every voter $V_l$, where $l \in [n]$, EA runs $PRG_{str}(1^{\lambda})$ function to generate random string $seed_l$.\\\\
 \textbf{Registration}\\\\
@@ -786,4 +865,11 @@ $\mathcal{E}$ has input $\tau$ and the set of receipts  $\{x_l\}_{V_l \in \tilde
 \item  $\mathcal{E}$ finds at the BB entry with   $x_l = tag_l^{\mathcal{E}}$ and brute-force the corresponding ELGamal cipher to open the selected candidate $\mathcal{P}_l^{\mathcal{E}}$. If $\mathcal{P}_l^{\mathcal{E}}$ is the valid candidate's selection, then $\mathcal{E}$ sets $\mathcal{U}_l^{\mathcal{E}} = \{\mathcal{P}_l^{\mathcal{E}}\}$. Otherwise it inputs $\perp$.
 \end{enumerate}
 Finally $\mathcal{E}$ outputs  $\langle \mathcal{U}_l^{\mathcal{E}} \rangle_{V_l \in \mathcal{V} \backslash \tilde{\mathcal{V}}  }$
+Finally $\mathcal{E}$ outputs  $\langle \mathcal{U}_l^{\mathcal{E}} \rangle_{V_l \in \mathcal{V} \backslash \tilde{\mathcal{V}}  }$
+
+ \nocite{*}
+\bibliographystyle{ieeetr}
+\bibliography{litr}
+
+
 \end{document}
