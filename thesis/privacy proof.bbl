@@ -1,15 +1,50 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Groth2005}
+J.~Groth, ``{Non-interactive zero-knowledge arguments for voting},'' {\em
+  Applied Cryptography and Network Security}, pp.~467--482, 2005.
 
 \bibitem{Chaum1982}
 D.~Chaum, ``{Blind Signatures for Untraceable Payments},'' 1982.
+
+\bibitem{Eiichiro1997}
+F.~Eiichiro and T.~Okamoto, ``{Statistical zero knowledge protocols to prove
+  modular polynomial relations},'' {\em In proceedings of CRYPTO '97, LNCS
+  series}, vol.~1294, pp.~16--30, 1997.
+
+\bibitem{Damg}
+I.~Damgard, E.~Fujisaki, and I.~Damg, ``{An Integer Commitment Scheme based on
+  Groups with Hidden Order},'' {\em Lecture Notes in Computer Science
+  (including subseries Lecture Notes in Artificial Intelligence and Lecture
+  Notes in Bioinformatics)}, vol.~2501, pp.~125--142, 2002.
+
+\bibitem{Groth2005a}
+J.~Groth, ``{Cryptography in Subgroups of Z{\_}N*},'' {\em Theory of
+  Cryptography}, vol.~3378, pp.~50--65, 2005.
 
 \bibitem{Groth2010}
 J.~Groth, ``{A verifiable secret shuffle of homomorphic encryptions},'' {\em
   Journal of Cryptology}, vol.~23, no.~4, pp.~546--579, 2010.
 
-\bibitem{Groth2005}
-J.~Groth, ``{Non-interactive zero-knowledge arguments for voting},'' {\em
-  Applied Cryptography and Network Security}, pp.~467--482, 2005.
+\bibitem{Elgamal1985}
+T.~Elgamal, ``{A Public Key Cryptosystem and a Signature Scheme Based on
+  Discrete Logarithms},'' {\em IEEE Transactions on Information Theory},
+  vol.~31, no.~4, pp.~469--472, 1985.
+
+\bibitem{Pointcheval1996}
+D.~Pointcheval and J.~Stern, ``{Provably Secure Blind Signature Schemes},''
+  {\em Advances in Cryptology—ASIACRYPT'96}, vol.~96, pp.~252--265, 1996.
+
+\bibitem{Abstract1997}
+R.~E. Abstract, A.~Juels, M.~Luby, and R.~Ostrovsky, ``{Security of Blind
+  Digital Signatures},'' {\em Lecture Notes in Computer Science (including
+  subseries Lecture Notes in Artificial Intelligence and Lecture Notes in
+  Bioinformatics)}, vol.~1294, no.~1, pp.~150--164, 1997.
+
+\bibitem{Rivest1988}
+R.~L. Rivest, S.~Goldwasser, S.~Micali, and R.~L. Rivest, ``{A Digital
+  Signature Scheme Secure Against Adaptive Chosen-Message Attacks *},'' {\em
+  SIAM Journal on Computing}, vol.~17, no.~2, pp.~281--308, 1988.
 
 \bibitem{Kiayias2015a}
 A.~Kiayias, T.~Zacharias, and B.~Zhang, ``{End-to-end verifiable elections in

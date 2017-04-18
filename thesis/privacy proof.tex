@@ -761,41 +761,74 @@ An e-voting system $\Pi$ is a quintuple of algorithms and protocols $\langle$ \t
 \item  \textbf{Register}: The algorithm \textbf{Register($login_i,password_i,id_i$)}  is executed by each voter. A voter $V_i$ randomly chooses a $l_b$-bit string $x_i$ as his alias and a blinding factor $z_i$. He uses $x_i$, $z_i$ and $snPkey$ to construct the value $p_i = Hash(x_i)Enc(z_i;snPkey)$. The voter sends value $p_i$ to the $\ea$ along with his $login_i$, $password_i$ and proofs of identity $id_i$.
 \item  \textbf{Cast}:  The interactive protocol \textbf{Cast($vote_i,x_i$)} is executed between tree parties, the voter $V_l$, the $\bb$and the $\voc$. During this interaction, the voter uses $\vsd$ to cast an encrypted ballot $b_i = \langle C, \alpha_i, \pi_i, hash_i, \rangle$, where $C=Enc(vote_i;r)$, $hash_i$ - HASH of entire ballot,  $\alpha_i$ and $\pi_i$  are non-interactive zero-knowledge proofs of eligibility and vote correctness respectively. Upon successful termination, $\voc$ posts ballot $b_i$ to $\bb$. The voter $V_l$ receives nothing.
 \item  \textbf{Tally}: The interactive protocol \textbf{Tally($Pub$)}  can be executed by anyone due to a homomorphic property of the encryption scheme. The output is an encrypted sum of all valid ballots $\tau$ or $\perp$ in case all entries are invalid.
-\item   \textbf{Result}: The algorithm  \textbf{Result($\tau, sKey$)} performs the decryption and outputs the result $R_{\tau}$ of the election and proofs of correct decryption $\boxed{R_{\tau}}$ or returns  $\perp$in case such result is undefined.
+\item   \textbf{Result}: The algorithm  \textbf{Result($\tau, sKey$)} performs the decryption and outputs the result $R_{\tau}$ of the election and proofs of correct decryption $\pi_{\tau}$ or returns  $\perp$in case such result is undefined.
 \item  \textbf{Verify}: The algorithm \textbf{Verify($b_i$)} outputs 1 if ballot $b_i$ is valid and 0 otherwise.
 \end{enumerate}
 
 \subsection{Building blocks}
 \subsubsection{Blind signature}
-The concept of blind signing was introduced by David Chaum in \cite{Chaum1982}. The idea is to obtain a signature for a secret without revealing the secret to a signer. Let's say Alice wants Bob to sign a value x with his private key (d,N) without revealing x. To do so, Alice picks random blinding factor z so gcd(z,N) = 1 and calculates $p=xz^e\bmod N $. She sends p to Bob. Bob signs $p^d\bmod N$ and sends it back to Alice. Alice calculates $p^d\bmod N z^{-1} = x^d\bmod N$ which is a signature for value x. Bob couldn't find out x on his own even if he has a quantum computer since it's multiplied on unknown blinding factor. 
-\subsubsection{Homomorphic Integer Commitment and Homomorphic Cryptosystem}
-There are only a few homomorphic integer commitment schemes \textcolor{red}{add links}, and they are quite similar in structure. For the blind signature scheme we offer the following variant.  We choose a modulus $n$ as a product of two safe primes and random generators $g_1, \dots, g_k,h$ of $QR_n$. In order to commit to integers $m_1,m_2, \dots, m_k$ using randomness $r$, we compute $c = com( m_1,m_2, \dots, m_k; r) = g_1^{m_1}g_2^{m_2}\dots g_k^{m_k}h^r$. The commitment is statistically hiding if the randomness choice $r \leftarrow \{0,1\}^{l_r}$.\\
+In cryptography digital signature allows one to 'sign' massage in such a way that everyone can verify the validity of authentic signatures, but no one can forge (to produce a \textit{new} signature) signatures of new messages. A variation on basic digital signatures, known as blind digital signatures, include the additional requirement that a signer can 'sign' a message without knowing what the document contains. The concept of blind signing was introduced by David Chaum in \cite{Chaum1982}. \\
 
-Root extracting property: When proving soundness and knowledge in our protocols we need a root extraction property, which says that if a ciphertext raised to a nontrivial exponent encrypts 1, then the ciphertext itself encrypts 1 \cite{Groth2010}. For the homomorphic encryption generalisation of this property can be formalized as follows \cite{Groth2005}: \\
+The global idea is to form a specially constructed message that hides a secret, obtain a signature for this message and then construct a valid signature for the secret. Suppose Alice wants Bob to sign a value $x$ with his private key $skey = (d,N)$ without learning $x$. To do so, Alice picks random blinding factor $z$ such that  $gcd(z,N) = 1$ and calculates $p=xz^e\bmod N $. She sends value $p$ to Bob. Bob signs $p^d\bmod N$ and sends it back to Alice. Alice calculates $p^d\bmod N z^{-1} = x^d\bmod N$ which is a signature for value $x$. Bob in not able to determine the secret $x$ on his own due to multiplication on unknown blinding factor. Blind signature can not be broken even with a help of a quantum computer.\\\\
+\fbox{\begin{minipage}{30em}
+\textit{Public input}:   $pkey = (e,N)$\\
+\textit{Private input}:   $skey = (d,N)$\\\\
+\textbf{Argument to sign:}\\
+$p=xz^e\bmod N $\\
+\textbf{Constructing signature}:\\
+$p^d\bmod N z^{-1} =x^dz z^{-1} \bmod N =  x^d\bmod N$
+ \end{minipage}}\\\\
+ \textit{Security}:\\
+ Security of the blind signature scheme relies on an information assumption and does not rely on a computational one, so it achieves information-theoretic security considered to be cryptanalytically unbreakable. That means that blind signature cannot be broken even if an adversary has unlimited computing power because the adversary simply does not have enough information to break the encryption.\\
+
+Also, Chaum's blind signature satisfies the blindness property \cite{Chaum1982} and the non-forgeability \cite{Pointcheval1996},\cite{Abstract1997} of additional signatures, the former means that a signer can not  link the blinded message he signs and the original one except with negligible probability, and letter means that after getting $l$ signatures, it is infeasible to compute the $l+1$ signature.\\
+
+Informally, unlinkability or blindness can be proven as follows. For any message $m$  there is a unique set of values $r_1,r_2,\dots,r_n$ that produces a set of blinded messages $m'_1,m'_2,\dots,m'_n$, with $mi_i  \equiv mr_i^e$. No set of values $r_1,r_2,\dots,r_n$ is any more probable than any other, hence the signer gets no information whether $m$ corresponds to $m'_1$ or $m'_2$ or whether it was one of the values signed at all.\\
+
+Blind signature schemes can be implemented using a common public key signing schemes. One of the simplest blind signature schemes is based on RSA signing. \subsubsection{Homomorphic Integer Commitment and Homomorphic Cryptosystem}
+There are only a few homomorphic integer commitment schemes \cite{Eiichiro1997},\cite{Damg},\cite{Groth2005a} and they are quite similar in structure. For the blind signature scheme we offer the following variant.  We choose a modulus $n$ as a product of two safe primes and random generators $g_1, \dots, g_k,h$ of $QR_n$. In order to commit to integers $m_1,m_2, \dots, m_k$ using randomness $r$, we compute $c = com( m_1,m_2, \dots, m_k; r) = g_1^{m_1}g_2^{m_2}\dots g_k^{m_k}h^r$. The commitment is statistically hiding if the randomness choice is $r \leftarrow \{0,1\}^{l_r}$.\\
+
+\textit{Root extracting property}: When proving soundness and knowledge in our protocols we need a root extraction property, which basically says that if a ciphertext raised to a nontrivial exponent encrypts 1, then the ciphertext itself encrypts 1 \cite{Groth2010}. For the homomorphic encryption generalisation of this property can be formalized as follows \cite{Groth2005}: \\
 
 \fbox{\begin{minipage}{30em}
+\textbf{Root extracting property:}\\
 If there is a ciphertext $C$ and $e \neq  0$ so $|e| < l_e$ and $C^e = E(M;R)$, then it must be possible to find $\mu, \rho$ so $M = e\mu$,$R = e\rho$ and $C = E(\mu; \rho)$. 
 \end{minipage}}\\
 
-ElGamal encryption is semantically secure, have the root extraction property and admit threshold decryption  \cite{Groth2010}. 
-\subsubsection{Proving blind signature knowledge}
+ElGamal encryption scheme  is an asymmetric key encryption algorithm for public-key cryptography with an implementation of Diffie-Hellman key distribution system  that was introduced  by Taher Elgamal in 1985 \cite{Elgamal1985}. The security of the scheme relies on the difficulty of computing the discrete logarithm over finite fields.  ElGamal encryption is semantically secure, has the root extraction property and admit threshold decryption  \cite{Groth2010}. 
+\subsubsection{Proving signature knowledge}
+Non interactive zero knowledge (NIZK) proof  of signature knowledge a method by which one party (the prover) can successfully convince another party (the verifier) that the prover knows something without conveying any information apart from that fact.\\
+
+Suppose we have a signature $\sigma$ for a hash value over message $x$ $HASH(x)$. Now we want to convince a verifier that we know the signature without revealing value $\sigma$. We choose a random variable $A$ and encrypt it using the public key $pkey = (e,N)$. Then we compute a product $S$ of the encrypted value and our signature raised in power of a challenge $c$. In the non-interactive proofs the challenge $c$ typically equal to the result of a hash function over the concatenation of all publicly known variables and arguments that is used for proving the statement. The NIZK argument is the challenge $c$ and the product $S$.\\\\
 \fbox{\begin{minipage}{30em}
+\textbf{Non-Interactive Zero-Knowledge Argument for proving signature knowledge:}\\\\
+\textit{skey}:  (d,N)\\
+\textit{pkey}:  (e,N)\\\\
+We prove the signature knowledge by producing:\\
+$NIZK[(x,\sigma): \sigma = x^d\bmod N]$\\\\
 \textbf{Argument:}\\
-$\sigma = H(x)^d\bmod N$\\
+$\sigma = HASH(x)^d\bmod N$\\
 Choose random $A \in _R Z_N$\\
 $R = A^e\bmod N$\\
-$c = \hat{H}(Encr(vote)||\dots||R)$\\
+$c = HASH(x||R)$\\
 $S = A\sigma^c\bmod N$\\
-Proofs: $(c,S)$\\
+The argument is: $(c,S)$\\\\
 \textbf{Verify:}\\
-$\hat{R} = \frac{S^e}{H(x)^c}\bmod N$\\
-$\hat{c} = \hat{H}(Encr(vote)||\dots||\hat{R})$\\
-Check that $\hat{c} = c$
+$\hat{R} = \frac{S^e}{HASH(x)^c}\bmod N$\\
+$\hat{c} = HASH(x||\hat{R})$\\
+Verify $\hat{c} = c$
 \end{minipage}}\\
-if $\hat{c} = \hat{H}(Encr(vote)||\dots|| \frac{S^e}{H(x)^c}\bmod N )= \hat{H}(Encr(vote)||\dots|| A^e\bmod N ) =  \hat{H}(Encr(vote)||\dots||R) = c$ then proofs of signature knowledge are valid.
+
+Indeed if $\hat{c} = HASH(x|| \frac{S^e}{HASH(x)^c}\bmod N )= HASH(x|| A^e\bmod N ) =  HASH(x||R) = c$ then proofs of signature knowledge are valid.
 \subsubsection{Proving that a ciphertext encrypts 0 or 1}
 
-Each voter $V_i$ can vote for as many candidates from the set of all candidates as he likes. The voter specifies his choice by setting $a_j = 1$ if he wishes to vote for candidate $j$ and $a_j = 0$ if he does not. The plaintext vote is $VOTE_i =\sum_{j=0}^{m-1}a_jM^j$. The voter encrypts this to get a ciphertext $C = E(\sum_{j=0}^{m-1}a_jM^j;R)$. He now needs to prove that indeed the plaintext is on the right form so $a_j = 0 \vee 1$ for all $j \in [0,m-1]$. \\\\
+Each voter $V_i$ can vote for as many candidates from the set of all candidates as he likes. The voter specifies his choice by setting $a_j = 1$ if he wishes to vote for candidate $j$ and $a_j = 0$ if he does not. The plaintext vote is $VOTE_i =\sum_{j=0}^{m-1}a_jM^j$. The voter encrypts this to get a ciphertext $C = E(\sum_{j=0}^{m-1}a_jM^j;R)$. He now needs to prove that indeed the plaintext is on the right form so $a_j = 0 \vee 1$ for all $j \in [0,m-1]$. \\
+
+We commit to values $a_0, \dots , a_{m-1}$. In order to prove that all hidden $a_j \in \{0, 1\}$ we use the fact that $x^2 \geq x$ for any integer and equality holds only for $x = 0$ or $x = 1$. This means that if we want to prove that  all $a_j$'s belong to $\{0, 1\}$ we need to convince verifier that $\Delta = \sum_{j=0}^{m-1}(a_j^2  - a_j) = 0$.\\
+
+ Using hide our variables $a_j$ and $\Delta$ using the standard techniques $\boxed{a_j} = ea_j +r_{a_j}$  and $\boxed{\Delta} = e\Delta+r_\Delta$. In the verification, we construct the same value $\boxed{\Delta} = \sum_{j=0}^{m-1}(\boxed{a_j}^2  - e\boxed{a_j})$. The left side of this equation  is a degree 1 polynomial in $e$ while the right side is a degree 2 polynomial in $e$. With overwhelming probability over $e$ this implies that the value we committed to $\Delta =0$, which is exactly what we needed to prove.\\
+ 
+ The rest of the NIZK argument are a proof of knowledge of the plaintext $V$ and a proof that this plaintext has been properly constructed with values $a_j$'s that we committed to.\\\\
 \fbox{\begin{minipage}{30em}
 \textbf{Non-Interactive Zero-Knowledge Argument for Correctness of the encrypted vote:}\\\\
 We prove correctness of the vote by producing:\\
@@ -812,7 +845,7 @@ The argument is: $C_R,c,c_r, \boxed{R},\boxed{a_0},\dots,\boxed{a_{m-1}},\boxed{
  \textbf{Verification:}\\
  Compute $e$ as above.\\
  Define $\boxed{V} = \sum_{j=0}^{m-1}\boxed{a_j}M^j$ and \\
- $\boxed{\Delta} = \sum_{j=0}^{m-1}(\boxed{a_j}^2 - e\boxed{a_j}).$
+ $\boxed{\Delta} = \sum_{j=0}^{m-1}(\boxed{a_j}^2 - e\boxed{a_j}).$\\
  Verify $C^eC_R = Encr(\boxed{V};\boxed{R})$ and $c^ec_r = com(\boxed{a_0},\dots,\boxed{a_{m-1}},\boxed{\Delta};\boxed{r})$ 
 \end{minipage}}\\
 \subsection{System Design}
