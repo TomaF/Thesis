@@ -73,6 +73,10 @@
 \def\edgedist{2.5}
 \begin{document}
 \maketitle
+\section{Introduction}
+In an electronic voting (e-voting) execution, the voters engage in an interaction with the system by providing sensitive data such as their vote preference, authentication passwords, or personal data used for election auditing. All collected data should be processed in a way that election integrity and voter privacy are preserved at the best possible level. In scenarios that e-voting runs at a national level data processing scales at the order of millions, whereas any security breach may lead to a massive and disastrous effect. Consequently, formal analysis and provable security of e-voting systems has been in the centre of related literature.\\
+
+Voter privacy suggests that voters are capable of casting their votes secretly and freely without letting adversarial parties to learn any information about their preferences. On the other hand, integrity is traditionally captured by the end-to-end (E2E) verifiability notion states that the voter can obtain a receipt at the end of the ballot casting procedure that is used for verifying that his vote was (1) cast as intended, (2) recorded as cast, and (3) tallied as recorded. Furthermore, anyone should be able to verify that the election procedure is executed properly. It has been observed that voter privacy and E2E verifiability requirements inherently contradict each other at some point.  Therefore, there should exist the maximum level of privacy that is possible to achieve in any E2E verifiable e-voting system.
 \section{Preliminaries} 
 \subsection{Notations}
 Through this paper, we denote $\lambda$ as the security parameter. We use $negl(\lambda)$ to denote a negligible function in $\lambda$, i.e., it always holds that $negl(\lambda) < \frac{1}{\lambda^c}$ for any $0<c \in \mathbb{Z}$ for sufficient large $\lambda$. 
@@ -208,7 +212,13 @@ We say that a system $\Pi$ has (perfect) correctness, if for any honest executio
  %
 %=============================================================================================================
 %
+
 \section{Privacy}
+
+During the election process an voter uses his credentials to cast his option by running the \textbf{Cast} protocol on a $\vsd$. Since voters are not allowed to have or share a secret that would have helped them to preserve their privacy in case of a corrupted e-voting system, their privacy relies on the trusted entities of the system. There are two wildly known classes of e-voting systems: code-based system and encryption-based systems. The former relies on crypto that run by the trusted administrator in advance, the latter places its safety on crypto performed inside $\vsd$ during the \textbf{Cast} protocol execution. From a voter point of view it means that his privacy is protected by trusted administrator and pre-calculated credentials, that would not reveal any sensitive information even if the choice is sent in a plane text, or by trusted $\vsd$ and crypto performed inside it. \\
+
+The approach that we used in this thesis is the following: an honest voter is allowed to have  \textbf{only one} perfectly hidden from an adversarial eyes interaction and at the end he provides the adversary with the real and simulated view of the result of this interaction. $\mathcal{A}$ is allowed to observe a network trace of all interactions and play on behalf of corrupted entities and voters. This one perfectly private interaction can be either an act of actually entering voter's preference into $\vsd$ or while a voter receives his credentials. If $\mathcal{A}$  has no advantage in distinguishing real and simulated view over a coin flip, the system is considered private. \\
+
 We formally define the voter privacy via a Voter Privacy game, denotes as $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, that takes as input the security parameter $\lambda$ and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
 The only difference between Strict privacy and Privacy is the number of corrupted voters. In Strict privacy games \textbf{all} voters are corrupted and  $\mathcal{A}$ vote on their behalf. On the contrary, in the Privacy games at most t voters are corrupted and all others are honest. The crucial moment is that honest voters are able to verify that their vote was cast as intended, but an adversary can not since he does not know the intent and does not control all entities. Therefore, voters may lie about vote while an adversary have no ways to learn the truth and not to win the game $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$. 
 
@@ -315,18 +325,97 @@ To defend against this attack, $\mathcal{C}$ should be able to fake proof $\pi$.
 Another case - using global setup or trapdoors. 
 
  \subsubsection{Demos privacy}
- Demos voter privacy definition resembles witness indistinguishability of interactive proof system. An adversary's challenge is to distinguish between two lists of candidate selection that sums up to the same tally. Note, that those lists are pre-defined by the adversary  $\mathcal{A}$ and used for vote-casting procedure. \\
+ Demos voter privacy definition resembles witness indistinguishability of interactive proof system. An adversary's challenge is to distinguish between two pre-defined by the adversary  $\mathcal{A}$ lists of candidate selection that sums up to the same tally. \\
  
  The game between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$ are defined as follows: The adversary defines election parameters: voters, candidates and selects two lists of candidates' selections $\mathcal{L} = <U_l^0, U_l^1>$  that sums up to the same tally. The challenger flips a coin $b$ and starts an election. During the game,   $\mathcal{A}$ schedules all \textbf{Cast} protocols selecting corrupted voters adaptively ($\mathcal{A}$ allowed to corrupt $t$ voters at most). For all honest voters,  $\mathcal{A}$ provides $\mathcal{C}$ with two candidates selections $U_l^0, U_l^1$. $\mathcal{C}$ selects $U_l^b$ as voting option, runs the \textbf{Cast}  protocol and returns to the adversary (i) the receipt $r_l$ obtained from the protocol, and (ii) if $b = 0$ current view obtained from the protocol or if $b =1$, a simulated view produced by a simulator $\mathcal{S}$. \\
  
  According to the game, for a voter $V_l$, if $b = 0$ $\mathcal{A}$ receives back a receipt $r_l$ the first candidates' selection $U_l^0$ and the current real view of the internal state of the voter obtained from the \textbf{Cast} protocol. Otherwise, for $b = 1$,  $\mathcal{A}$ gets back a receipt $r_l$ the second candidates' selection $U_l^1$ and the simulated view generated by a simulator $\mathcal{S}$. The e-voting scheme $\Pi$ with at most t corrupted voters achieves voter privacy if there exist a simulator $\mathcal{S}$ such that $\mathcal{A}$  has a negligible advantage over a random coin flipping in guessing $b$.\\
  
- Suppose, there exists an adversary $\mathcal{B}$ that can guess challenger's coin $b$ with probability more than one half and therefore win the game against "Demos privacy". We will show that such adversary $\mathcal{B}$ can break the privacy defined in this article as well. So, that means that for any simulator $\mathcal{S}$, $\mathcal{B}$ is able to distinguish two lists of candidate selection that sums up to the same tally. \\
- 
- Consider an adversary $\mathcal{A}$ that plays against a challenger $\mathcal{C}$  of our privacy definition and exploits an adversary $\mathcal{B}$ against "Demos privacy".  Since  $\mathcal{B}$  can win the "Demos privacy" game against any simulator  $\mathcal{S}$, it can also win the privacy game against the simulator $\mathcal{S'}$ that the challenger of our privacy game uses for producing simulated credentials. Note, that simulated credentials $\tilde{s}$ are produced by  $\mathcal{S'}$ for the two known in advance options: $U_0, U_1$ in a way, that combination of simulated credentials and an option $U_a$ produces indistinguishable ballot and receipt from the ballot and receipt obtained for real credentials and the remaining $U_{1-a}$ option, where $a$ is a coin. For example, consider a code based e-voting system, where chosen voting code is a receipt and a voter can select from options 'YES', 'MAYBE' and 'NO'. Suppose $\mathcal{A}$ sends to $\mathcal{C}$  options $(U_0, U_1) = ('YES,'NO')$, then  a possible real ballot is "YES - 1, MAYBE - 5, NO - 2" and a fake one can be formed as "YES - 2, MAYBE - 3, NO - 1".  The fake credentials should have swapped voting codes for the selected by  $\mathcal{A}$ candidates comparing to the same options in the real credentials. $\mathcal{A}$ can pick one of the credentials and vote for the first option 'YES' and the produced ballot would always correspond to the other credentials and option 'NO'.\\
- 
-  $\mathcal{A}$ forwards to $\mathcal{C}$ all setup parameters received from $\mathcal{B}$. For all corrupted voters $\mathcal{A}$ simply forwards all $\mathcal{B}$ requests to  $\mathcal{C}$  and returns back all  $\mathcal{C}$ 's responses. For an honest voter $V_l$, $\mathcal{A}$ forwards a pair $U_l^0, U_l^1$ to the challenger and receives a pair for credentials $s_0,s_1$, where $s_a$ is real credentials.  $\mathcal{A}$ always picks the first credentials $s_0$ and uses it to submit a vote for an option $U_l^0$.  $\mathcal{C}$ responses with a two pairs of ballots and receipts $(r_0,b_0)(r_1,b_1)$. If challenger's coin $a = 0$, then $s_0$ is real credentials and $r_0,b_0$ is the ballot and receipt for an option $U_l^0$. Otherwise, $s_0$ is fake credentials and cote casting procedure for an option $U_0$ produces ballot and receipt $r_0,b_0$ which is indistinguishable from the ballot and receipt obtained after voting with real credentials for an option $U_l^1$. Thus,  $\mathcal{A}$ always returns to $\mathcal{B}$ $r_0,b_0$, where $b_0$ is an internal view. In case, when $a=0$, $r_0,b_0$ are ballot and receipt for an option $U_l^0$ and, if $a=1$ $r_0,b_0$ corresponds to option $U_l^1$. At the end of the game, $\mathcal{A}$ outputs $\mathcal{B}$'s guess. 
+ \textbf{Demos privacy definition}\\
+ $G_{DEMOS,t-priv}^{*\mathcal{A}, \mathcal{S}}(1^{\lambda},n,m)$ defined as follows:\\
   
+ During the game $\mathcal{C}$ plays the role of honest voters, $T$ and $\ea$. $\mathcal{A}$ operates on behalf of corrupted voters and $\vsd$. 
+\begin{enumerate}
+\item $\mathcal{A}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, choses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
+\item $\mathcal{C}$ flips a coin $b\in \{0,1\}$ and perform the \textbf{Setup} protocol on input $1^{\lambda},\mathcal{V}, \mathcal{P}, \mathcal{U}$ to obtain $msk,s_1,...,s_n, Pub$; it provides  $\mathcal{A}$ with $Pub$. 
+\item The adversary $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Cast} protocols of all voters which may run concurrently. For each voter  $V_i \in \mathcal{V}$ the adversary chooses whether $V_i$ is corrupted:
+\begin{enumerate}
+\item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $s_l$ to $\mathcal{A}$, and then they engage in a  \textbf{Cast} protocol where $\mathcal{A}$ plays the role of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$ and $\bb$.
+\item[] --  If $V_i$ is not corrupted, $\mathcal{A}$ provides two candidates selections $\langle \mathcal{U}^0_l , \mathcal{U}^1_l \rangle$ to the challenger $\mathcal{C}$. $\mathcal{C}$ operates on $V_l$'s behalf, using  $\mathcal{U}^b_l$ as the $V_l$'s input. The adversary  $\mathcal{A}$ is allowed to observe the network trace of the \textbf{Cast} protocol where  $\mathcal{C}$ plays the role of $V_l$, $\ea$ and $\bb$. When the  \textbf{Cast} protocol terminates, the challenger  $\mathcal{C}$ provides to $\mathcal{A}$: (i) the receipt $\alpha_l$ that voter $V_l$ obtains from the protocol, and (ii) if b = 0, the current view of internal state of the voter $V_l$, $view_l$ that the challenger obtains from the \textbf{Cast} protocol execution; or  a simulated view of the internal state of $V_l$ produced by $\mathcal{S}(view_l)$.
+\end{enumerate}
+\item $\mathcal{C}$ performs the  \textbf{Tally} protocol playing the role of $\ea$, $T$  and $\bb$. $\mathcal{A}$ is allowed to observe the network trace of that protocol. 
+\item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $b^*$
+\end{enumerate}
+Denote the set of corrupted voters as $\mathcal{V}_{corr}$ and the set of honest voters as $\tilde{\mathcal{V}}= \mathcal{V} \backslash \mathcal{V}_{corr}$. The game returns a bit which is 1 if and only if the following hold true:
+\begin{enumerate}
+ \item $b = b^*$
+ \item $|\mathcal{V}_{corr}| \leq t$ (i.e., the number of corrupted voters is bounded by $t$).
+ \item $f(\langle \mathcal{U}^0_l \rangle _{V_l \in \tilde{\mathcal{V}}} ) = f(\langle \mathcal{U}^0_l \rangle _{V_l \in \tilde{\mathcal{V}}})$ (i.e., the election result w.r.t. the set of voters  $\tilde{\mathcal{V}}$ does not leak b).
+\end{enumerate} 
+To prove that Demos privacy implies a weaker level of privacy than we defined, we constructed an modified version of our privacy definition. The difference between the modified and original versions is that it is mandatory to use two lists that sums up to the same tally in the modified one.\\
+ 
+\textbf{Modified original privacy definition}\\ 
+
+The only difference between the original privacy definition and the modified version is that $\mathcal{A}$ picks its choices $U^0_i$ $U^1_i$ from the two lists that sums up to the same tally: $f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}} ) = f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}})$ \\ 
+
+$G_{mod\_ORIG,t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$ defined as follows:\\
+
+\begin{enumerate}
+\item $\mathcal{A}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, choses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
+\item $\mathcal{C}$ starts the election on behalf of $\ea$. Also, $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated credentials would be returned to $\mathcal{A}$. 
+\item The adversary $\mathcal{A}$ picks two option $U^0_i,U^1_i \in \mathcal{U}$, where $U^0_i$ is its intent and $U^1_i$ is an option that $\mathcal{C}$ would use in order to fool $\mathcal{A}$.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Registration} protocols, during which all voters receive their credentials and forward them to  $\mathcal{A}$. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i$ is corrupted:
+\begin{enumerate}
+\item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $\mathcal{A}$ with the real credentials $s_i$, and then they engage in a \textbf{Cast} protocol where $\mathcal{A}$  vote on behalf of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$.
+\item[] --  If $V_i$ is not corrupted, then $\mathcal{C}$ generates real credentials $s_i$. Also $\mathcal{C}$ generates fake credentials $\tilde{s_i}$ using $Sim$*.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:
+$ \begin{cases}
+ \text{if} ~~a =0,~~ (s^0_i,s^1_i) = (\tilde{s_i},s_i)  \\ 
+ \text{else}~~  (s^0_i,s^1_i) = (s_i,\tilde{s_i})
+\end{cases}$
+ \item[] -- An honest voter $V_i$ forward both credentials $s^0_i,s^1_i$ to $\mathcal{A}$
+\item[] -- Using one of the credentials $\mathcal{A}$ schedules the \textbf{Cast} protocol execution to vote for an option $U^0_i$ and sends the produced ballot to $\bb$ in the entry that corresponds to the voter $V_i$. As a result of the \textbf{Cast} protocol execution, $\mathcal{A}$ would obtain: receipt $r_i$, ballot $b_i$ and the view of the internal state of the voter $V_i$ $view_i$.  During the \textbf{Tally} protocol execution this ballot would be treated as if it was generated with real credentials $s_i$. So, if  $\mathcal{A}$ indeed picked the real credentials, $b_i$ would correspond to the option   $U^0_i$  and $view_i$ would be real. Otherwise, $b_i$ would be a ballot for the option  $U^1_i$ and $view_i$ would be fake. 
+\item[] --  If  $\mathcal{A}$ posts a ballot on $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$. During the \textbf{Tally} protocol execution this ballot would be treated as if it was generated with fake credentials, which means that whatever option in reality $\mathcal{A}$ voted for, $\mathcal{C}$ picked the other option.  
+\end{enumerate}
+\item $\mathcal{C}$ executes the \textbf{Tally} protocol on the $\bb$. 
+\item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $a^*$
+\item Denote the set of corrupted voters as $\mathcal{V}_{corr}$ and the set of honest voters as $\tilde{\mathcal{V}}= \mathcal{V} \backslash \mathcal{V}_{corr}$. The game returns a bit which is 1 if and only if the following hold true:
+\begin{enumerate}
+ \item $a = a^*$
+ \item $|\mathcal{V}_{corr}| \leq t$ (i.e., the number of corrupted voters is bounded by $t$).
+  \item $f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}} ) = f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}})$ (i.e., the election result w.r.t. the set of voters  $\tilde{\mathcal{V}}$ does not leak a).
+\end{enumerate} 
+\end{enumerate}
+% Suppose, there exists an adversary $\mathcal{B}$ that can guess challenger's coin $b$ with probability more than one half and therefore win the game against "Demos privacy". We will show that such adversary $\mathcal{B}$ can break the privacy defined in this article as well. So, that means that for any simulator $\mathcal{S}$, $\mathcal{B}$ is able to distinguish two lists of candidate selection that sums up to the same tally. \\
+ 
+ %Consider an adversary $\mathcal{A}$ that plays against a challenger $\mathcal{C}$  of our privacy definition and exploits an adversary $\mathcal{B}$ against "Demos privacy".  Since  $\mathcal{B}$  can win the "Demos privacy" game against any simulator  $\mathcal{S}$, it can also win the privacy game against the simulator $\mathcal{S'}$ that the challenger of our privacy game uses for producing simulated credentials. Note, that simulated credentials $\tilde{s}$ are produced by  $\mathcal{S'}$ for the two known in advance options: $U_0, U_1$ in a way, that combination of simulated credentials and an option $U_a$ produces indistinguishable ballot and receipt from the ballot and receipt obtained for real credentials and the remaining $U_{1-a}$ option, where $a$ is a coin. For example, consider a code based e-voting system, where chosen voting code is a receipt and a voter can select from options 'YES', 'MAYBE' and 'NO'. Suppose $\mathcal{A}$ sends to $\mathcal{C}$  options $(U_0, U_1) = ('YES,'NO')$, then  a possible real ballot is "YES - 1, MAYBE - 5, NO - 2" and a fake one can be formed as "YES - 2, MAYBE - 3, NO - 1".  The fake credentials should have swapped voting codes for the selected by  $\mathcal{A}$ candidates comparing to the same options in the real credentials. $\mathcal{A}$ can pick one of the credentials and vote for the first option 'YES' and the produced ballot would always correspond to the other credentials and option 'NO'.\\
+ 
+%  $\mathcal{A}$ forwards to $\mathcal{C}$ all setup parameters received from $\mathcal{B}$. For all corrupted voters $\mathcal{A}$ simply forwards all $\mathcal{B}$ requests to  $\mathcal{C}$  and returns back all  $\mathcal{C}$ 's responses. For an honest voter $V_l$, $\mathcal{A}$ forwards a pair $U_l^0, U_l^1$ to the challenger and receives a pair for credentials $s_0,s_1$, where $s_a$ is real credentials.  $\mathcal{A}$ always picks the first credentials $s_0$ and uses it to submit a vote for an option $U_l^0$.  $\mathcal{C}$ responses with a two pairs of ballots and receipts $(r_0,b_0)(r_1,b_1)$. If challenger's coin $a = 0$, then $s_0$ is real credentials and $r_0,b_0$ is the ballot and receipt for an option $U_l^0$. Otherwise, $s_0$ is fake credentials and cote casting procedure for an option $U_0$ produces ballot and receipt $r_0,b_0$ which is indistinguishable from the ballot and receipt obtained after voting with real credentials for an option $U_l^1$. Thus,  $\mathcal{A}$ always returns to $\mathcal{B}$ $r_0,b_0$, where $b_0$ is an internal view. In case, when $a=0$, $r_0,b_0$ are ballot and receipt for an option $U_l^0$ and, if $a=1$ $r_0,b_0$ corresponds to option $U_l^1$. At the end of the game, $\mathcal{A}$ outputs $\mathcal{B}$'s guess. 
+ Suppose there exists an adversary $\mathcal{B}$ that wins the Demos privacy game with the probability more than one half. We will show that it's possible to construct an adversary $\mathcal{A}$ that exploits $\mathcal{B}$ and breaks the modified original privacy. \\
+
+$\mathcal{B}$ -- $\mathcal{A}$ -- $\mathcal{C}$ (challenger against Modified original privacy) interaction: 
+\begin{enumerate}
+\item $\mathcal{B}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, choses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{A}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
+ \item $\mathcal{A}$ forwards to $\mathcal{C}$  lists $\mathcal{V}, \mathcal{P}, \mathcal{U}$ defined by $\mathcal{B}$
+ \item  $\mathcal{C}$ starts the election on behalf of $\ea$. Also, $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated credentials would be returned to $\mathcal{A}$. 
+ \item The adversary $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Registration} protocols, during which all voters receive their credentials and forward them to $\mathcal{A}$. At the same time, $\mathcal{A}$ simulates the challenger for demos privacy game for $\mathcal{B}$ and schedules the  \textbf{Cast}  protocol with $\mathcal{B}$. For each voter  $V_i \in \mathcal{V}$ the adversary $\mathcal{B}$  chooses whether $V_i$ is corrupted and $\mathcal{A}$ forwards this decision to $\mathcal{C}$ :
+ \begin{enumerate}
+\item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $s_i$ to $\mathcal{A}$,  $\mathcal{A}$ forwards $s_i$ to $\mathcal{B}$ and then they engage in a \textbf{Cast} protocol where  $\mathcal{B}$ plays the role of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$ and $\bb$, while $\mathcal{A}$ simply transfers information from $\mathcal{B}$ to $\mathcal{C}$.
+\item[] --  If $V_i$ is not corrupted, $\mathcal{B}$ provides two candidates selections $\langle \mathcal{U}^0_i , \mathcal{U}^1_i \rangle$ to $\mathcal{A}$. $\mathcal{A}$ forwards this pair to $\mathcal{C}$.  $\mathcal{C}$ generates real credentials $s_i$ and fake credentials $\tilde{s_i}$ using $Sim$. $\mathcal{A}$ receives a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:
+$ \begin{cases}
+ \text{if} ~~a =0,~~ (s^0_i,s^1_i) = (\tilde{s_i},s_i)  \\ 
+ \text{else}~~  (s^0_i,s^1_i) = (s_i,\tilde{s_i})
+\end{cases}$\\
+$\mathcal{A}$ always uses the first credentials $s^0_i$ to schedule the \textbf{Cast} protocol execution and vote for an option $U^0_i$. Since  $\mathcal{A}$  controls $\vsd$, it produces ballot $b_i$ and posts it to the $\bb$ in the entry that corresponds to the voter $V_i$. As a result of the \textbf{Cast} protocol execution, $\mathcal{A}$ would obtain: receipt $r_i$, ballot $b_i$ and the view of the internal state of the voter $V_i$ $view_i$.  During the \textbf{Tally} protocol execution this ballot would be treated as if it was generated with real credentials $s_i$. So, if  $\mathcal{A}$ indeed picked the real credentials, $b_i$ would correspond to the option   $U^0_i$  and $view_i$ would be real. Otherwise, $b_i$ would be a ballot for the option  $U^1_i$ and $view_i$ would be fake. The adversary  $\mathcal{B}$ is allowed to observe the network trace of the \textbf{Cast} protocol where  $\mathcal{A}$ plays the role of $V_l$ and $\vsd$ and  $\mathcal{A}$ plays on behalf of $\ea$ and $\bb$. When the  \textbf{Cast} protocol terminates, $\mathcal{A}$ provides to $\mathcal{B}$: (i) the receipt $r_i$ that voter $V_i$ obtains from the protocol, and (ii) $view_i$ \end{enumerate}
+\item $\mathcal{C}$ performs the \textbf{Tally} protocol playing the role of $\ea$, $T$  and $\bb$. $\mathcal{A}$ and  $\mathcal{B}$ are allowed to observe the network trace of that protocol. 
+\item Finally, $\mathcal{B}$ using all information collected above (including the contents of the BB) outputs a bit $b^*$
+\item $\mathcal{A}$ returns $1 - b^*$
+ \end{enumerate} 
+ 
+ If the challenger's  $\mathcal{C}$ coin $a=0$, then the first credentials $s^0_i$ are always fake. Since $\mathcal{A}$ always uses $s^0_i$ to schedule the \textbf{Cast} protocol execution with $\mathcal{C}$ and vote for an option $U^0_i$, as a result of the execution $\mathcal{A}$ would obtain: receipt $r_i$, ballot $b_i$ that is actually a vote for $U^1_i$  and the fake view of the internal state of the voter $V_i$ $view_i$. This case corresponds to the coin $b=1$ in the Demos privacy game. \\
+ Else if $\mathcal{C}$'s coin $a=1$, $s^0_i$ are always real credentials. As a result of the \textbf{Cast}  protocol execution $\mathcal{A}$ would obtain: receipt $r_i$, ballot $b_i$ that is indeed a vote for $U^0_i$  and the real view of the internal state of the voter $V_i$ $view_i$. This case corresponds to the coin $b=0$ in the Demos privacy game.\\
+By assumption $\mathcal{B}$ has an advantage over a coin flipping in winning the demos privacy game. This means that  $\mathcal{B}$ is capable of guessing coin $b$ with probability more than one half.  $\mathcal{A}$ returns $1-b^*$, where $b^*$ is the $\mathcal{B}$'s guess. The above states that $\mathcal{A}$ is capable of wining the modified privacy game against  the callenger $\mathcal{C}$ with probability more than random coin flipping, which means $\mathcal{A}$ breaks modified privacy definition. \\
+
+So, if there is an adversary that breaks Demos privacy, there is an adversary that exploits it in order to  break modified privacy. 
+
 %
 %=============================================================================================================
 %
@@ -739,6 +828,7 @@ Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal
 %
 \section {Blind signature e-voting scheme}
 \subsection{Presentation of the blind signature e-voting scheme}
+Our system is a two-server web-based system. The first server - \textit{Signing server}  is used for \textbf{Registration} process and the second one  - \textit{$\voc$} for vote-casting.  In an election, the \textit{Signing server} mainly plays the roles of the $\ea$ but may aid the other parties.  Trustee $T$ is a separate entity that has a secure channel to communicate with $\ea$, security of communication is supported by HTTPS. All the other parties are realized by Javascripts running at the client side. The system uses additive ElGamal encryption, so the tally is done homomorphically. Currently the blind signature  scheme supports approval type of voting s.t. $x$-out-of-$m$ type of option selection, where x is between 0 and $m$.
 \subsection{Election process}
 The electronic voting procedure consists of 4 stages:
 \begin{enumerate}
@@ -892,14 +982,22 @@ The algorithm returns 1 only if the following checks are true:\\
 -- number of ballots less or equal to the number of registered voters\\
 -- $Proof$ is correct\\
 -- sum of all scores at $\tau$ are less than or equal to ballot numbers\\\\
-\textbf{Construction of the vote extractor.}\\ 
+\subsection{E2E Verifiability}
+In the E2E verifiability proof, only $\bb$ is assumed to be honest. The rest components of the election server are controlled by the adversary and its is allowed to change the content on the BB arbitrarily before the \textbf{Result} protocol starts. However, we can assume that validity of all NIZK proofs on the $\bb$ can be checked by anyone as well as the result of the \textbf{Tally} protocol execution, since $Tally$ is computed homomorphically and this computation doesn't require any secret information. To prove that the blind signature scheme is E2E verifiable, we first construct a vote extractor $\mathcal{E}$:\\
+ 
 $\mathcal{E}$ has input $\tau$ and the set of receipts  $\{x_l\}_{V_l \in \tilde{\mathcal{V}}}$ where $\tilde{\mathcal{V}}$ is the set of the honest voters that voted successfully.  If $Result(\tau) = \perp$ (i.e., the transcript is not meaningful), then $\mathcal{E}$ outputs $\perp$. Otherwise, $\mathcal{E}$ (arbitrarily) arranges the voters in $\mathcal{V} \backslash \tilde{\mathcal{V}}$ and the tags not included in $\{x_l\}_{V_l \in \tilde{\mathcal{V}}}$ as $\langle V_l^{\mathcal{E}} \rangle_{l \in  [n - |\tilde{\mathcal{V}}|]}$ and $\langle tag_l^{\mathcal{E}} \rangle_{l \in  [n - |\tilde{\mathcal{V}}|]}$ respectively. Next, for every $l \in [n - |\tilde{\mathcal{V}}|]$:\\
 \begin{enumerate}
 \item  $\mathcal{E}$ finds at the BB entry with   $x_l = tag_l^{\mathcal{E}}$ and brute-force the corresponding ELGamal cipher to open the selected candidate $\mathcal{P}_l^{\mathcal{E}}$. If $\mathcal{P}_l^{\mathcal{E}}$ is the valid candidate's selection, then $\mathcal{E}$ sets $\mathcal{U}_l^{\mathcal{E}} = \{\mathcal{P}_l^{\mathcal{E}}\}$. Otherwise it inputs $\perp$.
 \end{enumerate}
 Finally $\mathcal{E}$ outputs  $\langle \mathcal{U}_l^{\mathcal{E}} \rangle_{V_l \in \mathcal{V} \backslash \tilde{\mathcal{V}}  }$
-Finally $\mathcal{E}$ outputs  $\langle \mathcal{U}_l^{\mathcal{E}} \rangle_{V_l \in \mathcal{V} \backslash \tilde{\mathcal{V}}  }$
+Finally $\mathcal{E}$ outputs  $\langle \mathcal{U}_l^{\mathcal{E}} \rangle_{V_l \in \mathcal{V} \backslash \tilde{\mathcal{V}}  }$\\
 
+According to the definition of E2E verifiability, an adversary $\mathcal{A}$ wins the game $G^{\mathcal{A} ,\mathcal{E} ,d,\theta}_{\text{e2e-ver}} (1^{\lambda}, n,m,t)$ and breaks E2E verifiability if it allows at least $\theta$ honest voters to cast their votes successfully and achieves tally deviation $d$. \\
+
+All NIZK proofs are perfectly sound and the \textbf{Tally} protocol is completely transparent and can be repeated and checked by anyone. \\
+Modification attack - we need a hash of the whole ballot and ballot $id$ as receipt to prevent malicious $\ea$ from cheating. $\mathcal{A}$ may attempt to decrypt a single vote, learn $x$, create a signature and compute a perfectly valid vote for another candidate. \\
+
+However $\ea$ can use abstain voters to create additional ballots and cause deviation. It can use $y_{reg} - y_{voted} -1$  additional votes. Abstain voter can not prove anything since he doesn't know whether he is the only one who abstains or not.  However, if every registered voter is assigned a specific entry in $\bb$ he can detect that someone ($\ea$) voted on his behalf. On the other hand, assigning every voter ballot id makes this system linkable. Tradeoff: either $\ea$ should be able to link an individual voter with his ballot or $\ea$ can vote on behalf of abstain voters and no-one would detect it as long as number of additional ballots strictly less than the number of abstain voters. 
  \nocite{*}
 \bibliographystyle{ieeetr}
 \bibliography{litr}
