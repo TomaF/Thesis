@@ -18,22 +18,26 @@
 
 \begin{document}
  \begin{tikzpicture}[thick]
-  \node[draw,rectangle]  at (-2, 5) (ea)[sensor] {$\ea$};
+  \node[draw,rectangle]  at (-3.5, 5) (ea)[sensor] {$\ea$};
     \path (ea.south) +(-0.5,-0.5) node (a) {\large{$\mathcal{A}$}};
-  \node[draw,rectangle,text width=5.5cm]  at (5.2, 5) (c) {$a \leftarrow \{0,1\} $ \\  $(\tilde{b_i}, \tilde{r_i}) \leftarrow Sim(s_i,U_{i_1},U_{i_2}, V_i)$\\If $a=0$, then:\\ $(b_0, r_0) = (\tilde{b_i},\tilde{r_i})$\\ $(b_1,r_1)= (b_i,r_i)$ \\ Else if $a = 1$ \\$(b_0,r_0) = (b_i,r_i) $ \\$(b_1, r_1) = (\tilde{b_i},\tilde{r_i})$};
+  \node[draw,rectangle,text width=5.5cm]  at (5.2, 5) (c) {$a \leftarrow \{0,1\} $ \\  $(\tilde{b_i}, \tilde{r_i}) \leftarrow Sim(s_i,U_i^0,U_i^1, V_i)$\\If $a=0$, then:\\ $(b_i^0, r_i^0,view_i^0) = (\tilde{b_i},\tilde{r_i},fake\_view_i)$\\ $(b_i^1,r_i^1,view_i^1)= (b_i,r_i,view_i)$ \\ Else if $a = 1$ \\$(b_i^0,r_i^0,view_i^0) = (b_i,r_i,view_i) $ \\$(b_i^1, r_i^1,view_i^1) = (\tilde{b_i},\tilde{r_i},fake\_view_i)$};
    \node[draw,rectangle]  at (5.2, 1) (vsd)[sensor] { $\vsd$};
-   \node[draw,rectangle]  at (-3.5, 5) (t)[sensor] { $T$};
-      \node[draw,rectangle]  at (-5, 5) (vc)[sensor] { $\voc$};
-         \node [ draw,circle] at (-5,3.9) (vfake)[v]{$V_i$};
+   \node[draw,rectangle]  at (3.5, 1) (t)[sensor] { $T$};
+      \node[draw,rectangle]  at (-5, 3.9) (vc)[sensor] { $\voc$};
+         \node [ draw,circle] at (-5,5) (vfake)[v]{$V_i$};
       
            \node[draw,rectangle, fill = gray]  at (-5, 2) (bb)[sensor] { $\bb$};
    
-   \draw[transform canvas={yshift=-2.7ex},->,shorten >=0.5cm] (c) node[font=\small, below,xshift=-4.7cm]  {$4) (b_0,r_0, b_1,r_1)$}  -- (ea);
-      \draw[transform canvas={yshift=2.7ex},<-,shorten >=0.5cm] (c) node[font=\small, above,xshift=-4.7cm]  {$1) U_{i_1},U_{i_2}$}  -- (ea);
+   \draw[transform canvas={yshift=-2.7ex},->,shorten >=0.5cm] (c) node[font=\small, below,xshift=-5.5cm]  {$4) (b_i^0,r_i^0, view_i^0,b_i^1,r_i^1,view_i^1)$}  -- (ea);
+      \draw[transform canvas={yshift=2.7ex},<-,shorten >=0.5cm] (c) node[font=\small, above,xshift=-5.5cm]  {$1) U_i^0,U_i^1$}  -- (ea);
    
-      \draw[transform canvas={yshift=-0.7ex},<-,shorten >=0.5cm] (c) node[font=\small, above, xshift = -4.7cm] {$2) (s_i,U_{i_1})$} -- (ea);
+      \draw[transform canvas={yshift=-0.7ex},<-,shorten >=0.5cm] (c) node[font=\small, above, xshift = -5.5cm] {$2) (s_i,U_i^0)$} -- (ea);
    
    \draw[<-] (c) node[font=\small, right,yshift=-3cm,] {$3) (b_i,r_i)$} -- (vsd);
+   
+    \draw[<-] (bb) node[font=\small, right,xshift=3cm,yshift=0.3cm] {$6)\tau$} -| (t);
+    
+    \draw[<-] (bb) node[font=\small, right,yshift=0.8cm,] {$5) (b_i^0,b_i^1)$} -- (vc);
    
      \begin{pgfonlayer}{background}
         \path (vc.west |- ea.north)+(-0.5,0.5) node (e) {};

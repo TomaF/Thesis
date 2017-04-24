@@ -228,31 +228,30 @@ The only difference between Strict privacy and Privacy is the number of corrupte
         \caption{  $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
 \end{figure}
  
-In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$, an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all corrupted voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of honest voters, $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
+In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$, an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all corrupted voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of honest voters, $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
 After an adversary  $\mathcal{A}$  defined an election parameters, $\mathcal{C}$  doubles the voters, computes setup data and starts the election. This duplication of voters is needed because $\mathcal{C}$ would post another ballot for every adversarial's cast ballot. If $\mathcal{A}$ abstains, $\mathcal{C}$ abstains as well. During the game, we will refer to duplicated voters as fake ones. \\\\
-$\mathcal{A}$ 1) picks and sends two options $U_{i_1},U_{i_2}$ to the challenger $\mathcal{C}$. One of the options $U_{i_1}, U_{i_2}$ is his intent, the other -- the option that the challenger would use in order to produce an indistinguishable from the intent's ballot and receipt view*. After sending options, 2) $\mathcal{A}$ schedules the   \textbf{Registration} protocol with $\mathcal{C}$ on behalf of some voter $V_i$. $\mathcal{C}$ creates a fake credentials $\tilde{s_i}$ and 3) generates real credentials $s_i$ for him. 4) $\mathcal{C}$ responds $\mathcal{A}$ with a pair of credentials $s_0,s_1$, where one of the credentials are real and the other were generated using the simulator $Sim$ in a such way, that no matter what credential $s_0$ or $s_1$ $\mathcal{A}$ uses to cast a vote for $U_{i_1}$, the produced ballot would also correspond to the result of the \textbf{Cast} protocol for an option $U_{i_2}$ with the other credentials and vice versa. If 5) $\mathcal{A}$ choses to post the ballot $b_i$ to $\bb$, 6) $\mathcal{C}$  posts exactly the same ballot to $\bb$ on behalf of the fake voter. When $\mathcal{A}$ stops the election, 7) $\mathcal{C}$ posts the tally $\tau$ **. \\\\
+ 1)  $\mathcal{A}$ picks and sends two options $U_i^0,U_i^1$ to the challenger $\mathcal{C}$. The first option $U_i^0$ is its intent, the other -- the option that the challenger would use in order to produce an indistinguishable from the intent's ballot and receipt view*. 2) After sending options, $\mathcal{A}$ schedules the   \textbf{Registration} protocol with $\mathcal{C}$ on behalf of some voter $V_i$. 3) $\mathcal{C}$ creates a fake credentials $\tilde{s_i}$ and generates real credentials $s_i$ for the voter $V_i$. 4) $\mathcal{C}$ responds $\mathcal{A}$ with a pair of credentials $s_i^0,s_i^1$, where one of the credentials are real and the other were generated using the simulator $Sim$ in a such way, that if $\mathcal{A}$ guesses right and uses the real credentials to cast a vote for $U_i^0$, the produced ballot and internal view of the \textbf{Cast} protocol would be real, otherwise generated ballot would correspond to the option $U_i^1$ and the returned view would be fake. 5) If $\mathcal{A}$ choses to post the ballot $b_i$ to $\bb$, 6) $\mathcal{C}$  posts exactly the same ballot to $\bb$ on behalf of the fake voter. 7) When $\mathcal{A}$ stops the election, $\mathcal{C}$ posts the tally $\tau$ **. \\\\
 Remarks:\\
-*If  $\mathcal{C}$ succeeds, $\mathcal{A}$ wouldn't be able to say whether his ballot and receipt corresponds to $U_{i_1}$ or $U_{i_2}$ and $\bb$ would contain both ballots (one for the option $U_{i_1}$ ,the other for the option $ U_{i_2}$) so the tally wouldn't reveal any information. Example: if $\mathcal{A}$  picks real credential for the voter $V_i$ then he casts a vote for the option  $U_{i_1}$ , at the same time exactly the same ballot posted $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials and the option $U_{i_2}$. In this case $\mathcal{A}$  voted for $U_{i_1}$. Else if $\mathcal{A}$ picks fake credentials and tries to vote for the option $U_{i_1}$,  his ballot corresponds to the real credentials and  the option $U_{i_1}$. At the same time, exactly the same ballot posted $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials  and the option $U_{i_1}$. So $\mathcal{A}$  voted for $U_{i_1}$. If this definition holds,  $\mathcal{A}$ has no idea whom he voted for. \\
-** The tally $\tau$ is posted only if all ballots are correctly formed: were produced with one of the provided credentials, for the candidate $U_{i_1}$, for every cast ballot there is a duplicate, etc. \\
+*If  $\mathcal{C}$ succeeds, $\mathcal{A}$ wouldn't be able to say whether it voted for option $U_i^0$ or $U_i^0$ and $\bb$ would contain both ballots (one for the option $U_i^0$ ,the other for the option $U_i^1$) so the tally wouldn't reveal any information. Example: if $\mathcal{A}$  picks real credential then it casts a vote for the option  $U_i^0$ on behalf of a voter $V_i$, at the same time exactly the same ballot posted by $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ would correspond to the fake credentials and the option $U_i^1$. In this case $\mathcal{A}$ indeed voted for $U_{i_1}$ as it intended. Else if $\mathcal{A}$ picks the fake credentials and votes for the option $U_i^0$,  its ballot corresponds to the real credentials and  the option $U_i^1$. At the same time, exactly the same ballot posted by $\mathcal{C}$ on behalf of the fake voter $\tilde{V_i}$ corresponds to the fake credentials  and the option $U_i^0$. So $\mathcal{A}$  voted for $U_i^0$. If this privacy holds,  $\mathcal{A}$ has no idea what option voter $V_i$ voted for. \\
+** The tally $\tau$ is posted only if all ballots are correctly formed. All $\mathcal{A}$'s ballots are tallied based on real credentials, all   $\mathcal{C}$'s ones -- based on fake credentials. If and only if lists $\langle U^0_i \rangle$ and $\langle U^1_i \rangle$ sums up to the same tally $f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}} ) = f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}})$, $\mathcal{C}$ removes all fake ballots and computes tally for the real voters only. \\
 
- $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ defined as follows:\\
+ $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$ defined as follows:\\
 \begin{enumerate}
-\item During the game $\mathcal{C}$ plays the role of honest voters and $\ea$. $\mathcal{A}$ operates on behalf of corrupted voters and $\vsd$. 
-\item $\mathcal{A}$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$, a set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
+\item $\mathcal{A}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, choses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
 \item $\mathcal{C}$ doubles the set $\mathcal{V}$ adding fake voters $ \{V_1',...,V_n'\}$ and starts the election on behalf of $\ea$. Also, $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated credentials would be returned to $\mathcal{A}$. 
-\item The adversary $\mathcal{A}$ picks two option $U_{i_1},U_{i_2} \in \mathcal{U}$, where $U_{i_1}$ is an option for the real credentials and $U_{i_2}$ is an option for the fake ones.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the $Registration$ protocols, during which all voters receive their credentials and forward them to  $\mathcal{A}$. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i$ is corrupted:
+\item The adversary $\mathcal{A}$ picks two option $U^0_i,U^1_i \in \mathcal{U}$, where $U^0_i$ is its intent and $U^1_i$ is an option that $\mathcal{C}$ would use in order to fool $\mathcal{A}$.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Registration} protocols, during which all voters receive their credentials and forward them to  $\mathcal{A}$. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i$ is corrupted:
 \begin{enumerate}
-\item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $\mathcal{A}$ with the real credentials $s_i$, and then they engage in a $Cast$ protocol where A vote on behalf of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$.
+\item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $\mathcal{A}$ with the real credentials $s_i$, and then they engage in a \textbf{Cast} protocol where $\mathcal{A}$  vote on behalf of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$.
 \item[] --  If $V_i$ is not corrupted, then $\mathcal{C}$ generates real credentials $s_i$. Also $\mathcal{C}$ picks a fake voter $\tilde{V_i}$ and generates credentials $\tilde{s_i}$ for him using $Sim$*.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:
 $ \begin{cases}
- \text{if} ~~a =0,~~ (s_0,s_1) = (\tilde{s_i},s_i)  \\ 
- \text{else}~~  (s_0,s_1) = (s_i,\tilde{s_i})
+ \text{if} ~~a =0,~~ (s^0_i,s^1_i) = (\tilde{s_i},s_i)  \\ 
+ \text{else}~~  (s^0_i,s^1_i) = (s_i,\tilde{s_i})
 \end{cases}$
- \item[] -- Honest voters forward both credentials to $\mathcal{A}$
-\item[] -- Using one of the credentials $\mathcal{A}$ schedules the $Cast$ protocol executions and sends the produced ballot to $\bb$.
-\item[] --  If  $\mathcal{A}$ posts a ballot on $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$
+ \item[] -- An honest voter $V_i$ forward both credentials $s^0_i,s^1_i$ to $\mathcal{A}$
+\item[] -- Using one of the credentials $\mathcal{A}$ schedules the \textbf{Cast} protocol execution to vote for an option $U^0_i$ and sends the produced ballot to $\bb$ in the entry that corresponds to the voter $V_i$. As a result of the \textbf{Cast} protocol execution, $\mathcal{A}$ would obtain: receipt $r_i$, ballot $b_i$ and the view of the internal state of the voter $V_i$ $view_i$.  During the \textbf{Tally} protocol execution this ballot would be treated as if it was generated with real credentials $s_i$. So, if  $\mathcal{A}$ indeed picked the real credentials, $b_i$ would correspond to the option   $U^0_i$  and $view_i$ would be real. Otherwise, $b_i$ would be a ballot for the option  $U^1_i$ and $view_i$ would be fake. 
+\item[] --  If  $\mathcal{A}$ posts a ballot on $\bb$, $\mathcal{C}$ posts exactly the same ballot in the entry that corresponds to the fake voter $\tilde{V_i}$. During the \textbf{Tally} protocol execution this ballot would be treated as if it was generated with fake credentials, which means that whatever option in reality $\mathcal{A}$ voted for, $\mathcal{C}$ picked the other option.  
 \end{enumerate}
-\item $\mathcal{C}$ executes the $Tally$ protocol.
+\item If lists $\langle U^0_i \rangle$ and $\langle U^1_i \rangle$ sums up to the same tally ( $f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}} ) = f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}})$), $\mathcal{C}$ removes all fake voters' votes and executes the \textbf{Tally} protocol on the cleared $\bb$. Otherwise, $\mathcal{C}$ executes the \textbf{Tally} protocol on the $\bb$ that contains ballots from all real and fake voters. 
 \item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $a^*$
 \item Denote the set of corrupted voters as $\mathcal{V}_{corr}$ and the set of honest voters as $\tilde{\mathcal{V}}= \mathcal{V} \backslash \mathcal{V}_{corr}$. The game returns a bit which is 1 if and only if the following hold true:
 \begin{enumerate}
@@ -262,53 +261,54 @@ $ \begin{cases}
 \end{enumerate}
 
 \textbf{*Remark:}\\
-$Sim$ works in a way that the fake credentials satisfy both of the following rules: 
+$Sim$ works in such a way that fake credentials satisfy both of the following rules: 
 \begin{enumerate}
- \item The real credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical\textcolor{red}{*} to ballot and receipt produced for the fake credentials and  $U_{i_2}$ option.
- \item The fake credentials and $U_{i_1}$ option  should give ballot and receipt, which are identical to ballot and receipt produced for the real credentials and  $U_{i_2}$ option.
+ \item The real credentials and $U_i^0$ option  should give ballot and receipt, which are identical \textcolor{red}{ (indistinguishable?) } to ballot and receipt produced for the fake credentials and  $U_i^1$ option.
+ \item The fake credentials and $U_i^0$ option  should give ballot and receipt, which are identical to ballot and receipt produced for the real credentials and  $U_i^1$ option.
  \end{enumerate}
 
 \underline{\textbf{Privacy: $\ea$ and $T$ are honest:}}\\\\
 The e-voting system $\Pi$ achieves voter privacy in case of honest $T$ and $\ea$  for at most $t$ corrupted voters if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\\\
+ $|\Pr[G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m) = 1] - \frac{1}{2}| = negl(\lambda)$
  %%%%%%%%%
-\subsection{$\vsd$ is honest: $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
+\subsection{$\vsd$ and $T$ are honest: $G_{t-priv,\vsd,T}^{\mathcal{A},Sim}(1^{\lambda})$}
      \begin{figure}[h!]
  \includestandalone[mode=buildnew]{figures/figure7}
-        \caption{ $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
+        \caption{ $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda},n,m)$}
 \end{figure}
+Even though, it is possible to achieve voter privacy for trusted $\vsd$ \textbf{only}  (by making the $T$ unable to decrypt individual votes), the case is rather extreme. The definition of voter privacy below is given for trusted $\vsd$ and $T$. However, we identify changes that would transform the given definition into \textbf{only} $\vsd$ is trusted case.\\
 
- In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$, an adversary $\mathcal{A}$  operates on behalf of the all voters and all corrupted entities, such as:  $\ea$, $\voc$ and $T$. $\bb$ is completely passive and represents a publicly accessible database.\\
- 1) an adversary $\mathcal{A}$ picks and sends options $U_{i_1}, U_{i_2}$ to the challenger $\mathcal{C}$.  After that 2) $\mathcal{A}$ schedules the \textbf{Cast} protocol with $\mathcal{C}$ on behalf of some voter $V_i$*. $\mathcal{C}$ 3) generates a real ballot and receipt and uses $Sim$ to create a fake ones.  At the end 4) $\mathcal{C}$ responses with a pair of ballots and receipts $b_0,r_0,b_1,r_1$, where one ballot and receipt corresponds to an option $U_{i_1}$, the other was generated using the simulator $Sim$ for an option $U_{i_2}$. \\\\
- *Remark:\\
- Existence of honest voters  is the only difference from the Strict privacy definition. In the strict privacy game, all voters are corrupted. 
+ In the game $G_{t-priv,\vsd,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$, an adversary $\mathcal{A}$  operates on behalf of the all corrupted voters and all corrupted entities, such as:  $\ea$ and $\voc$.  $\mathcal{C}$ plays on behalf og $\vsd$, $T$ and all honest voters. $\bb$ is completely passive and represents a publicly accessible database.\\
+ 1)  $\mathcal{A}$ picks and sends options $U_i^0, U_i^1$ to the challenger $\mathcal{C}$. 2) After that $\mathcal{A}$ schedules the \textbf{Cast} protocol with $\mathcal{C}$ on behalf of all voters and decides whether a voter $V_i$ is corrupted or not. 3) $\mathcal{C}$ generates a real ballot, receipt and view and uses $Sim$ to create the fake ones.  4) At the end $\mathcal{C}$ responses with a pair of ballots, receipts and view $b_i^0,r_i^0,view_i^0,b_i^1,r_i^1,view_i^1$, where the order of real and fake output is determined according a coin $a$. \\\\
+
  
-The game $G_{t-priv, \vsd}^{\mathcal{A},Sim}(1^{\lambda})$ is defined as follows:
-\begin{enumerate}
-\item During the game $\mathcal{C}$ plays the role of the honest voters and $\vsd$. $\mathcal{A}$ operates on behalf of corrupted voters and may corrupt $T$, and $\ea$. 
-\item $\mathcal{A}$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$, a set of allowed candidates' selections $\mathcal{U}$ and  starts the election.
+The game $G_{t-priv, \vsd,T}^{\mathcal{A},Sim}(1^{\lambda},n,m)$ is defined as follows:
+\begin{enumerate} 
+\item $\mathcal{A}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, choses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of allowed candidates' selections $\mathcal{U}$.  $\mathcal{A}$ starts an election using $\mathcal{V}, \mathcal{P}, \mathcal{U}$ as input parameters.
 \item $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated ballots and receipts would be returned to $\mathcal{A}$.
-\item   $\mathcal{A}$ sends to  $\mathcal{C}$ options $U_{i_1}, U_{i_2} \in  \mathcal{U}$, where $U_{i_1}$ is an option for the real ballot and receipt and $U_{i_2}$ is an option for the fake ones.  After that, $\mathcal{A}$ and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Cast}   protocols of all voters which may run concurrently. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i \in \mathcal{V}$ is corrupted: 
+\item   $\mathcal{A}$ sends to  $\mathcal{C}$ options $U_i^0, U_i^1 \in  \mathcal{U}$, where $U_i^0$ is an option for the real ballot and receipt and $U_i^1$ is an option for the fake ones.  After that, $\mathcal{A}$ and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Cast}   protocols of all voters which may run concurrently. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i \in \mathcal{V}$ is corrupted: 
 \begin{enumerate}
 \item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $\mathcal{A}$ with the real ballot and receipt $(b_i,r_i)$.
-\item[] --  If $V_i$ is not corrupted, $\mathcal{C}$  provides $\mathcal{A}$ with   provides $\mathcal{A}$ with a pair of simulated and real ballot and receipt $(b_0, r_0) (b_1, r_1)$ s.t.:\\
+\item[] --  If $V_i$ is not corrupted, $\mathcal{C}$  provides $\mathcal{A}$ with a pair of simulated and real ballot,receipt and view $(b_i^0, r_i^0,view_i^0) (b_i^1, r_i^1,view_i^1)$ s.t.:\\
 $ \begin{cases}
- \text{if} ~~a =0,~~ (b_0,r_0) = (\tilde{b_i},\tilde{r_i}) ~~ \text{and} ~~  (b_1,r_1) = (b_i,r_i)   \\ 
- \text{else}~~ (b_0,r_0) =(b_i,r_i)~~  \text{and} ~~  (b_1,r_1) =(\tilde{b_i},\tilde{r_i})
+ \text{if} ~~a =0,~~ (b_i^0,r_i^0,view_i^0) = (\tilde{b_i},\tilde{r_i},fake\_view_i) ~~ \text{and} ~~  (b_i^1,r_i^1,view_i^1) = (b_i,r_i,view_i)   \\ 
+ \text{else}~~ (b_i^0,r_i^0,view_i) =(b_i,r_i,view_i)~~  \text{and} ~~  (b_i^1,r_i^1,view_i^1) =(\tilde{b_i},\tilde{r_i},fake\_view_i)
 \end{cases}$\\ 
-where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option $U_{i_1}$ and $(\tilde{b_i},\tilde{r_i})$ is the ballot and receipt for  $U_{i_2}$ option generated via the simulator $Sim$.
+where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option $U_i^0$ and $(\tilde{b_i},\tilde{r_i})$ is the ballot and receipt for  $U_i^1$ option generated via the simulator $Sim$.
 \end{enumerate}
-\item Finally, (if $T$ is corrupted) $\mathcal{A}$  executes the $Tally$ protocol  and using all information collected above outputs a bit $a^*$
+\item If lists $\langle U^0_i \rangle$ and $\langle U^1_i \rangle$ sums up to the same tally ( $f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}} ) = f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}})$), $\mathcal{C}$* removes all $b_i^1$ ballots and executes the \textbf{Tally} protocol on the cleared $\bb$. Otherwise, $\mathcal{C}$ executes the \textbf{Tally} protocol on the $\bb$ that contains both ballots for options $U_i^0$ and $U_i^1$. 
+\item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $a^*$
 \item Denote the set of corrupted voters as $\mathcal{V}_{corr}$ and the set of honest voters as $\tilde{\mathcal{V}}= \mathcal{V} \backslash \mathcal{V}_{corr}$. The game returns a bit which is 1 if and only if the following hold true:
 \begin{enumerate}
  \item $a = a^*$
  \item $|\mathcal{V}_{corr}| \leq t$ (i.e., the number of corrupted voters is bounded by $t$).
 \end{enumerate}
 \end{enumerate}
-
-\underline{\textbf{Privacy: $\vsd$ is honest:}}\\\\
-The e-voting system $\Pi$ achieves voter privacy in case of honest $\vsd$, for at most $t$ corrupted voters , if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda}) = 1] - \frac{1}{2}| = negl(\lambda)$
+\textbf{*Remark:}\\
+$\mathcal{A}$ can control $T$ and perform \textbf{Tally} procedure. However, in such a case, it should be impossible for $T$ learn the underline vote for any individual ballot or compute the result for $\bb$ that does not contain all ballots $b_i^0,b_i^1$. The only exception is the case when lists $\langle U^0_i \rangle$ and $\langle U^1_i \rangle$ sums up to the same tally, for this situation $\mathcal{A}$ may perform \textbf{Tally} operation based only on ballots $b_i^0$. \\\\
+\underline{\textbf{Privacy: $\vsd$ and $T$ are honest:}}\\\\
+The e-voting system $\Pi$ achieves voter privacy in case of honest $\vsd$ and $T$, for at most $t$ corrupted voters , if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
+ $|\Pr[G_{t-priv,\vsd,T}^{\mathcal{A},Sim}(1^{\lambda},n,m) = 1] - \frac{1}{2}| = negl(\lambda)$
  \subsection{Comparison with existing definitions}
  \subsubsection{Helious. Ballot privacy.}
  Ballot privacy attempts to capture the idea that during its execution a secure protocol does not reveal information about the votes cast, beyond what the result of the election leaks. In some works, ballot privacy defined even stronger: "a voter's vote is not revealed to anyone". However, in most cases ballot privacy targets specifically vote-casting procedure end \\ 
