@@ -4,32 +4,32 @@
 \contentsline {subsection}{\numberline {3.1}Preliminaries}{6}
 \contentsline {subsection}{\numberline {3.2}Syntax and Correctness}{7}
 \contentsline {subsection}{\numberline {3.3}Election process}{9}
-\contentsline {subsection}{\numberline {3.4}E2E Verifiability}{9}
-\contentsline {section}{\numberline {4}Privacy with respect to entities}{10}
-\contentsline {subsection}{\numberline {4.1}Privacy with respect to VSD}{10}
-\contentsline {subsection}{\numberline {4.2}Privacy with respect to EA}{10}
-\contentsline {subsection}{\numberline {4.3}Privacy with respect to trusted VC}{11}
-\contentsline {subsection}{\numberline {4.4}Privacy with respect to trusted T}{11}
-\contentsline {section}{\numberline {5}Privacy}{12}
-\contentsline {subsection}{\numberline {5.1}$\ea $ and $T$ are honest: $G_{t-priv,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{13}
-\contentsline {subsection}{\numberline {5.2}$\vsd $ and $T$ are honest: $G_{t-priv,\vsd ,T}^{\mathcal {A},Sim}(1^{\lambda })$}{19}
-\contentsline {section}{\numberline {6}Comparison with existing definitions}{22}
-\contentsline {subsection}{\numberline {6.1}Helious. Ballot privacy.}{22}
-\contentsline {subsection}{\numberline {6.2}Demos privacy}{23}
-\contentsline {section}{\numberline {7}Strict privacy notion}{32}
-\contentsline {subsection}{\numberline {7.1}$\ea $ and $T$ are honest: $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{33}
-\contentsline {subsection}{\numberline {7.2}$\vsd $ and $T$ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{37}
-\contentsline {section}{\numberline {8}Strict privacy vs E2E Verifiability}{41}
-\contentsline {subsection}{\numberline {8.1}Proof: part 1}{41}
-\contentsline {subsection}{\numberline {8.2}Proof: part 2}{46}
-\contentsline {section}{\numberline {9}Blind signature e-voting scheme}{50}
-\contentsline {subsection}{\numberline {9.1}Presentation of the blind signature e-voting scheme}{50}
-\contentsline {subsection}{\numberline {9.2}Setup and parameters}{51}
-\contentsline {subsection}{\numberline {9.3}Syntax}{51}
-\contentsline {subsection}{\numberline {9.4}Building blocks}{52}
-\contentsline {subsubsection}{\numberline {9.4.1}Blind signature}{52}
-\contentsline {subsubsection}{\numberline {9.4.2}Homomorphic Integer Commitment and Homomorphic Cryptosystem}{54}
-\contentsline {subsubsection}{\numberline {9.4.3}Proving signature knowledge}{54}
-\contentsline {subsubsection}{\numberline {9.4.4}Proving that a ciphertext encrypts 0 or 1}{55}
-\contentsline {subsection}{\numberline {9.5}System Design}{57}
-\contentsline {subsection}{\numberline {9.6}E2E Verifiability}{59}
+\contentsline {subsection}{\numberline {3.4}E2E Verifiability}{10}
+\contentsline {section}{\numberline {4}Privacy with respect to entities}{11}
+\contentsline {subsection}{\numberline {4.1}Privacy with respect to VSD}{12}
+\contentsline {subsection}{\numberline {4.2}Privacy with respect to EA}{13}
+\contentsline {subsection}{\numberline {4.3}Privacy with respect to trusted VC}{14}
+\contentsline {subsection}{\numberline {4.4}Privacy with respect to trusted T}{14}
+\contentsline {section}{\numberline {5}Privacy}{15}
+\contentsline {subsection}{\numberline {5.1}$\ea $ and $T$ are honest: $G_{t-priv,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{16}
+\contentsline {subsection}{\numberline {5.2}$\vsd $ and $T$ are honest: $G_{t-priv,\vsd ,T}^{\mathcal {A},Sim}(1^{\lambda })$}{21}
+\contentsline {section}{\numberline {6}Comparison with existing definitions}{25}
+\contentsline {subsection}{\numberline {6.1}Helious. Ballot privacy.}{25}
+\contentsline {subsection}{\numberline {6.2}Demos privacy}{26}
+\contentsline {section}{\numberline {7}Strict privacy notion}{35}
+\contentsline {subsection}{\numberline {7.1}$\ea $ and $T$ are honest: $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{36}
+\contentsline {subsection}{\numberline {7.2}$\vsd $ and $T$ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{40}
+\contentsline {section}{\numberline {8}Strict privacy vs E2E Verifiability}{44}
+\contentsline {subsection}{\numberline {8.1}Proof: part 1}{44}
+\contentsline {subsection}{\numberline {8.2}Proof: part 2}{49}
+\contentsline {section}{\numberline {9}Blind signature e-voting scheme}{53}
+\contentsline {subsection}{\numberline {9.1}Presentation of the blind signature e-voting scheme}{53}
+\contentsline {subsection}{\numberline {9.2}Setup and parameters}{54}
+\contentsline {subsection}{\numberline {9.3}Syntax}{54}
+\contentsline {subsection}{\numberline {9.4}Building blocks}{55}
+\contentsline {subsubsection}{\numberline {9.4.1}Blind signature}{55}
+\contentsline {subsubsection}{\numberline {9.4.2}Homomorphic Integer Commitment and Homomorphic Cryptosystem}{57}
+\contentsline {subsubsection}{\numberline {9.4.3}Proving signature knowledge}{57}
+\contentsline {subsubsection}{\numberline {9.4.4}Proving that a ciphertext encrypts 0 or 1}{58}
+\contentsline {subsection}{\numberline {9.5}System Design}{60}
+\contentsline {subsection}{\numberline {9.6}E2E Verifiability}{62}

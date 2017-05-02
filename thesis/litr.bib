@@ -1,129 +1,3 @@
-@article{Kremer,
-author = {Kremer, Steve and Ryan, Mark},
-file = {:Users/Toma/Downloads/rec-free.pdf:pdf},
-pages = {1--4},
-title = {{Receipt-freeness: formal definition and fault attacks (Extended Abstract)}}
-}
-@article{Delaune2006,
-abstract = {In this paper we formally study important properties of electronic voting protocols. In particular we are interested in coercion-resistance and receipt-freeness. Intuitively, an election protocol is coercion-resistant if a voter A cannot prove to a potential coercer C that she voted in a particular way. We assume that A cooperates with C in an interactive fashion. Receipt-freeness is a weaker property, for which we assume that A and C cannot interact during the protocol: to break receipt-freeness, A later provides evidence (the receipt) of how she voted. While receipt-freeness can be expressed using observational equivalence from the applied pi calculus, we need to introduce a new relation to capture coercion-resistance. Our formalization of coercion-resistance and receipt-freeness are quite different. Nevertheless, we show in accordance with intuition that coercion-resistance implies receipt-freeness, which implies privacy, the basic anonymity property of voting protocols, as defined in previous work. Finally we illustrate the definitions on a simplified version of the Lee et al. voting protocol},
-author = {Delaune, St{\'{e}}phanie and Kremer, Steve and Ryan, Mark},
-doi = {10.1109/CSFW.2006.8},
-file = {:Users/Toma/Downloads/coercion.pdf:pdf},
-isbn = {0769526152},
-issn = {10636900},
-journal = {Proceedings of the Computer Security Foundations Workshop},
-pages = {28--39},
-title = {{Coercion-resistance and receipt-freeness in electronic voting}},
-volume = {2006},
-year = {2006}
-}
-@inproceedings{Kiayias2006,
-abstract = {This work introduces the ADDER system1 , an Internet-based, free and open source electronic voting system which employs strong cryptography. Our system is a fully functional e-voting platform and enjoys a number of security properties, such as robustness, trust distribution, ballot privacy, auditability and verifiability. It can readily implement and carry out various voting procedures in parallel and can be used for small scale boardroom/department-wide voting as well as largescale elections. In addition, ADDER employs a flexible voting scheme which allows the system to carry out procedures such as surveys or other data collection activities. ADDER offers a unique opportunity to study cryptographic voting protocols from a systems perspective and to explore the security and usability of electronic voting systems.},
-author = {Kiayias, Aggelos and Korman, Michael and Walluck, David},
-booktitle = {Proceedings - Annual Computer Security Applications Conference, ACSAC},
-doi = {10.1109/ACSAC.2006.12},
-isbn = {0769527167},
-issn = {10639527},
-pages = {165--174},
-title = {{An internet voting system supporting user privacy}},
-year = {2006}
-}
-@inproceedings{Cohen1985,
-abstract = {One of the very first papers to introduce a form of `verifiability' to voting. Very mathematical, rather than being a practical system. Did not really catch the eye at the time of publication, so often ignored during the voter-verifiability boom.},
-author = {Cohen, Josh D. and Fischer, Michael J.},
-booktitle = {26th Annual Symposium on Foundations of Computer Science (sfcs 1985)},
-doi = {10.1109/SFCS.1985.2},
-isbn = {0-8186-0644-4},
-issn = {0272-5428},
-pages = {372--382},
-title = {{A robust and verifiable cryptographically secure election scheme}},
-url = {http://dl.acm.org/citation.cfm?id=1382438.1382870},
-year = {1985}
-}
-@techreport{Benaloh2011,
-abstract = {This short paper describes the trash attack which is effective against the majority of fully-verifiable election systems. The paper then offers a simple but counter-intuitive mitigation which can be incorporated within many such schemes to substantially reduce the effectiveness of the attack. This mitigation also offers additional benefits as it significantly improves the statistical properties of existing verifiable systems.},
-author = {Benaloh, Josh and Lazarus, Eric},
-booktitle = {Microsoft Rsearch},
-title = {{An Attack on Verifiable Voting Systems and a Simple Mitigation}},
-url = {http://research.microsoft.com/apps/pubs/default.aspx?id=155590},
-year = {2011}
-}
-@article{Benaloh2014,
-abstract = {This pamphlet describes end-to-end election verifiability (E2E-V) for a nontechnical audience: election officials, public policymakers, and anyone else interested in secure, transparent, evidence-based electronic elections. This work is part of the Overseas Vote Foundation's End-to-End Verifiable Internet Voting: Specification and Feasibility Assessment Study (E2E VIV Project), funded by the Democracy Fund.},
-archivePrefix = {arXiv},
-arxivId = {1504.03778},
-author = {Benaloh, Josh Daniel Cohen and Rivest, Ronald and Ryan, Peter Y. A. and Stark, Philip and Teague, Vanessa and Vora, Poorvi},
-eprint = {1504.03778},
-journal = {arXiv e-prints},
-title = {{End-to-end verifiability}},
-url = {http://arxiv.org/abs/1504.03778},
-year = {2014}
-}
-@article{Adida2008,
-abstract = {Helios: a simpler online verifiable voting system, with integrity focused upon. Coercion is effectively made trivial, highlighting the author's belief of the inherant coercison problem of remote voting. Uses the standard audit-or-submit paradigm for ballot integrity, and mathematical proofs for other stages.},
-author = {Adida, Ben},
-doi = {10.1.1.145.7931},
-isbn = {978-1-931971-60-7},
-journal = {USENIX Security Symposium},
-pages = {335--348},
-title = {{Helios: Web-based Open-Audit Voting.}},
-url = {https://www.usenix.org/legacy/event/sec08/tech/full{\_}papers/adida/adida.pdf},
-year = {2008}
-}
-@article{Parsovs2016,
-author = {Parsovs, Arnis},
-file = {:Users/Toma/Downloads/homomorphic tally.pdf:pdf},
-pages = {1--11},
-title = {{Homomorphic Tallying for the Estonian Internet Voting System}},
-year = {2016}
-}
-@article{Rivest1988,
-abstract = {We present a digital signature scheme based on the computational difficulty of integer factorization.The scheme possesses the novel property of being robust against an adaptive chosen-message attack: an adversary who receives signatures for messages of his choice (where each message may be chosen in a way that depends on the signatures of previously chosen messages) cannot later forge the signature of even a single additional message. This may be somewhat surprising, since in the folklore the properties of having forgery being equivalent to factoring and being invulnerable to an adaptive chosen-message attack were considered to be contradictory.More generally, we show how to construct a signature scheme with such properties based on the existence of a “claw-free” pair of permutations—a potentially weaker assumption than the intractibility of integer factorization.The new scheme is potentially practical: signing and verifying signatures are reasonably fast, and signatures are compact.},
-archivePrefix = {arXiv},
-arxivId = {arXiv:1011.1669v3},
-author = {Rivest, Ronald L. and Goldwasser, Shafi and Micali, Silvio and Rivest, Ronald L.},
-doi = {10.1137/0217017},
-eprint = {arXiv:1011.1669v3},
-file = {:Users/Toma/Downloads/A{\_}Digital{\_}Signature{\_}Scheme{\_}Secure{\_}Against{\_}Adaptive{\_}Chosen-Message{\_}Attack.pdf:pdf},
-isbn = {0097-5397},
-issn = {0097-5397},
-journal = {SIAM Journal on Computing},
-keywords = {1,94a05,ams,and,authentication,chosen-message attacks,cryptography,digital signature,digital signatures,factoring,first appeared in diffie,introduction,mos,permutations,randomization,subject classification,the idea of a,trap-door},
-number = {2},
-pages = {281--308},
-pmid = {25246403},
-title = {{A Digital Signature Scheme Secure Against Adaptive Chosen-Message Attacks *}},
-volume = {17},
-year = {1988}
-}
-@article{Abstract1997,
-abstract = {Blind digital signatures were introduced by Chaum. In this paper, we show how security and blindness properties for blind digital signatures, can be simultaneously defined and satisfied, assuming an arbitrary one-way trapdoor permutation family. Thus, this paper presents the first complexity-based proof of security for blind signatures.},
-author = {Abstract, Revised Extended and Juels, Ari and Luby, Michael and Ostrovsky, Rafail},
-doi = {10.1007/BFb0052233},
-file = {:Users/Toma/Downloads/30.pdf:pdf},
-isbn = {3540633847},
-issn = {16113349},
-journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
-number = {1},
-pages = {150--164},
-title = {{Security of Blind Digital Signatures}},
-volume = {1294},
-year = {1997}
-}
-@article{Elgamal1985,
-abstract = {A new signature scheme is proposed, together with an implementation of the Diffie-Hellman key distribution scheme that achieves a public key cryptosystem. The security of both systems relies on the difficulty of computing discrete logarithms over finite fields.},
-author = {Elgamal, Taher},
-doi = {10.1109/TIT.1985.1057074},
-file = {:Users/Toma/Downloads/elgamal.pdf:pdf},
-isbn = {0387156585},
-issn = {15579654},
-journal = {IEEE Transactions on Information Theory},
-number = {4},
-pages = {469--472},
-title = {{A Public Key Cryptosystem and a Signature Scheme Based on Discrete Logarithms}},
-volume = {31},
-year = {1985}
-}
 @article{Damg,
 abstract = {We present a statistically-hiding commitment scheme allowing commitment$\backslash$nto arbitrary size integers, based on any (Abelian) group with certain$\backslash$nproperties, most importantly, that it is hard for the committer to$\backslash$ncompute its order. We also give efficient zero-knowledge protocols$\backslash$nfor proving knowledge of the contents of commitments and for verifying$\backslash$nmultiplicative relations over the integers on committed values. The$\backslash$nscheme can be seen as a generalization, with a slight modification,$\backslash$nof the earlier scheme of Fujisaki and Okamoto [14]. The reasons we$\backslash$nrevisit the earlier scheme and give some modification to it are as$\backslash$nfollows: The earlier scheme [14] has some gaps in the proof of soundness$\backslash$nof the associated protocols, one of which presents a non-trivial$\backslash$nproblem which, to the best of our knowledge, has remained open until$\backslash$nnow. We fill all the gaps here using additional ideas including minor$\backslash$nmodification of the form of a commitment. Although related works$\backslash$nsuch as [8, 3, 10, 4] do not suffer from the main problem we solve$\backslash$nhere, the reason for this is that they use "commitments" with a single$\backslash$nbase (i.e., of form c=g{\^{}}s $\backslash$bmod n). Such commitments, however,$\backslash$ncannot satisfy the standard hiding property for commitments, and$\backslash$nhence protocols using them cannot in general be (honest-verifier)$\backslash$nzero-knowledge nor witness indistinguishable. In a computationally$\backslash$nconvincing proof of knowledge where the prover produces the common$\backslash$ninput (which is the type of protocol we look at here), one cannot$\backslash$ncompletely exclude the possibility that a prover manages to produce$\backslash$na common input on which he can cheat easily. This means that the$\backslash$nstandard definition of proofs of knowledge cannot be satisfied. Therefore$\backslash$nwe introduce a new definition for computationally convincing proofs$\backslash$nof knowledge, designed to handle the case where the common input$\backslash$nis chosen by the (possibly cheating) prov er. Our results apply to$\backslash$nany group with suitable properties. In particular, they apply to$\backslash$na much larger class of RSA moduli than the safe prime products proposed$\backslash$nin [14] - Potential examples include RSA moduli, class groups and,$\backslash$nwith a slight modification, even non-Abelian groups.$\backslash$n$\backslash$nOur scheme can replace the earlier one in various other constructions,$\backslash$nsuch as the efficient interval proofs of Boudot [4] and the efficient$\backslash$nproofs for the product of two safe primes proposed by Camenisch and$\backslash$nMichels [9].},
 author = {Damgard, Ivan and Fujisaki, Eiichiro and Damg, Ivan},
@@ -152,28 +26,75 @@ url = {http://www.springerlink.com/content/h9u4v4qxqjg4r5pa},
 volume = {3378},
 year = {2005}
 }
-@article{Pointcheval1996,
-abstract = {In this paper, we give a provably secure design for blind signatures, the most important ingredient for anonymity in off-line electronic cash systems. Previous examples of blind signature schemes were constructed from traditional signature schemes with only the additional proof of blindness. The design of some of the underlying signature schemes can be validated by a proof in the so-called random oracle model, but the security of the original signature scheme does not, by itself, imply the security of the blind version. In this paper, we first propose a definition of security for blind signatures, with application to electronic cash. Next, we focus on a specific example which can be successfully transformed in a provably secure blind signature scheme.},
-author = {Pointcheval, David and Stern, Jacques},
-doi = {10.1007/BFb0034852},
-file = {:Users/Toma/Downloads/1996{\_}asiacrypt.pdf:pdf},
-isbn = {978-3-540-61872-0, 978-3-540-70707-3},
-issn = {16113349},
-journal = {Advances in Cryptology—ASIACRYPT'96},
-pages = {252--265},
-title = {{Provably Secure Blind Signature Schemes}},
-url = {http://link.springer.com/chapter/10.1007/BFb0034852{\%}5Cnhttp://link.springer.com/content/pdf/10.1007/BFb0034852.pdf},
-volume = {96},
-year = {1996}
+@article{Bernhard2011,
+abstract = {Recent results show that the current implementation of Helios, a practical e-voting protocol, does not ensure independence of the cast votes, and demonstrate the impact of this lack of independence on vote privacy. Some simple fixes seem to be available and security of the revised scheme has been studied with respect to symbolic models. In this paper we study the security of Helios using computational models. Our first contribution is a model for the property known as ballot privacy that generalizes and extends several existing ones. Using this model, we investigate an abstract voting scheme (of which the revised Helios is an instantiation) built from an arbitrary encryption scheme with certain functional properties. We prove, generically, that whenever this encryption scheme falls in the class of voting-friendly schemes that we define, the resulting voting scheme provably satisfies ballot privacy. We explain how our general result yields cryptographic security guarantees for the revised version of Helios (albeit from non-standard assumptions). Furthermore, we show (by giving two distinct constructions) that it is possible to construct voting-friendly encryption, and therefore voting schemes, using only standard cryptographic tools. We detail an instantiation based on ElGamal encryption and Fiat-Shamir non-interactive zero-knowledge proofs that closely resembles Helios and which provably satisfies ballot privacy.},
+annote = {indistinguishability under chosen plaintext attack (abbreviated IND-CPA)
+
+indistinguishability under (non-adaptive) chosen ciphertext attack (IND-CCA1)
+
+indistinguishability under adaptive chosen ciphertext attack (IND-CCA2) 
+
+CCA security implies non-malleability
+
+Malleability - modify cypertext and cause predictable modification in plain text},
+author = {Bernhard, David and Cortier, Veronique and Pereira, Olivier and Smyth, Ben and Warinschi, Bogdan},
+doi = {10.1007/978-3-642-23822-2_19},
+file = {:Users/Toma/Downloads/helius + appendix.pdf:pdf},
+isbn = {9783642238215},
+issn = {03029743},
+journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+pages = {335--354},
+title = {{Adapting helios for provable ballot privacy}},
+volume = {6879 LNCS},
+year = {2011}
 }
-@article{Eiichiro1997,
-author = {Eiichiro, Fujisaki and Okamoto, Tatsuaki},
-file = {:Users/Toma/Downloads/statistical{\_}zero{\_}knowledge{\_}protocols{\_}to{\_}prove{\_}modular{\_}polynomial{\_}relations.pdf:pdf},
-journal = {In proceedings of CRYPTO '97, LNCS series},
-pages = {16--30},
-title = {{Statistical zero knowledge protocols to prove modular polynomial relations}},
-volume = {1294},
-year = {1997}
+@article{Adida2008,
+abstract = {Helios: a simpler online verifiable voting system, with integrity focused upon. Coercion is effectively made trivial, highlighting the author's belief of the inherant coercison problem of remote voting. Uses the standard audit-or-submit paradigm for ballot integrity, and mathematical proofs for other stages.},
+author = {Adida, Ben},
+doi = {10.1.1.145.7931},
+isbn = {978-1-931971-60-7},
+journal = {USENIX Security Symposium},
+pages = {335--348},
+title = {{Helios: Web-based Open-Audit Voting.}},
+url = {https://www.usenix.org/legacy/event/sec08/tech/full{\_}papers/adida/adida.pdf},
+year = {2008}
+}
+@article{Benaloh2014,
+abstract = {This pamphlet describes end-to-end election verifiability (E2E-V) for a nontechnical audience: election officials, public policymakers, and anyone else interested in secure, transparent, evidence-based electronic elections. This work is part of the Overseas Vote Foundation's End-to-End Verifiable Internet Voting: Specification and Feasibility Assessment Study (E2E VIV Project), funded by the Democracy Fund.},
+archivePrefix = {arXiv},
+arxivId = {1504.03778},
+author = {Benaloh, Josh Daniel Cohen and Rivest, Ronald and Ryan, Peter Y. A. and Stark, Philip and Teague, Vanessa and Vora, Poorvi},
+eprint = {1504.03778},
+journal = {arXiv e-prints},
+title = {{End-to-end verifiability}},
+url = {http://arxiv.org/abs/1504.03778},
+year = {2014}
+}
+@inproceedings{Ryan2006,
+abstract = {We present a number of enhancements to the voter verifiable election scheme Pr{\^{e}}t {\`{a}}Voter [CRS05]. Firstly, we propose a mechanism for the distributed construction by a set of independent clerks of the ballot forms. This construction leads to proto-ballot forms with the candidate list encrypted and ensures that only a collusion of all the clerks could determine the cryptographic seeds or the onion/candidate list association. This eliminates the need to trust a single authority to keep this information secret. Furthermore, it allows the on-demand decryption and printing of the ballot forms, so eliminating chain of custody issues and the chain voting style attacks against encrypted receipt schemes identified in [RP05]. The ballot forms proposed here use ElGamal randomised encryption so enabling the use of re-encryption mixes for the anonymising tabulation phase in place of the decryption mixes. This has a number of advantages over the RSA decryption mixes used previously: tolerance against failure of any of the mix tellers, full mixing of terms over the Z*{\textless}inf{\textgreater}p{\textless}/inf{\textgreater} space and enabling the mixes and audits to be fully independently rerun if necessary. {\textcopyright} Springer-Verlag Berlin Heidelberg 2006.},
+author = {Ryan, P. Y A and Schneider, S. A.},
+booktitle = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+doi = {10.1007/11863908_20},
+isbn = {354044601X},
+issn = {16113349},
+pages = {313--326},
+title = {{Pr{\^{e}}t {\`{a}} voter with re-encryption mixes}},
+url = {http://www.scopus.com/inward/record.url?eid=2-s2.0-33750230633{\&}partnerID=tZOtx3y1},
+volume = {4189 LNCS},
+year = {2006}
+}
+@article{Delaune2006,
+abstract = {In this paper we formally study important properties of electronic voting protocols. In particular we are interested in coercion-resistance and receipt-freeness. Intuitively, an election protocol is coercion-resistant if a voter A cannot prove to a potential coercer C that she voted in a particular way. We assume that A cooperates with C in an interactive fashion. Receipt-freeness is a weaker property, for which we assume that A and C cannot interact during the protocol: to break receipt-freeness, A later provides evidence (the receipt) of how she voted. While receipt-freeness can be expressed using observational equivalence from the applied pi calculus, we need to introduce a new relation to capture coercion-resistance. Our formalization of coercion-resistance and receipt-freeness are quite different. Nevertheless, we show in accordance with intuition that coercion-resistance implies receipt-freeness, which implies privacy, the basic anonymity property of voting protocols, as defined in previous work. Finally we illustrate the definitions on a simplified version of the Lee et al. voting protocol},
+author = {Delaune, St{\'{e}}phanie and Kremer, Steve and Ryan, Mark},
+doi = {10.1109/CSFW.2006.8},
+file = {:Users/Toma/Downloads/coercion.pdf:pdf},
+isbn = {0769526152},
+issn = {10636900},
+journal = {Proceedings of the Computer Security Foundations Workshop},
+pages = {28--39},
+title = {{Coercion-resistance and receipt-freeness in electronic voting}},
+volume = {2006},
+year = {2006}
 }
 @misc{Chaum1982,
 abstract = {Introduce e-cash},
@@ -188,6 +109,71 @@ title = {{Blind Signatures for Untraceable Payments}},
 volume = {82},
 year = {1982}
 }
+@techreport{Benaloh2011,
+abstract = {This short paper describes the trash attack which is effective against the majority of fully-verifiable election systems. The paper then offers a simple but counter-intuitive mitigation which can be incorporated within many such schemes to substantially reduce the effectiveness of the attack. This mitigation also offers additional benefits as it significantly improves the statistical properties of existing verifiable systems.},
+author = {Benaloh, Josh and Lazarus, Eric},
+booktitle = {Microsoft Rsearch},
+title = {{An Attack on Verifiable Voting Systems and a Simple Mitigation}},
+url = {http://research.microsoft.com/apps/pubs/default.aspx?id=155590},
+year = {2011}
+}
+@article{Elgamal1985,
+abstract = {A new signature scheme is proposed, together with an implementation of the Diffie-Hellman key distribution scheme that achieves a public key cryptosystem. The security of both systems relies on the difficulty of computing discrete logarithms over finite fields.},
+author = {Elgamal, Taher},
+doi = {10.1109/TIT.1985.1057074},
+file = {:Users/Toma/Downloads/elgamal.pdf:pdf},
+isbn = {0387156585},
+issn = {15579654},
+journal = {IEEE Transactions on Information Theory},
+number = {4},
+pages = {469--472},
+title = {{A Public Key Cryptosystem and a Signature Scheme Based on Discrete Logarithms}},
+volume = {31},
+year = {1985}
+}
+@inproceedings{Clarkson2008,
+abstract = {Civitas is the first electronic voting system that is coercion-resistant, universally and voter verifiable, and suitable for remote voting. This paper describes the design and implementation of Civitas. Assurance is established in the design through security proofs, and in the implementation through information-flow security analysis. Experimental results give a quantitative evaluation of the tradeoffs between time, cost, and security.},
+author = {Clarkson, Michael R. and Chong, Stephen and Myers, Andrew C.},
+booktitle = {Proceedings - IEEE Symposium on Security and Privacy},
+doi = {10.1109/SP.2008.32},
+isbn = {9780769531687},
+issn = {10816011},
+pages = {354--368},
+title = {{Civitas: Toward a secure voting system}},
+year = {2008}
+}
+@inproceedings{Kiayias2006,
+abstract = {This work introduces the ADDER system1 , an Internet-based, free and open source electronic voting system which employs strong cryptography. Our system is a fully functional e-voting platform and enjoys a number of security properties, such as robustness, trust distribution, ballot privacy, auditability and verifiability. It can readily implement and carry out various voting procedures in parallel and can be used for small scale boardroom/department-wide voting as well as largescale elections. In addition, ADDER employs a flexible voting scheme which allows the system to carry out procedures such as surveys or other data collection activities. ADDER offers a unique opportunity to study cryptographic voting protocols from a systems perspective and to explore the security and usability of electronic voting systems.},
+author = {Kiayias, Aggelos and Korman, Michael and Walluck, David},
+booktitle = {Proceedings - Annual Computer Security Applications Conference, ACSAC},
+doi = {10.1109/ACSAC.2006.12},
+isbn = {0769527167},
+issn = {10639527},
+pages = {165--174},
+title = {{An internet voting system supporting user privacy}},
+year = {2006}
+}
+@article{Abstract1997,
+abstract = {Blind digital signatures were introduced by Chaum. In this paper, we show how security and blindness properties for blind digital signatures, can be simultaneously defined and satisfied, assuming an arbitrary one-way trapdoor permutation family. Thus, this paper presents the first complexity-based proof of security for blind signatures.},
+author = {Abstract, Revised Extended and Juels, Ari and Luby, Michael and Ostrovsky, Rafail},
+doi = {10.1007/BFb0052233},
+file = {:Users/Toma/Downloads/30.pdf:pdf},
+isbn = {3540633847},
+issn = {16113349},
+journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+number = {1},
+pages = {150--164},
+title = {{Security of Blind Digital Signatures}},
+volume = {1294},
+year = {1997}
+}
+@article{Parsovs2016,
+author = {Parsovs, Arnis},
+file = {:Users/Toma/Downloads/homomorphic tally.pdf:pdf},
+pages = {1--11},
+title = {{Homomorphic Tallying for the Estonian Internet Voting System}},
+year = {2016}
+}
 @article{Kiayias2015a,
 abstract = {We present the cryptographic implementation of “DEMOS”, a new e-voting system that is end-to-end verifiable in the standard model, i.e., without any additional “setup” assumption or access to a random oracle (RO). Previously known end-to-end verifiable e-voting systems required such additional assumptions (specifically, either the existence of a “randomness beacon” or were only shown secure in the RO model). In order to analyze our scheme, we also provide a modeling of end-toend verifiability as well as privacy and receipt-freeness that encompasses previous definitions in the form of two concise attack games. Our scheme satisfies end-to-end verifiability information theoretically in the standard model and privacy/receipt-freeness under a computational assumption (subexponential Decisional Diffie Helman). In our construction, we utilize a number of techniques used for the first time in the context of e-voting schemes that include utilizing randomness from bitfixing sources, zero-knowledge proofs with imperfect verifier randomness and complexity leveraging. {\textcopyright} International Association for Cryptologic Research 2015.},
 author = {Kiayias, Aggelos and Zacharias, Thomas and Zhang, Bingsheng},
@@ -201,20 +187,20 @@ title = {{End-to-end verifiable elections in the standard model}},
 volume = {9057},
 year = {2015}
 }
-@article{Groth2010,
-abstract = {A shuffle consists of a permutation and re-encryption of a set of input ciphertexts. One application of shuffles is to build mix-nets. We suggest an honest verifier zero-knowledge argument for the correctness of a shuffle of homomorphic encryptions.Our scheme is more efficient than previous schemes both in terms of communication and computation. The honest verifier zero-knowledge argument has a size that is independent of the actual cryptosystem being used and will typically be smaller than the size of the shuffle itself. Moreover, our scheme is well suited for the use of multi-exponentiation and batch-verification techniques.Additionally, we suggest a more efficient honest verifier zero-knowledge argument for a commitment containing a permutation of a set of publicly known messages. We also suggest an honest verifier zero-knowledge argument for the correctness of a combined shuffle-and-decrypt operation that can be used in connection with decrypting mix-nets based on ElGamal encryption.All our honest verifier zero-knowledge arguments can be turned into honest verifier zero-knowledge proofs. We use homomorphic commitments as an essential part of our schemes. When the commitment scheme is statistically hiding we obtain statistical honest verifier zero-knowledge arguments; when the commitment scheme is statistically binding, we obtain computational honest verifier zero-knowledge proofs.},
-author = {Groth, Jens},
-doi = {10.1007/s00145-010-9067-9},
-file = {:Users/Toma/Downloads/JournalShuffle.pdf:pdf},
-isbn = {0014501090},
-issn = {09332790},
-journal = {Journal of Cryptology},
-keywords = {Homomorphic encryption,Honest verifier zero-knowledge argument,Mix-net,Shuffle},
-number = {4},
-pages = {546--579},
-title = {{A verifiable secret shuffle of homomorphic encryptions}},
-volume = {23},
-year = {2010}
+@article{Eiichiro1997,
+author = {Eiichiro, Fujisaki and Okamoto, Tatsuaki},
+file = {:Users/Toma/Downloads/statistical{\_}zero{\_}knowledge{\_}protocols{\_}to{\_}prove{\_}modular{\_}polynomial{\_}relations.pdf:pdf},
+journal = {In proceedings of CRYPTO '97, LNCS series},
+pages = {16--30},
+title = {{Statistical zero knowledge protocols to prove modular polynomial relations}},
+volume = {1294},
+year = {1997}
+}
+@article{Kremer,
+author = {Kremer, Steve and Ryan, Mark},
+file = {:Users/Toma/Downloads/rec-free.pdf:pdf},
+pages = {1--4},
+title = {{Receipt-freeness: formal definition and fault attacks (Extended Abstract)}}
 }
 @article{Groth2005,
 abstract = {In voting based on homomorphic threshold encryption, the voter en- crypts his vote and sends it in to the authorities that tally the votes. If voters can send in arbitrary plaintexts then they can cheat. It is therefore important that they attach an argument of knowledge of the plaintext being a correctly formed vote. Typically, these arguments are honest verifier zero-knowledge arguments that are made non-interactive using the Fiat-Shamir heuristic. Security is argued in the random oracle model. The simplest case iswhere each voter has a single vote to cast. Practical solutions have already been suggested for the single vote case. However, as we shall see homomorphic threshold encryption can be used for a variety of elections, in par- ticular there are many cases where voters can castmultiple votes at once. In these cases, it remains important to bring down the cost of the NIZK argument. We improve on state of the art in the case of limited votes, where each voter can vote a small number of times. We also improve on the state of the art in shareholder elections, where each voter may have a large number of votes to spend. Moreover, we improve on the state of the art in Borda voting. Finally, we suggest a NIZK argument for correctness of an approval vote. To the best of our knowledge, approval voting has not been considered before in the cryptographic literature.},
@@ -257,25 +243,166 @@ title = {{SoK: A comprehensive analysis of game-based ballot privacy definitions
 volume = {2015-July},
 year = {2015}
 }
-@article{Bernhard2011,
-abstract = {Recent results show that the current implementation of Helios, a practical e-voting protocol, does not ensure independence of the cast votes, and demonstrate the impact of this lack of independence on vote privacy. Some simple fixes seem to be available and security of the revised scheme has been studied with respect to symbolic models. In this paper we study the security of Helios using computational models. Our first contribution is a model for the property known as ballot privacy that generalizes and extends several existing ones. Using this model, we investigate an abstract voting scheme (of which the revised Helios is an instantiation) built from an arbitrary encryption scheme with certain functional properties. We prove, generically, that whenever this encryption scheme falls in the class of voting-friendly schemes that we define, the resulting voting scheme provably satisfies ballot privacy. We explain how our general result yields cryptographic security guarantees for the revised version of Helios (albeit from non-standard assumptions). Furthermore, we show (by giving two distinct constructions) that it is possible to construct voting-friendly encryption, and therefore voting schemes, using only standard cryptographic tools. We detail an instantiation based on ElGamal encryption and Fiat-Shamir non-interactive zero-knowledge proofs that closely resembles Helios and which provably satisfies ballot privacy.},
-annote = {indistinguishability under chosen plaintext attack (abbreviated IND-CPA)
-
-indistinguishability under (non-adaptive) chosen ciphertext attack (IND-CCA1)
-
-indistinguishability under adaptive chosen ciphertext attack (IND-CCA2) 
-
-CCA security implies non-malleability
-
-Malleability - modify cypertext and cause predictable modification in plain text},
-author = {Bernhard, David and Cortier, Veronique and Pereira, Olivier and Smyth, Ben and Warinschi, Bogdan},
-doi = {10.1007/978-3-642-23822-2_19},
-file = {:Users/Toma/Downloads/helius + appendix.pdf:pdf},
-isbn = {9783642238215},
-issn = {03029743},
-journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
-pages = {335--354},
-title = {{Adapting helios for provable ballot privacy}},
-volume = {6879 LNCS},
-year = {2011}
+@article{Chaum2009,
+abstract = {We introduce Scantegrity II, a practical enhancement for optical scan voting systems that achieves increased elec-tion integrity through the novel use of confirmation codes printed on ballots in invisible ink. Voters mark ballots just as in conventional optical scan but using a special pen that develops the invisible ink. Verifiability of elec-tion integrity is end-to-end, allowing voters to check that their votes are correctly included (without revealing their votes) and allowing anyone to check that the tally is com-puted correctly from the included votes. Unlike in the original Scantegrity, dispute resolution neither relies on paper chits nor requires election officials to recover par-ticular ballot forms. Scantegrity II works with either precinct-based or central scan systems. The basic system has been implemented in open-source Java with off-the-shelf printing equipment and has been tested in a small election. An enhancement to Scantegrity II keeps ballot iden-tification and other unique information that is revealed to the voter in the booth from being learned by persons other than the voter. This modification achieves privacy that is essentially equivalent to that of ordinary paper bal-lot systems, allowing manual counting and recounting of ballots.},
+author = {Chaum, David and Carback, Richard T. and Clark, Jeremy and Essex, Aleksander and Popoveniuc, Stefan and Rivest, Ronald L. and Ryan, Peter Y A and Shen, Emily and Sherman, Alan T. and Vora, Poorvi L.},
+doi = {10.1109/TIFS.2009.2034919},
+isbn = {888-8-88888-888-8},
+issn = {15566013},
+journal = {IEEE Transactions on Information Forensics and Security},
+keywords = {Cryptography,Electronic voting,End-to-end verifiability,Privacy},
+number = {4},
+pages = {611--627},
+title = {{Scantegrity ii: End-to-end verifiability by voters of optical scan elections through confirmation codes}},
+volume = {4},
+year = {2009}
+}
+@incollection{Rivest2006,
+abstract = {We present a new paper-based voting method with in-teresting security properties. The attempt here is to see if one can achieve the same security properties of recently proposed cryptographic voting protocols, but without using any cryptography, using only paper bal-lots. We partially succeed. (Initially, I thought the pro-posal accomplished this goal, but several readers discov-ered a vote-buying attack (see Section 4.4) that appears to be rather difficult to fix without making the result-ing system much less usable in practice. Currently, this paper should thus be viewed more as an academic pro-posal than a practical proposal. Perhaps some variation on these ideas in this paper might still turn out to be of practical use. The " OneBallot with Exchanged Re-ceipts " system sketched at the end of Section 5.3.1, looks particularly promising at the moment. . .) The principles of ThreeBallot are simple and easy to understand. In this proposal, not only can each voter verify that her vote is recorded as she intended, but she gets a " re-ceipt " that she can take home that can be used later to verify that her vote is actually included in the final tally. Her receipt, however, does not allow her to prove to anyone else how she voted. In this " ThreeBallot " voting system, each voter casts three paper ballots, with certain restrictions on how they may be filled out, so the tallying works. These paper ballots are of course " voter-verifiable. " All ballots cast are scanned and published on a web site, so anyone may correctly compute the election result. A voter receives a copy of one of her ballots as her " receipt " , which she may take home. Only the voter knows which ballot she copied for her receipt. The voter is unable to use her receipt to prove how she voted or to sell her vote, as the receipt doesn't reveal how she voted.},
+author = {Rivest, Ronald L},
+booktitle = {in WPES 2006 — ACM Workshop on Privacy in the Electronic Society},
+pages = {29--40},
+title = {{The ThreeBallot Voting System}},
+url = {https://people.csail.mit.edu/rivest/Rivest-TheThreeBallotVotingSystem.pdf},
+year = {2006}
+}
+@article{Rivest1988,
+abstract = {We present a digital signature scheme based on the computational difficulty of integer factorization.The scheme possesses the novel property of being robust against an adaptive chosen-message attack: an adversary who receives signatures for messages of his choice (where each message may be chosen in a way that depends on the signatures of previously chosen messages) cannot later forge the signature of even a single additional message. This may be somewhat surprising, since in the folklore the properties of having forgery being equivalent to factoring and being invulnerable to an adaptive chosen-message attack were considered to be contradictory.More generally, we show how to construct a signature scheme with such properties based on the existence of a “claw-free” pair of permutations—a potentially weaker assumption than the intractibility of integer factorization.The new scheme is potentially practical: signing and verifying signatures are reasonably fast, and signatures are compact.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:1011.1669v3},
+author = {Rivest, Ronald L. and Goldwasser, Shafi and Micali, Silvio and Rivest, Ronald L.},
+doi = {10.1137/0217017},
+eprint = {arXiv:1011.1669v3},
+file = {:Users/Toma/Downloads/A{\_}Digital{\_}Signature{\_}Scheme{\_}Secure{\_}Against{\_}Adaptive{\_}Chosen-Message{\_}Attack.pdf:pdf},
+isbn = {0097-5397},
+issn = {0097-5397},
+journal = {SIAM Journal on Computing},
+keywords = {1,94a05,ams,and,authentication,chosen-message attacks,cryptography,digital signature,digital signatures,factoring,first appeared in diffie,introduction,mos,permutations,randomization,subject classification,the idea of a,trap-door},
+number = {2},
+pages = {281--308},
+pmid = {25246403},
+title = {{A Digital Signature Scheme Secure Against Adaptive Chosen-Message Attacks *}},
+volume = {17},
+year = {1988}
+}
+@article{Groth2010,
+abstract = {A shuffle consists of a permutation and re-encryption of a set of input ciphertexts. One application of shuffles is to build mix-nets. We suggest an honest verifier zero-knowledge argument for the correctness of a shuffle of homomorphic encryptions.Our scheme is more efficient than previous schemes both in terms of communication and computation. The honest verifier zero-knowledge argument has a size that is independent of the actual cryptosystem being used and will typically be smaller than the size of the shuffle itself. Moreover, our scheme is well suited for the use of multi-exponentiation and batch-verification techniques.Additionally, we suggest a more efficient honest verifier zero-knowledge argument for a commitment containing a permutation of a set of publicly known messages. We also suggest an honest verifier zero-knowledge argument for the correctness of a combined shuffle-and-decrypt operation that can be used in connection with decrypting mix-nets based on ElGamal encryption.All our honest verifier zero-knowledge arguments can be turned into honest verifier zero-knowledge proofs. We use homomorphic commitments as an essential part of our schemes. When the commitment scheme is statistically hiding we obtain statistical honest verifier zero-knowledge arguments; when the commitment scheme is statistically binding, we obtain computational honest verifier zero-knowledge proofs.},
+author = {Groth, Jens},
+doi = {10.1007/s00145-010-9067-9},
+file = {:Users/Toma/Downloads/JournalShuffle.pdf:pdf},
+isbn = {0014501090},
+issn = {09332790},
+journal = {Journal of Cryptology},
+keywords = {Homomorphic encryption,Honest verifier zero-knowledge argument,Mix-net,Shuffle},
+number = {4},
+pages = {546--579},
+title = {{A verifiable secret shuffle of homomorphic encryptions}},
+volume = {23},
+year = {2010}
+}
+@inproceedings{Cohen1985,
+abstract = {One of the very first papers to introduce a form of `verifiability' to voting. Very mathematical, rather than being a practical system. Did not really catch the eye at the time of publication, so often ignored during the voter-verifiability boom.},
+author = {Cohen, Josh D. and Fischer, Michael J.},
+booktitle = {26th Annual Symposium on Foundations of Computer Science (sfcs 1985)},
+doi = {10.1109/SFCS.1985.2},
+isbn = {0-8186-0644-4},
+issn = {0272-5428},
+pages = {372--382},
+title = {{A robust and verifiable cryptographically secure election scheme}},
+url = {http://dl.acm.org/citation.cfm?id=1382438.1382870},
+year = {1985}
+}
+@article{Pointcheval1996,
+abstract = {In this paper, we give a provably secure design for blind signatures, the most important ingredient for anonymity in off-line electronic cash systems. Previous examples of blind signature schemes were constructed from traditional signature schemes with only the additional proof of blindness. The design of some of the underlying signature schemes can be validated by a proof in the so-called random oracle model, but the security of the original signature scheme does not, by itself, imply the security of the blind version. In this paper, we first propose a definition of security for blind signatures, with application to electronic cash. Next, we focus on a specific example which can be successfully transformed in a provably secure blind signature scheme.},
+author = {Pointcheval, David and Stern, Jacques},
+doi = {10.1007/BFb0034852},
+file = {:Users/Toma/Downloads/1996{\_}asiacrypt.pdf:pdf},
+isbn = {978-3-540-61872-0, 978-3-540-70707-3},
+issn = {16113349},
+journal = {Advances in Cryptology—ASIACRYPT'96},
+pages = {252--265},
+title = {{Provably Secure Blind Signature Schemes}},
+url = {http://link.springer.com/chapter/10.1007/BFb0034852{\%}5Cnhttp://link.springer.com/content/pdf/10.1007/BFb0034852.pdf},
+volume = {96},
+year = {1996}
+}
+@article{Brandt2005,
+abstract = {The aggregation of conflicting preferences is a key issue in multiagent systems. Due to its universality, voting has a central role among preference aggregationmechanisms. Vot- ing among a set of alternatives can be used for such diverse tasks as choosing a joint plan in a multiagent system, deter- mining a leader in a group of humans or agents, or voting among different resource or task allocations. Maintaining privacy of individuals' votes is crucial in order to guarantee freedom of choice (e.g., lack of vote coercing and reputation effects), and not facilitate strategic voting. We investigate whether unconditional full privacy can be achieved in voting, that is, privacy that relies neither on trusted third parties (or on a certain fraction of the voters being trusted), nor on computational intractability assumptions (such as the hard- ness of factoring). In particular, we study the existence of distributed protocols that allow voters to jointly determine the outcome of an election without revealing any informa- tion but the election outcome. We show the impossibility of reaching unconditional full privacy for a variety of the most common voting schemes ranging from simple veto voting to the single transferable vote scheme. On the positive side, we propose several distributed protocols that privately compute the outcome of common voting schemes while only revealing a limited amount of information.},
+author = {Brandt, F. and Sandholm, T.},
+doi = {10.1145/1082473.1082528},
+file = {:Users/Toma/Downloads/decentralized{\_}voting.aamas05.pdf:pdf},
+isbn = {1-59593-093-0},
+journal = {Proceedings of the fourth international joint conference on Autonomous agents and multiagent systems},
+keywords = {Multiparty Computation,Voting Protocols},
+pages = {364},
+title = {{Decentralized voting with unconditional privacy}},
+url = {http://portal.acm.org/citation.cfm?id=1082528},
+year = {2005}
+}
+@article{Galindo,
+author = {Galindo, David and Ralf, K and Johannes, M},
+doi = {10.1109/SP.2016.52},
+file = {:Users/Toma/Downloads/287.pdf:pdf},
+pages = {1--49},
+title = {{Verifiability Notions for E-Voting Protocols}},
+url = {http://eprint.iacr.org/2016/287.pdf}
+}
+@article{Chaum1981,
+abstract = {Number 2 Permission to copy without fee all or part of this material is granted provided that the copies are not made or distributed for direct commercial advantage, the ACM copyright notice and the title of the publication and its date appear, and notice is given that copying is},
+author = {Chaum, David L.},
+doi = {10.1145/358549.358563},
+isbn = {0001-0782},
+issn = {00010782},
+journal = {Communications of the ACM},
+keywords = {and phrases,cryptosystems,digital signatures,electronic mail,public key,secu-,traffic analysis},
+number = {2},
+pages = {84--90},
+title = {{Untraceable electronic mail, return addresses, and digital pseudonyms}},
+volume = {24},
+year = {1981}
+}
+@misc{Chaum2004,
+abstract = {A new kind of receipt sets a far higher standard of security by letting voters verify the election outcome - even if all election computers and records were compromised. The system preserves ballot secrecy, while improving access, robustness, and adjucation, all at lower cost.},
+author = {Chaum, David},
+booktitle = {IEEE Security and Privacy},
+doi = {10.1109/MSECP.2004.1264852},
+issn = {15407993},
+number = {1},
+pages = {38--47},
+title = {{Secret-Ballot Receipts: True Voter-Verifiable Elections}},
+volume = {2},
+year = {2004}
+}
+@article{Kusters2010,
+abstract = {Many cryptographic tasks and protocols, such as non-repudiation, contract-signing, voting, auction, identity-based encryption, and certain forms of secure multi-party computation, involve the use of (semi-)trusted parties, such as notaries and authorities. It is crucial that such parties can be held accountable in case they misbehave as this is a strong incentive for such parties to follow the proto- col. Unfortunately, there does not exist a general and convincing definition of accountability that would allow to assess the level of accountability a protocol provides. In this paper, we therefore propose a new, widely applicable def- inition of accountability, with interpretations both in symbolic and computational models. Our definition reveals that accountability is closely related to verifiability, for which we also propose a new definition. We prove that verifiability can be interpreted as a re- stricted form of accountability. Our findings on verifiability are of independent interest. As a proof of concept, we apply our definitions to the analy- sis of protocols for three different tasks: contract-signing, voting, and auctions. Our analysis unveils some subtleties and unexpected weaknesses, showing in one case that the protocol is unusable in practice. However, for this protocol we propose a fix to establish a reasonable level of accountability.},
+author = {K{\"{u}}sters, Ralf and Truderung, Tomasz and Vogt, Andreas},
+doi = {10.1145/1866307.1866366},
+file = {:Users/Toma/Downloads/35.pdf:pdf},
+isbn = {9781450302449},
+issn = {15437221},
+journal = {Proceedings of the 17th ACM conference on {\ldots}},
+pages = {526--535},
+title = {{Accountability: definition and relationship to verifiability}},
+url = {http://dl.acm.org/citation.cfm?id=1866366},
+year = {2010}
+}
+@article{Neff2004,
+author = {Neff, Ca},
+file = {:Users/Toma/Downloads/45.pdf:pdf},
+journal = {VoteHere document},
+title = {{Practical high certainty intent verification for encrypted votes}},
+url = {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.134.1006{\&}rep=rep1{\&}type=pdf},
+year = {2004}
+}
+@article{Sako1995,
+abstract = {We present a receipt-free voting scheme based on a mix- type anonymous channel [Cha81, PIK93]. The receipt-freeness property [BT94] enables voters to hide how they have voted even from a powerful adversary who is trying to coerce him. The work of [BT94] gave the first solution using a voting booth, which is a hardware assumption not unlike that in current physical elections. In our proposed scheme, we reduce the physical assumptions required to obtain receipt-freeness. Our sole physical assumption is the existence of a private channel through which the center can send the voter a message without fear of eavesdropping.},
+author = {Sako, Kazue and Kilian, Joe},
+doi = {10.1007/3-540-49264-X_32},
+file = {:Users/Toma/Downloads/42.pdf:pdf},
+isbn = {3-540-59409-4},
+journal = {Advances in Cryptology—EUROCRYPT'95},
+pages = {393--403},
+title = {{Receipt-free mix-type voting scheme}},
+url = {http://link.springer.com/chapter/10.1007/3-540-49264-X{\_}32},
+year = {1995}
 }

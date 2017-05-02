@@ -78,9 +78,9 @@
 \section{Abstract}
 In an electronic voting (e-voting) execution, the voters engage in an interaction with the system by providing sensitive data such as their vote preference, authentication passwords, or personal data used for election auditing. All collected data should be processed in a way that election integrity and voter privacy are preserved at the best possible level. In scenarios that e-voting runs at a national level data processing scales at the order of millions, whereas any security breach may lead to a massive and disastrous effect. Consequently, formal analysis and provable security of e-voting systems has been in the centre of related literature \cite{Kiayias2006},\cite{Cohen1985},\cite{Benaloh2014},\cite{Adida2008}.\\ 
 
-We present the generalized model of e-voting system and analyse voter privacy with respect to different cases of collision among entities of this model. The specification of trusted entities splits the Voter Privacy into different scenarios. All meaningful cases of collusion fall into two scenarios: (1) EA and T are hones and (2) VSD and T are honest. It is possible to construct e-voting scheme, that is private with respect to only trusted VSD, however most known schemes require trusted T as well.  \\
+We present the generalized model of e-voting system and analyse voter privacy with respect to different cases of collision among entities of this model. The specification of trusted entities splits the Voter Privacy into different scenarios. All meaningful cases of collusion fall into two scenarios: (1) $\ea$ and $T$ are hones and (2) $\vsd$ and $T$ are honest. It is possible to construct e-voting scheme, that is private with respect to only trusted $\vsd$, however most known schemes require trusted $T$ as well.  \\
  
-The approach that we used for voter privacy in this thesis is the following: an honest voter is allowed to have only one perfectly hidden interaction from adversarial eyes and at the end he provides the adversary with (1) the real view of the result of this interaction and (2) a simulated one via an efficient algorithm $Sim$ called the simulator. The adversary $\mathcal{A}$ is allowed to observe a network trace of all interactions and play on behalf of corrupted entities and voters. This perfectly private interaction can be either an act of actually entering voter?s preference into $\vsd$ or while a voter receives his credentials. If $\mathcal{A}$ has no advantage in distinguishing real and simulated view over a coin flip, the system is considered private.\\
+The approach that we used for voter privacy in this thesis is the following: an honest voter is allowed to have only one perfectly hidden interaction from adversarial eyes and at the end he provides the adversary with (1) the real view of the result of this interaction and (2) a simulated one via an efficient algorithm $Sim$ called the simulator. The adversary $\mathcal{A}$ is allowed to observe a network trace of all interactions and play on behalf of corrupted entities and voters. This perfectly private interaction can be either an act of actually entering voter's preference into $\vsd$ or while a voter receives his credentials. If $\mathcal{A}$ has no advantage in distinguishing real and simulated view over a coin flip, the system is considered private.\\
 
 Voter privacy suggests that voters are capable of casting their votes secretly and freely without letting adversarial parties to learn any information about their preferences. On the other hand, integrity is traditionally captured by the end-to-end (E2E) verifiability \cite{Benaloh2011} notion states that the voter can obtain a receipt at the end of the ballot casting procedure that is used for verifying that his vote was (1) cast as intended, (2) recorded as cast, and (3) tallied as recorded \cite{Kiayias2015a}. Furthermore, anyone should be able to verify that the election procedure is executed properly. It has been observed that voter privacy and E2E verifiability requirements inherently contradict each other at some point.  Therefore, there should exist the maximum level of privacy that is possible to achieve in any E2E verifiable e-voting system.\\
 
@@ -93,6 +93,10 @@ Also, we design a new e-voting system based on blind signature scheme, that capt
 \section{Introduction}
 Electronic voting (e-voting) is a term used to describe the act of voting using electronic systems. Generally, we use term e-voting describe two different types of possible electronic voting senarious:  1) 'Remote e-voting' voting over the Internet via personal gadgets (laptops, smartphones, etc.) at any place outside the polling station and  2) 'Polling place e-voting' -- voting inside a polling station or similar premises controlled by electoral staff. \\
 
+Electronic voting has been in the centre of researchers attention for over the last twenty years. Up to now, many e-voting schemes with quite strong security guarantee have been proposed. Perhaps the most well known and studied system is Helios designed by Ben Adida \cite{Adida2008}.  Helios is an open-source purely cryptographic voting protocol which does not rely on paper. Other examples of purely electronic systems are Demos-2 \cite{Kiayias2015} and Civitas \cite{Clarkson2008}.  Another sub class of e-voting systems is so called hybrid systems where paper ballots are used for computing tally or ensuring the integrity of election. Demos \cite{Kiayias2015a}, ThreeBallot \cite{Rivest2006}, Pr\^{e}t-`a-Voter \cite{Ryan2006} and Scantegrity \cite{Chaum2009} are examples of hybrid systems.  \\
+
+Nowadays, some countries allow their citizens who are living or staying abroad to vote remotely. However, only a few countries allow external voters to cast their votes electronically. For the last sixty years e-voting (including remote e-voting) has been conducted at least once only in the following countries Australia, Belgium, Brazil, Canada, Estonia, France, Germany, India, Italy, the Netherlands (Rijnland Internet Election System), Norway, Peru, Romania, Switzerland, the UK, Venezuela, and the Philippines.\\
+
 Benefits of using electronic voting systems are significant:
 \begin{enumerate}
 \item Voting is easier and more convenient;
@@ -103,26 +107,20 @@ Benefits of using electronic voting systems are significant:
 \item Voting is provably secure.
  \end{enumerate}
 
-Nowadays, some countries allow their citizens who are living or staying abroad to vote remotly. However, only a few countries allow external voters to cast their votes electronically. For the last sixty years e-voting (including remote e-voting) has been conducted at least once only in the following countries Australia, Belgium, Brazil, Canada, Estonia, France, Germany, India, Italy, the Netherlands (Rijnland Internet Election System), Norway, Peru, Romania, Switzerland, the UK, Venezuela, and the Philippines.\\
-
-Electronic voting has been in the centre of researchers attention for over the last twenty years. Up to now, many e-voting schemes with quite strong security guarantee have been proposed. Perhaps the most well known and studied system is Helios designed by Ben Adida \cite{Adida2008}.  Helios is an open-source purely cryptographic voting protocol which does not rely on paper. Other examples of purely electronic systems are Demos-2 \cite{} and Civitas \cite{}.  Another sub class of e-voting systems is so called hybrid systems where paper ballots are used for computing tally or ensuring the integrity of election. Demos \cite{}, ThreeBallot \cite{}, Pr\^{e}t-`a-Voter \cite{} and Scantegrity \cite{} are examples of hybrid systems.  \\
+However, all of the potential benefits are moot if we can not trust the election result. Some argue that electronic voting is not secure because of issues with the technology, vast possibilities of fraud, and protection of voters privacy.  To eliminate the security risks a number of security requirements for e-voting systems were developed: ensuring one vote per voter, voters eligibility, maintaining voter anonymity, accuracy of tallying and prevention of fraud.\\
  
- {\color{red}Something about secure properties.. }\\
- 
-Among the security properties that have been identified for e-voting, there are two highly desirable properties that consider to be crucial and has been investigated extensively: E2E Verifiability and Voter Privacy. E2E Verifiability means that it is possible to verify the correctness of the election tally based on feedback from the participants and by examining the public election transcript. Voter Privacy can be informally described as follows: e-voting system should not reveal how a particular voter voted.\\
+Among the security properties that have been identified for e-voting, there are two highly desirable properties that consider to be crucial and has been investigated extensively: E2E Verifiability and Voter Privacy.\\
 
-Voter privacy can be divided into tree levels of different strength (in increasing order):
+ E2E Verifiability means that it is possible to verify the correctness of the election tally based on feedback from the participants and by examining the public election transcript. Informally the E2E verifiable property means that any voter can detect that the election outcome has been manipulated.  Formally, E2E verifiability is defined as the ability of voter  to verify that: 1) his vote was properly cast, 2) recorded as cast and 3) tallied into the election result as recorded. \\
+ 
+ Voter Privacy can be described as follows: e-voting system should not reveal how a particular voter voted. Voter privacy can be divided into tree levels of different strength (in increasing order):
 \begin{enumerate}
 \item Ballot privacy: A set of ballots would not reveal  voters' choices to anyone \cite{Bernhard2015}. 
 \item Receipt-freeness: A honest voter cannot prove to an adversary that he voted in a certain way \cite{Kremer}.
 \item Coercion resistance: A corrupted voter cannot prove to an adversary that he voted in a certain way \cite{Delaune2006}.
 \end{enumerate}
 
- {\color{red}Another important property E2E Verifiability was formally defined in works...}\\
-
- {\color{red}Ways to define voter privacy:  ideal functionality, game-based}  \\
- 
-  {\color{red} Limits of privacy}
+It has been observed that voter privacy and E2E verifiability requirements inherently contradict each other at some point. In this work, we perform a thorough and formal study on privacy in E2E verifiable e-voting systems to analyse those restrictions and define the privacy limits. We suggest a stronger privacy definition, that does not impose restrictions on an adversarial behaviour. Also we define a notion of strict privacy and prove in simulation based settings that it contradicts E2E Verifiability. At the final chapter of this work, we present a blind signature scheme, that captures the idea voting anonymously, and prove that the whole class of such systems is not E2E Verifiable.  
 
 \section{E-voting system} 
 \subsection{Preliminaries}
@@ -271,12 +269,45 @@ Any electronic voting procedure can be spited into tree general stages: Pre-elec
 \end{enumerate}
 
 \subsection{E2E Verifiability}
- {\color{red} Demos Def + why Demos def was used}
+Tree aspects of verifiability are usually distinguished:
+\begin{enumerate}
+\item \textit{Individual verifiability}: a voter can check that his ballot is counted correctly \cite{Chaum1981}.\item \textit{Universal verifiability}: anyone can check that the election outcome is obtained form the ballots published on the $\bb$ \cite{Sako1995}.
+\item \textit{End-to-end verifiability}: a voter can check that his vote was cast-as-intended and recorded-as-cast, also anyone can check that the ballots were tallied-as-recorded \cite{Neff2004},\cite{Chaum2004}.
+\end{enumerate}
+
+E2E verifiability is a very strong level of security that allows voters  to detect that a malicious e-voting system tries to misrepresent the election outcome. \\
+
+ In this work we use the E2E-verifiability definition by Kiayias et al. \cite{Kiayias2015a},\cite{Kiayias2015}, that is given in Figure \ref{sec:e2e}. 
+According to the definition an adversary $\mathcal{A}$ can control all $\vsd$'s, $\ea$, $\voc$ and some fraction of voters, however it still can not manipulate the results without a high detection probability.  The entities involved are $\bb$,$\vsd$ and $\ea$ that can be spited on $\ea$, that involved on pre-election stage only, and $T$ that computes the results. The algorithm \textbf{Cast} is run interactively between tree parties the $\bb$, the voter $V_l$ and $T$ that uses $\vsd$ with the following inputs: public parameters $Pub$, voter's secret $s_l$ and voter's choice $\mathcal{U}_l$. Upon successful termination, $V_l$ obtains a receipt $\alpha_l$. The algorithm \textbf{Verify}($\tau,\alpha_l$) outputs a bit, based on voter's receipt $\alpha_l$ and the public transcript $\tau$. The algorithm \textbf{Result}($\tau$) given the public transcript $\tau$  outputs the result for the election or $\bot$ if result is undefined.\\
+
+We prefer the definition by Kiayias et al over the one given by K\''{u}sters et al \cite{Kusters2010}, because it is given in game-based settings. Moreover this definition of E2E Verifiability does not require any additional assumptions, except for the existence of the $\bb$, therefore it is achievable in the standard model. Furthermore, there is an ideal functionality that captures the essential aspects of the E2E Verifiability.  
+
+ \begin{figure}[h!]
+ \fbox{\parbox{\textwidth}{
+\underline{ E2E Verifiability Game $G^{\mathcal{A},\mathcal{E},d,\theta}_{E2E-Ver}(1^{\lambda},m,n)$}:
+\begin{enumerate}
+\item  $\mathcal{A}$ chooses a list of candidates $\mathcal{P} = \{P_1,\dots,P_m\}$, a set of voters $\mathcal{V} = \{V_1,\dots,V_n\}$ and the set of allowed candidate selections $\mathcal{U}$. It provides $\mathcal{C}$ with the sets $\mathcal{P}$,$\mathcal{V}$,$\mathcal{U}$ along with information $Pub$ and voter credentials $\{s_{l \in [n]}\}$. Throughout the game, $\mathcal{C}$ plays the role of the $\bb$.
+\item  The adversary $\mathcal{A}$ and the challenger $\mathcal{C}$ engages in an interaction where  $\mathcal{A}$ schedules the \textbf{Cast} protocols of all voters. For each voter $V_l$  $\mathcal{A}$ can either completely control the voter or allow $\mathcal{C}$ to operate on their behalf, in which case $\mathcal{A}$ provides a candidate selection $\mathcal{U}_l$ to $\mathcal{C}$. Then, $\mathcal{C}$ engages with the adversary $\mathcal{A}$ in the \textbf{Cast} protocol so that  $\mathcal{A}$ plays the role of $\ea$. Provided the protocol terminates successfully, $\mathcal{C}$ obtains the receipt $\alpha_l$ on behalf of $V_l$.\\
+ Let $\tilde{\mathcal{V}}$ be the set of honest voters (i.e., those controlled by $\mathcal{C}$) that terminated successfully. 
+\item Finally, $\mathcal{A}$ posts the election transcript $\tau$ to the $\bb$.
+\end{enumerate}
+The game returns a bit which is 1 if and only if the following conditions hold true: \\
+(i)  $|\tilde{\mathcal{V}}| \geq \theta$, (i.e., at least $\theta$ honest voters terminated).\\
+(ii). $\forall l \in  [n]$: if $V_l \in  \tilde{\mathcal{V}}$, then \textbf{Verify}($\tau,\alpha_l$)=1 (i.e., the voters in $\tilde{\mathcal{V}}$ verify their ballot successfully).\\
+and either one of the following two conditions: \\
+~~~~(iii-a). If $\bot \ne \rangle \mathcal{U}_l \rangle _{V_l \in \mathcal{V}\setminus \tilde{\mathcal{V}}} \leftarrow \mathcal{E}(\tau, \{\alpha_l\} _{V_l \in   \tilde{\mathcal{V}}})$,\\
+~~~~~~~then $d_1$(\textbf{Result}($\tau$),$f(\langle U_1,\dots,U_n \rangle)) \geq d$. \\
+~~~~(iii-b). $\bot \leftarrow \mathcal{E}(\tau, \{\alpha_l\} _{V_l \in   \tilde{\mathcal{V}}})$.
+ }}
+\caption{E2E-verifiability by Kiayias et al.}
+ \label{sec:e2e}
+ \end{figure}
+ 
 %
 %=============================================================================================================
 %
 \section{Privacy with respect to entities}
- {\color{red} We should trust someone}
+ Unfortunately unconditional full privacy (that is privacy that relies neither on trusted third parties or  on computational assumptions or certain fraction of trusted  voters), can not  be achieved in electronic voting \cite{Brandt2005}. Therefore honest voters should rely on certain assumptions or trusted entities in order to protect their privacy. In this chapter, we refer to voter privacy as ability of a voter to keep his vote secret, that is e-voting system should not reveal how a particular voter voted. The purpose of analysing  privacy with respect to trusted entities is to identify minimal combination of trusted entities for which voter privacy can possibly be achieved. Here we consider only entities that participate in pre-election or election stage, namely $\ea$, $\vsd$, $\voc$ and $T$, and exclude $\asd$, since it is involved in post-election checks only. Later in this work we provide formal game-based definition of privacy for all meaningful cases of collusion.  
 \subsection{Privacy with respect to VSD}
 Suppose only $\vsd$ is trusted and all other entities ($T,\ea,\voc$) are controlled by an adversary. As always public database $\bb$ is completely passive and simply stores all information received from $\voc$, $\ea$ and $T$. We will show that it is possible to achieve voter privacy with respect to trusted $\vsd$ only, by providing an example of the e-voting scheme that is private in case when only $\vsd$ can be trusted. Consider the following e-voting system $\Pi$:
 \begin{enumerate}
@@ -285,36 +316,32 @@ Suppose only $\vsd$ is trusted and all other entities ($T,\ea,\voc$) are control
  \item after the last voter cast his vote, $\vsd$ submits a commitment $g^{x_{abs}}h^{r_{vsd}}$, where $x_{abs}$ corresponds to the abstain option and $r_{vsd} = R - \sum_{l=0}^{l=n}r_l$, n - number of voters.  
  \item $T$ computes the product of all hiding commitments and opens the result.
  \end{enumerate}
-In order to break individual voters' privacy and learn their choices, an adversary has to break perfectly hiding commitments, which is impossible since those commitments are information secure. 
- {\color{red} It's kind of weird case, but formally it exists}
+In order to break individual voters' privacy and learn their choices, an adversary has to break perfectly hiding commitments, which is impossible since those commitments are information secure.\\
+
+Even though the example scheme is kind of extreme case, it formally implies voter privacy as long as $\vsd$ can be trusted to keep individual randomness $r_l$  in secret. Moreover, due to active part of $\vsd$ during vote-casting procedure, this scheme can handle any voter turnout and produce meaningful tally at the end of the election.
+
 \subsection{Privacy with respect to EA}
 In case when only $\ea$ is trusted and all other entities ($T,\vsd,\voc$) are corrupted it is impossible to preserve voter's privacy. We will prove this statement by describing an attack against individual voter privacy, that is always successful.\\
 
 Suppose there is some e-voting system $\Pi$ which doesn't allow any adversary to learn anything about individual voters' intents in case when only $\ea$ is trusted. $\mathcal{A}$ strategy is to calculate tally after every vote submission and compare it with the previous tally to learn the voter's intent. Due to a correctness, $\Pi$ should be able to produce meaningful election tally for any turnout, including just one voter. Since an adversary $\mathcal{A}$ controls a trustee $T$, he should be able to compute results after very first cast procedure is done. This means that either $\mathcal{A}$  may learn voters' choices one by one or $\Pi$ fails to produce results for any subset of abstained voters  and therefore is not correct. \\
 
- {\color{red} There are some voters who abstain -- we can not use same strategy as in VSD case. EA is not active during vote casting phase}
-\textbf{Privacy with respect to trusted EA and VC}\\
- It's not enough for privacy, an adversary can perform exactly the same attack as for '$\ea$ only case'\\
-\textbf{Privacy with respect to trusted EA and T}\\
-Private. Example: Demos \\
-\textbf{Privacy with respect to trusted EA and VSD}\\
- In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy.
+Some may argue, that the e-voting scheme for trusted $\vsd$ only can be adopted to preserve voter privacy in case when only $\ea$ is trusted. However, $\ea$ is not active participant of  the vote-casting phase and does not know in advance how many voters would actually participate in e-voting and who prefers to abstain. $\ea$ can only distribute information among voters and post some pre-election data on $\bb$ \textbf{before} the vote-casting procedure begins. \\
+
+The problem is that if we trust $\ea$ only, we should make sure that $T$ is not able to break individual privacy by decryption or interpreting in some way every cast ballot as vote for a certain option. In can be achieved only if $T$ is able to compute election results as whole without knowing the individual vote distribution. The only way to capture this requirement is to use homomorphic tally, that can be decrypted only if all voters provide their input. Due to a correctness property, meaningful tally should be produced for any case of voter turnout. Theoretically, this issue can be addressed by posting additional data on $\bb$ or granting all eligible voters the ability to vote for the 'no-one' choice on behalf of all others voters, since they have no prior knowledge of those who abstains. Therefore if some voters would abstain, those who participated would cast vote on  their behalf so the information for producing an election result would not be lost. However, now every turnout results in meaningful election result, including a single voter participation, so malicious  $T$ can compute tally after every cast vote and trivially brake everyones privacy. \\
+
+Since it is impossible to achieve voter privacy when only $\ea$ is trusted, consider the cases when $\ea$ and one more other entity can be trusted: \\
+\textbf{1) Privacy with respect to trusted EA and VC}\\
+ $\voc$ solo role is to collect votes and forward them to $\bb$. This entity can tamper with a ballot only \textbf{after} it has been generated. It is impossible to have voter privacy in systems where only $ea$ and $\voc$ can be trusted, because an adversary can perform exactly the same attack as for '$\ea$ only case'.\\
+\textbf{2) Privacy with respect to trusted EA and T}\\
+It is possible to construct a system that  archives voter privacy when $\ea$ and $T$ are trusted. For example, Demos is provably private with respect to trusted $\ea$ and $T$. In the article  where Demos is presented \cite{Kiayias2015a}, authors refers to $\ea$ and $T$ as to the single entity $\ea$, however in our classification $\ea$ participates only in pre-election process and is not active during vote-casting of tallying phases. \\
+\textbf{3) Privacy with respect to trusted EA and VSD}\\
+ In such case e-voting  system $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy.
 \subsection{Privacy with respect to trusted VC}
-  Impossible.   An adversary can perform exactly the same attack as for '$\ea$ only case.\\
-\textbf{Privacy with respect to trusted VC and T}\\
- Due to the assumption that voters are not able to collaborate for protecting their privacy and all complex math operation performed by $\vsd$ or $\ea$, it's impossible to have privacy in this case. A voter provides $\vsd$ with an input which is either in a plain text or calculated by $\ea$ line and therefore immediately gives away his choice.\\
-\textbf{Privacy with respect to trusted VC and VSD}\\
-    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. \\
-\textbf{Privacy with respect to trusted VC and EA}\\
- Impossible. See the EA + VC  case for details. 
+ $\voc$ does not interact with a voter directly and can tamper with a ballot only \textbf{after} it has been generated. Moreover, voters are not expected to do any complex math themselves. All necessary computations are done inside $\vsd$ during the vote-casting phase or pre-computed by $\ea$ in advance. If all entities but $\voc$ are corrupted, it is impossible to archive privacy for voters, because the moment a voter casts his vote, he give away his choice.\\
+ 
+ The same reasoning applies for the case when only $\voc$ and $T$ are trusted. 
 \subsection{Privacy with respect to trusted T}
-  Impossible. Same reasoning as VC + T case.\\
-\textbf{Privacy trusted T + VC}\\
-   seems meaningless\\
-\textbf{Privacy with respect to trusted T and VSD}\\
-    In such case $\Pi$ can be private, since it's enough to have a trusted $\vsd$ for preserving voters' privacy. \\
-\textbf{Privacy with respect to trusted T and EA}\\
-   Private. See the EA + T case for details. 
+Due to the assumption that voters are not able to collaborate for protecting their privacy and all complex math operation performed by $\vsd$ or $\ea$, it's impossible to have privacy with respect to trusted $T$ only. A voter provides $\vsd$ with an input which is either in a plain text or calculated by $\ea$ line and therefore immediately gives away his choice.
  %
 %=============================================================================================================
 %
@@ -323,17 +350,15 @@ Private. Example: Demos \\
 
 Voter privacy implies that a voter is capable of casting his own vote secretly and freely without letting others' parties, namely an adversary, to learn some information about his preferences or interfere in it.\\
 
-In general, the goal of the adversary who attacks voter privacy is to learn some information about the candidate selections of the honest voters. We define an attack against voters privacy as successful, if there is an election result*, for which an adversary is capable of distinguishing how the honest voters voted while it can observe the whole e-voting network** and corrupt some part of honest voters and some entities and also has access to honest voters' receipts. \\
+In general, the goal of the adversary who attacks voter privacy is to learn some information about the candidate selections of the honest voters. We define an attack against voters privacy as successful, if there is an election result*, for which an adversary is capable of distinguishing how the honest voters voted while it can observe the whole e-voting network, except for untrappable channels, and corrupt some part of honest voters and some entities and also has access to honest voters' receipts. \\
 
 *Obviously, it doesn't include trivial election results, where all voters voted for the same option. \\
-**Except channels that are marked as untrappable. \\
 
 During the election process an voter uses his credentials to cast his option by running the \textbf{Cast} protocol on a $\vsd$. Since voters are not allowed to have or share a secret that would have helped them to preserve their privacy in case of a corrupted e-voting system, their privacy relies on the trusted entities of the system. There are two wildly known classes of e-voting systems: code-based system and encryption-based systems. The former relies on crypto that run by the trusted administrator in advance, the latter places its safety on crypto performed inside $\vsd$ during the \textbf{Cast} protocol execution. From a voter point of view it means that his privacy is protected by trusted administrator and pre-calculated credentials, that would not reveal any sensitive information even if the choice is sent in a plane text, or by trusted $\vsd$ and crypto performed inside it. \\
 
 The approach that we used in this thesis is the following: an honest voter is allowed to have  \textbf{only one} perfectly hidden from an adversarial eyes interaction and at the end he provides the adversary with the real and simulated view of the result of this interaction. $\mathcal{A}$ is allowed to observe a network trace of all interactions and play on behalf of corrupted entities and voters. This one perfectly private interaction can be either an act of actually entering voter's preference into $\vsd$ or while a voter receives his credentials. If $\mathcal{A}$  has no advantage in distinguishing real and simulated view over a coin flip, the system is considered private. \\
 
 We formally define the voter privacy via a Voter Privacy game, denotes as $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$, that is played between an adversary $\mathcal{A}$ and a challenger $\mathcal{C}$, that takes as input the security parameter $\lambda$ and returns 1 or 0 depending on whether the adversary wins.  Also, $\mathcal{A}$ is  allowed to corrupt some entities. The choice of the corrupted parties splits the Voter Privacy game into two different scenarios: (1) entities ($\ea$, $T$) are hones and (2) $\vsd$ is honest. \\
-The only difference between Strict privacy and Privacy is the number of corrupted voters. In Strict privacy games \textbf{all} voters are corrupted and  $\mathcal{A}$ vote on their behalf. On the contrary, in the Privacy games at most t voters are corrupted and all others are honest. The crucial moment is that honest voters are able to verify that their vote was cast as intended, but an adversary can not since he does not know the intent and does not control all entities. Therefore, voters may lie about vote while an adversary have no ways to learn the truth and not to win the game $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$. 
 
  \subsection{$\ea$ and $T$ are honest: $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
   \begin{figure}
@@ -617,6 +642,8 @@ We proved that if there exist a successful adversary agains \textit{Demos Privac
 In this section we introduce a strong privacy definition where \textbf{all} voters are corrupted but an adversary is still unable to break privacy, denoted as strict privacy. We formally define strict voter privacy via a \textit{Strict Voter Privacy} game , denoted as $G_{strict,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$,  that is played between an adversary A and a challenger C.\\
 
 According to the game rules, an adversary is allowed to define the election parameters, corrupt some entities, and act on behalf of all voters.  $\mathcal{C}$ plays role of honest parties and returns to the adversary simulated and real view of a voter in order defined by a pre-flipped coin $a$ (If $a=0$, $\mathcal{C}$ returns $(simulated\_view,real\_view)$ and  $(real\_view,simulated\_view)$ otherwise). During the interaction with  $\mathcal{C}$,  $\mathcal{A}$ would try to guess the coin $a$. The \textit{Strict Voter Privacy} game takes as input the security parameter $\lambda$, the number of candidates m and the number of voters n, where $n,m$ are polynomial in $\la$, and returns 1 or 0 depending on whether the adversary wins or not.\\
+
+The only difference between Strict privacy and Privacy is the number of corrupted voters. In Strict privacy games \textbf{all} voters are corrupted and  $\mathcal{A}$ vote on their behalf. On the contrary, in the Privacy games at most t voters are corrupted and all others are honest. The crucial moment is that honest voters are able to verify that their vote was cast as intended, but an adversary can not since he does not know the intent and does not control all entities. Therefore, voters may lie about vote while an adversary have no ways to learn the truth and not to win the game $G_{t-priv,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$. \\
 
  The specification of trusted entities splits the Voter Privacy into different scenarios. All meaningful cases of collusion fall into two scenarios: (1) EA and T are hones and (2) VSD and T are honest. It is possible to construct e-voting scheme, that is private with respect to only trusted VSD, however most known schemes require trusted T as well. \\
  
