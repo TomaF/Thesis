@@ -18,9 +18,9 @@
 \contentsline {subsection}{\numberline {6.2}Demos privacy}{26}
 \contentsline {section}{\numberline {7}Strict privacy notion}{35}
 \contentsline {subsection}{\numberline {7.1}$\ea $ and $T$ are honest: $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{36}
-\contentsline {subsection}{\numberline {7.2}$\vsd $ and $T$ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{40}
-\contentsline {section}{\numberline {8}Strict privacy vs E2E Verifiability}{44}
-\contentsline {subsection}{\numberline {8.1}Proof: part 1}{44}
+\contentsline {subsection}{\numberline {7.2}$\vsd $ and $T$ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{39}
+\contentsline {section}{\numberline {8}Strict privacy vs E2E Verifiability}{43}
+\contentsline {subsection}{\numberline {8.1}Proof: part 1}{45}
 \contentsline {subsection}{\numberline {8.2}Proof: part 2}{49}
 \contentsline {section}{\numberline {9}Blind signature e-voting scheme}{53}
 \contentsline {subsection}{\numberline {9.1}Presentation of the blind signature e-voting scheme}{53}

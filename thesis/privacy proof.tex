@@ -271,7 +271,8 @@ Any electronic voting procedure can be spited into tree general stages: Pre-elec
 \subsection{E2E Verifiability}
 Tree aspects of verifiability are usually distinguished:
 \begin{enumerate}
-\item \textit{Individual verifiability}: a voter can check that his ballot is counted correctly \cite{Chaum1981}.\item \textit{Universal verifiability}: anyone can check that the election outcome is obtained form the ballots published on the $\bb$ \cite{Sako1995}.
+\item \textit{Individual verifiability}: a voter can check that his ballot is counted correctly \cite{Chaum1981}.
+\item \textit{Universal verifiability}: anyone can check that the election outcome is obtained form the ballots published on the $\bb$ \cite{Sako1995}.
 \item \textit{End-to-end verifiability}: a voter can check that his vote was cast-as-intended and recorded-as-cast, also anyone can check that the ballots were tallied-as-recorded \cite{Neff2004},\cite{Chaum2004}.
 \end{enumerate}
 
@@ -362,7 +363,7 @@ We formally define the voter privacy via a Voter Privacy game, denotes as $G_{t-
 
  \subsection{$\ea$ and $T$ are honest: $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
   \begin{figure}
- \includestandalone[mode=buildnew]{figures/figure6}
+ \includestandalone[mode=buildnew]{figures/figure1}
         \caption{  $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$}
 \end{figure}
 
@@ -370,7 +371,7 @@ The $\mathcal{C}$'s strategy  in the  $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\l
 
 We can compare Demos privacy and the \textit{Voter Privacy} defined here as follows. Under \textit{Demos Privacy} framework a voter $V$ provides $\mathcal{A}$  with a fake internal view of the \textbf{Cast} protocol and the actual receipt as a proof of obidience, but keeps the original credentials in secret. If $\mathcal{A}$ accesses the voter's original credentials, it would immediately detect lie. Under our \textit{Voter Privacy} definition, a voter $V$ gives $\mathcal{A}$ a fake view, actual receipt and a fake credentials. If $\mathcal{A}$ can not distinguish real and fake credentials, it has no way to find out whether $V$ lies or not. \\
  
-In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$, an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all corrupted voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of honest voters, $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\\\
+In the game $G_{t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$, an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of all corrupted voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of honest voters, $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\
 
  1)  $\mathcal{A}$ picks and sends two options $U_i^0,U_i^1$ to the challenger $\mathcal{C}$. The first option $U_i^0$ is its intent, the other -- the option that the challenger would use in order to produce an indistinguishable from the intent's ballot and receipt view*. 2) After sending options, $\mathcal{A}$ schedules the   \textbf{Registration} protocol with $\mathcal{C}$ on behalf of some voter $V_i$. 3) $\mathcal{C}$ creates a fake credentials $\tilde{s_i}$ and generates real credentials $s_i$ for the voter $V_i$. 4) $\mathcal{C}$ responds $\mathcal{A}$ with a pair of credentials $s_i^0,s_i^1$, where one of the credentials are real and the other were generated using the simulator $Sim$ in a such way, that if $\mathcal{A}$ guesses right and uses the real credentials to cast a vote for $U_i^0$, the produced ballot and internal view of the \textbf{Cast} protocol would be real, otherwise generated ballot would correspond to the option $U_i^1$ and the returned view would be fake. 5) If $\mathcal{A}$ choses to post the ballot $b_i$ to $\bb$, 6) $\mathcal{C}$  posts exactly the same ballot** to $\bb$. 7) When $\mathcal{A}$ stops the election, $\mathcal{C}$ posts the tally $\tau$ ***. \\\\
 Remarks:\\
@@ -385,7 +386,7 @@ Remarks:\\
 \item The adversary $\mathcal{A}$ picks two option $U^0_i,U^1_i \in \mathcal{U}$, where $U^0_i$ is its intent and $U^1_i$ is an option that $\mathcal{C}$ would use in order to fool $\mathcal{A}$.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Registration} protocols, during which all voters receive their credentials and forward them to  $\mathcal{A}$. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i$ is corrupted:
 \begin{enumerate}
 \item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $\mathcal{A}$ with the real credentials $s_i$, and then they engage in a \textbf{Cast} protocol where $\mathcal{A}$  vote on behalf of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$.
-\item[] --  If $V_i$ is not corrupted, then $\mathcal{C}$ generates real credentials $s_i$  and fake credentials $\tilde{s_i}$ using $Sim$.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:
+\item[] --  If $V_i$ is not corrupted, then $\mathcal{C}$ generates real credentials $s_i$  and fake credentials $\tilde{s_i}$ using $Sim$.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:\\
 $ \begin{cases}
  \text{if} ~~a =0,~~ (s^0_i,s^1_i) = (\tilde{s_i},s_i)  \\ 
  \text{else}~~  (s^0_i,s^1_i) = (s_i,\tilde{s_i})
@@ -429,7 +430,7 @@ The e-voting system $\Pi$ achieves voter privacy in case of honest $T$ and $\ea$
  %%%%%%%%%
 \subsection{$\vsd$ and $T$ are honest: $G_{t-priv,\vsd,T}^{\mathcal{A},Sim}(1^{\lambda})$}
      \begin{figure}[h!]
- \includestandalone[mode=buildnew]{figures/figure7}
+ \includestandalone[mode=buildnew]{figures/figure2}
         \caption{ $G_{t-priv,\vsd}^{\mathcal{A},Sim}(1^{\lambda},n,m)$}
 \end{figure}
 Even though, it is possible to achieve voter privacy for trusted $\vsd$ \textbf{only}  (by making the $T$ unable to decrypt individual votes), the case is rather extreme. The definition of voter privacy below is given for trusted $\vsd$ and $T$. However, we identify changes that would transform the given definition into \textbf{only} $\vsd$ is trusted case.\\
@@ -526,7 +527,7 @@ $G_{mod\_ORIG,t-priv,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$ defined as foll
 \item The adversary $\mathcal{A}$ picks two option $U^0_i,U^1_i \in \mathcal{U}$, where $U^0_i$ is its intent and $U^1_i$ is an option that $\mathcal{C}$ would use in order to fool $\mathcal{A}$.  After that, $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ schedules the \textbf{Registration} protocols, during which all voters receive their credentials and forward them to  $\mathcal{A}$. For each voter $V_i \in \mathcal{V}$, the adversary chooses whether $V_i$ is corrupted:
 \begin{enumerate}
 \item[] -- If $V_i$ is corrupted, then $\mathcal{C}$ provides $\mathcal{A}$ with the real credentials $s_i$, and then they engage in a \textbf{Cast} protocol where $\mathcal{A}$  vote on behalf of $V_i$ and  $\mathcal{C}$ plays the role of $\ea$.
-\item[] --  If $V_i$ is not corrupted, then $\mathcal{C}$ generates real credentials $s_i$ and fake credentials $\tilde{s_i}$ using $Sim$.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:
+\item[] --  If $V_i$ is not corrupted, then $\mathcal{C}$ generates real credentials $s_i$ and fake credentials $\tilde{s_i}$ using $Sim$.  $\mathcal{C}$  responds  $\mathcal{A}$ with a pair of simulated and real credentials $(s_0,s_1)$ in order defined by the coin a:\\
 $ \begin{cases}
  \text{if} ~~a =0,~~ (s^0_i,s^1_i) = (\tilde{s_i},s_i)  \\ 
  \text{else}~~  (s^0_i,s^1_i) = (s_i,\tilde{s_i})
@@ -655,7 +656,7 @@ We will show that the notion of strict privacy is the weakest level of privacy t
 In the game  $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$ , an adversary $\mathcal{A}$ interacts with the challenger $\mathcal{C}$ on behalf of \textbf{all} voters, $\voc$ and $\vsd$. $\mathcal{C}$ plays the role of $\ea$ and $T$. $\bb$ is completely passive and represents a publicly viewed database. \\
 
   \begin{figure}[h!]
- \includestandalone[mode=buildnew]{figures/figure1}
+ \includestandalone[mode=buildnew]{figures/figure6}
         \caption{$G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
         \label{EAT is honest}
 \end{figure}
@@ -697,7 +698,7 @@ The e-voting system $\Pi$ achieves strict voter privacy in case of trusted $\ea$
  $|\Pr[G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m) = 1]- \frac{1}{2} |= negl(\lambda)$
 \subsection{$\vsd$ and $T$ are honest: $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda},n,m)$}
   \begin{figure}[h!]
- \includestandalone[mode=buildnew]{figures/figure2}
+ \includestandalone[mode=buildnew]{figures/figure7}
         \caption{ $G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda})$}
         \label{VSD is honest}
 \end{figure}
