@@ -1011,6 +1011,11 @@ Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal
 %=============================================================================================================
 %
 \section {Blind signature e-voting scheme}
+The idea of obtaining a proof of membership and voting anonymously is not new and had been considered the best possible solution for providing privacy to voters. However most approaches that based on group signatures \cite{Teranishi2009},\cite{Au2013} are traceable because it requires an additional tag that revivals the user's identity in case of exceeding allowed number of cast votes.\\
+
+A blind signature on the other hand make it absolutely impossible to link a particular voter and his ballot based on published after or during an election information or leakage of authentication data.  It is on of the most popular techniques in e-voting schemes for ensuring confidentiality of the voter's ballot. Blind signatures has been used in many e-voting schemes designed last decades \cite{Ion2011},\cite{Ibrahim2003},\cite{Fujioka1993}. The main feature of the blind signature concept is that it allows to combine two contradictory ideas 1) the authorization of voters and 2)the anonymity of them. It allows to achieve such level of privacy that no one including $\ea$ and $T$ can link the voter and his ballot. \\
+
+We present an e-voting scheme that is based on the blind signature scheme and the ElGamal encryption, that is Voter Private with respect to trusted $\ea$ and $T$ but not E2E Verifiable in the standard model. We argue that any e-voting scheme that keeps anonymous ballots is not E2E verifiable in the standard model.
 \subsection{Presentation of the blind signature e-voting scheme}
 Our system is a two-server web-based system. The first server - \textit{Signing server}  is used for \textbf{Registration} process and the second one  - \textit{$\voc$} for vote-casting.  In an election, the \textit{Signing server} mainly plays the roles of the $\ea$ but may aid the other parties.  Trustee $T$ is a separate entity that has a secure channel to communicate with $\ea$, security of communication is supported by HTTPS. All the other parties are realized by Javascripts running at the client side. The system uses additive ElGamal encryption, so the tally is done homomorphically. Currently the blind signature  scheme supports approval type of voting s.t. $x$-out-of-$m$ type of option selection, where x is between 0 and $m$.
 \subsection{Setup and parameters}
@@ -1061,7 +1066,11 @@ There are only a few homomorphic integer commitment schemes \cite{Eiichiro1997},
 If there is a ciphertext $C$ and $e \neq  0$ so $|e| < l_e$ and $C^e = E(M;R)$, then it must be possible to find $\mu, \rho$ so $M = e\mu$,$R = e\rho$ and $C = E(\mu; \rho)$. 
 \end{minipage}}\\
 
-ElGamal encryption scheme  is an asymmetric key encryption algorithm for public-key cryptography with an implementation of Diffie-Hellman key distribution system  that was introduced  by Taher Elgamal in 1985 \cite{Elgamal1985}. The security of the scheme relies on the difficulty of computing the discrete logarithm over finite fields.  ElGamal encryption is semantically secure, has the root extraction property and admit threshold decryption  \cite{Groth2010}. 
+ElGamal encryption scheme  is an asymmetric key encryption algorithm for public-key cryptography with an implementation of Diffie-Hellman key distribution system  that was introduced  by Taher Elgamal in 1985 \cite{Elgamal1985}. The security of the scheme relies on the difficulty of computing the discrete logarithm over finite fields.  ElGamal encryption is semantically secure, has the root extraction property and admit threshold decryption  \cite{Groth2010}. \\
+
+The use of homomorphic tallying scheme for e-voting is not new, it was originally introduced by Cramer et al. \cite{Cramer1997}  in 1997. From the E2E Verifiability point of view, the major benefit of using homomorphic tallying is that the proof of correct tallying and decryption is simplified and can be publicly verified if all encrypted votes are public \cite{Parsovs2016}. This means that tallied as recorder verification can be simplified and re-checked by anyone.  Moreover, the aggregated ciphertext and the corresponding plaintext cannot be linked back to individual votes. Publishing encrypted ballots can leas to long-term privacy risks, for example, the encryption may be broken after a few decades. One may mitigate the risks by limiting the access to $\bb$, where all encrypted ballots are stored. However, for the \textit{Blind signature scheme} we prefer to publish all encrypted ballots to achieve  public verifiability.\\
+
+If tallied as recorder can be checked simply by anyone, then the only  verifiability feature still missing (except for cast as intended check) is to verify that all ballots are correctly formed and contains no more than one vote per candidate. This means that ballots should be submitted along with the zero-knowledge cryptographic proof of correctness. 
 \subsubsection{Proving signature knowledge}
 Non interactive zero knowledge (NIZK) proof  of signature knowledge a method by which one party (the prover) can successfully convince another party (the verifier) that the prover knows something without conveying any information apart from that fact.\\
 
@@ -1114,6 +1123,8 @@ The argument is: $C_R,c,c_r, \boxed{R},\boxed{a_0},\dots,\boxed{a_{m-1}},\boxed{
  $\boxed{\Delta} = \sum_{j=0}^{m-1}(\boxed{a_j}^2 - e\boxed{a_j}).$\\
  Verify $C^eC_R = Encr(\boxed{V};\boxed{R})$ and $c^ec_r = com(\boxed{a_0},\dots,\boxed{a_{m-1}},\boxed{\Delta};\boxed{r})$ 
 \end{minipage}}\\
+
+The complete prove of completeness, zero-knowledge as well as soundness and knowledge of the  described NIZK argument  can be found here \cite{Groth2005}.
 \subsection{System Design}
 Here is the description of a blind signature e-voting system for r-out-of-m elections, where $0\leq r\leq m$.\\
 The Blind signature scheme:\\ 
@@ -1174,6 +1185,56 @@ All NIZK proofs are perfectly sound and the \textbf{Tally} protocol is completel
 Modification attack - we need a hash of the whole ballot and ballot $id$ as receipt to prevent malicious $\ea$ from cheating. $\mathcal{A}$ may attempt to decrypt a single vote, learn $x$, create a signature and compute a perfectly valid vote for another candidate. \\
 
 However $\ea$ can use abstain voters to create additional ballots and cause deviation. It can use $y_{reg} - y_{voted} -1$  additional votes. Abstain voter can not prove anything since he doesn't know whether he is the only one who abstains or not.  However, if every registered voter is assigned a specific entry in $\bb$ he can detect that someone ($\ea$) voted on his behalf. On the other hand, assigning every voter ballot id makes this system linkable. Tradeoff: either $\ea$ should be able to link an individual voter with his ballot or $\ea$ can vote on behalf of abstain voters and no-one would detect it as long as number of additional ballots strictly less than the number of abstain voters. 
+
+\section{Implementation}
+The blind signature scheme system is an open source web-based public auditable e-voting system. The system consists of two main servers: \textit{Signing Server} (SS) and \textit{Ballot Server} (BS). The server side is written on Node.js, that uses event-based server execution procedure rather than the multithreaded execution in PHP. Basically, Node.js utilise the same even-based  asynchronous technology as JavaScript. Node.js has proven itself capable of handling millions of concurrent connections and it is cross-platform.\\
+
+For the testing purpose we used self-singed SSL certificates for BS and SS. Certificate are used to prevent man-in-the-middle attacks and ensure that the certificate holder is really who he claims to be and usually signed by a trusted certificate authority (CA). However in the BSS proof of concept instead of obtaining real certificate signed by CA we used the openssl toolkit for generated self-sign certificates. This toolkit allows to generate a 1024-bit private key using RSA encryption and issue a certificate signing request.\\ 
+
+Both servers SS and BS are HTTPS servers with self-signed certificate. The former server lets users to sign up for an election, check list of registered voters and sign a random credentials blindly. The later server allows users to cast their votes, check any vote in database, find their own vote based on QR code, decrypt all votes and show all cast votes.\\
+
+All cryptographic primitives are implemented using Forge Javascript Cryptography Library. The Forge library implements TLS protocol and the set of cryptographic algorithms: AES (CBC), RSA, MD5, SHA-1, SHA-256 message digests, HMAC support, PKCS\#5 password-based key-derivation. \\
+
+$\bb$ is implemented as an MySQL database that contains two tables: \textit{list} and \textit{log}. The description of tables is given below:\\
+
+\begin{table}[h!]
+\centering
+\caption {list}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+ Field & Type&     Null & Key & Default & Extra \\ 
+ \hline 
+ number &  int(5) & NO   & PRI  & NULL &  auto\_increment \\
+id& varchar(300) & NO   &  &  NULL &\\
+x& varchar(300) & YES  &  & NULL  & \\
+z& varchar(300) & YES  &  & NULL  & \\
+p& varchar(300) & NO  &  &  NULL & \\
+psign&  varchar(300) & YES  &  & NULL  & \\
+submission\_time& timestamp & NO  &  &  NULL & CURRENT\_TIMESTAMP\\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}[!htb]
+\centering
+\caption {log}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+ Field & Type&     Null & Key & Default & Extra \\ 
+ \hline 
+id &  int(11) & NO   & PRI  & NULL &  auto\_increment \\
+x& varchar(300) & NO  &  & NULL  & \\
+s& varchar(300) & NO  &  & NULL  & \\
+c& varchar(300) & NO  &  & NULL  & \\
+submission\_time& timestamp & NO  &  &  NULL & CURRENT\_TIMESTAMP\\
+vote&  varchar(300) & YES  &  & NULL  & \\
+decrvote&  varchar(300) & YES  &  & NULL  & \\
+hash&  varchar(300) & NO  &  & NULL  & \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Conclusion}
+
  \nocite{*}
 \bibliographystyle{ieeetr}
 \bibliography{litr}

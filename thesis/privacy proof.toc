@@ -23,13 +23,15 @@
 \contentsline {subsection}{\numberline {8.1}Proof: part 1}{45}
 \contentsline {subsection}{\numberline {8.2}Proof: part 2}{49}
 \contentsline {section}{\numberline {9}Blind signature e-voting scheme}{53}
-\contentsline {subsection}{\numberline {9.1}Presentation of the blind signature e-voting scheme}{53}
+\contentsline {subsection}{\numberline {9.1}Presentation of the blind signature e-voting scheme}{54}
 \contentsline {subsection}{\numberline {9.2}Setup and parameters}{54}
-\contentsline {subsection}{\numberline {9.3}Syntax}{54}
-\contentsline {subsection}{\numberline {9.4}Building blocks}{55}
-\contentsline {subsubsection}{\numberline {9.4.1}Blind signature}{55}
+\contentsline {subsection}{\numberline {9.3}Syntax}{55}
+\contentsline {subsection}{\numberline {9.4}Building blocks}{56}
+\contentsline {subsubsection}{\numberline {9.4.1}Blind signature}{56}
 \contentsline {subsubsection}{\numberline {9.4.2}Homomorphic Integer Commitment and Homomorphic Cryptosystem}{57}
-\contentsline {subsubsection}{\numberline {9.4.3}Proving signature knowledge}{57}
-\contentsline {subsubsection}{\numberline {9.4.4}Proving that a ciphertext encrypts 0 or 1}{58}
-\contentsline {subsection}{\numberline {9.5}System Design}{60}
-\contentsline {subsection}{\numberline {9.6}E2E Verifiability}{62}
+\contentsline {subsubsection}{\numberline {9.4.3}Proving signature knowledge}{58}
+\contentsline {subsubsection}{\numberline {9.4.4}Proving that a ciphertext encrypts 0 or 1}{59}
+\contentsline {subsection}{\numberline {9.5}System Design}{61}
+\contentsline {subsection}{\numberline {9.6}E2E Verifiability}{63}
+\contentsline {section}{\numberline {10}Implementation}{65}
+\contentsline {section}{\numberline {11}Conclusion}{66}
