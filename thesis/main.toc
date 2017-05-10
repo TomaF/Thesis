@@ -1,20 +1,20 @@
 \contentsline {chapter}{\numberline {1}Introduction}{7}
 \contentsline {section}{\numberline {1.1}Preliminaries}{9}
-\contentsline {subsection}{\numberline {1.1.1}Syntax and Correctness}{10}
-\contentsline {subsection}{\numberline {1.1.2}Election process}{12}
-\contentsline {subsection}{\numberline {1.1.3}E2E Verifiability}{13}
+\contentsline {section}{\numberline {1.2}Syntax and Correctness}{10}
+\contentsline {section}{\numberline {1.3}Election process}{12}
+\contentsline {section}{\numberline {1.4}E2E Verifiability}{13}
 \contentsline {chapter}{\numberline {2}Privacy}{15}
-\contentsline {subsection}{\numberline {2.0.4}$\ea $ and $T$ are honest: $G_{t-priv,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{16}
-\contentsline {subsection}{\numberline {2.0.5}$\vsd $ and $T$ are honest: $G_{t-priv,\vsd ,T}^{\mathcal {A},Sim}(1^{\lambda })$}{22}
-\contentsline {section}{\numberline {2.1}Comparison with existing definitions}{26}
-\contentsline {subsection}{\numberline {2.1.1}Helios. Ballot privacy.}{27}
-\contentsline {subsection}{\numberline {2.1.2}Demos privacy}{29}
+\contentsline {section}{\numberline {2.1}$\ea $ and $\T $ are honest: $G_{t-priv,\ea ,\T }^{\mathcal {A}, Sim}(1^{\lambda })$}{16}
+\contentsline {section}{\numberline {2.2}$\vsd $ and $\T $ are honest: $G_{t-priv,\vsd ,\T }^{\mathcal {A},Sim}(1^{\lambda })$}{22}
+\contentsline {section}{\numberline {2.3}Comparison with existing definitions}{26}
+\contentsline {subsection}{\numberline {2.3.1}Helios. Ballot privacy.}{27}
+\contentsline {subsection}{\numberline {2.3.2}Demos privacy}{29}
 \contentsline {chapter}{\numberline {3}Strict privacy notion}{39}
-\contentsline {section}{\numberline {3.1}$\ea $ and $T$ are honest: $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{40}
-\contentsline {section}{\numberline {3.2}$\vsd $ and $T$ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{44}
+\contentsline {section}{\numberline {3.1}$\ea $ and $\T $ are honest: $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{40}
+\contentsline {section}{\numberline {3.2}$\vsd $ and $\T $ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{44}
 \contentsline {section}{\numberline {3.3}Strict privacy vs E2E Verifiability}{49}
-\contentsline {section}{\numberline {3.4}Proof part 1: E2E Verifiability vs Strict privacy with respect to $\ea $ and $T$.}{50}
-\contentsline {section}{\numberline {3.5}Proof part 2: E2E Verifiability vs Strict privacy with respect to $\vsd $ and $T$.}{56}
+\contentsline {section}{\numberline {3.4}Proof part 1: E2E Verifiability vs Strict privacy with respect to $\ea $ and $\T $.}{50}
+\contentsline {section}{\numberline {3.5}Proof part 2: E2E Verifiability vs Strict privacy with respect to $\vsd $ and $\T $.}{56}
 \contentsline {chapter}{\numberline {4}Blind signature e-voting scheme}{61}
 \contentsline {subsection}{\numberline {4.0.1}Presentation of the blind signature e-voting scheme}{62}
 \contentsline {subsection}{\numberline {4.0.2}Setup and parameters}{62}

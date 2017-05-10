@@ -10,7 +10,7 @@ Electronic voting (e-voting) is a term used to describe the act of voting using 
 
 Electronic voting has been in the centre of researchers attention for over the last twenty years. Up to now, many e-voting schemes with quite strong security guarantee have been proposed. Perhaps the most well known and studied system is Helios designed by Ben Adida \cite{Adida2008}.  Helios is an open-source purely cryptographic voting protocol which does not rely on paper. Other examples of purely electronic systems are Demos-2 \cite{Kiayias2015} and Civitas \cite{Clarkson2008}.  Another subclass of e-voting systems is so-called hybrid systems where paper ballots are used for computing tally or ensuring the integrity of an election. Demos \cite{Kiayias2015a}, ThreeBallot \cite{Rivest2006}, Pr\^{e}t-\`a-Voter \cite{Ryan2006} and Scantegrity \cite{Chaum2009} are examples of hybrid systems.  \\
 
-Nowadays, some countries allow their citizens who are living or staying abroad to vote remotely. However, only a few countries allow external voters to cast their votes electronically. For the last sixty years e-voting (including remote e-voting) has been conducted at least once only in the following countries Australia, Belgium, Brazil, Canada, Estonia, France, Germany, India, Italy, the Netherlands (Rijnland Internet Election System), Norway, Peru, Romania, Switzerland, the UK, Venezuela, and the Philippines.\\
+Nowadays, some countries allow their citizens who are living or staying abroad to vote remotely. However, only a few countries allow external voters to cast their votes electronically. For the last sixty years e-voting (including remote e-voting) has been conducted at least once only in the following countries Australia, Belgium, Brazil, Canada, Estonia, France, Germany, India, Italy, the Netherlands (Rijnland Internet Election System), Norway, Peru, Romania, Switzerland, the UK, Venezuela, and the Philippines (according to Wikipedia \cite{wiki}).\\
 
 Benefits of using electronic voting  are significant:
 \begin{enumerate}
@@ -40,20 +40,20 @@ It has been observed that voter privacy and E2E verifiability requirements inher
 \section{Preliminaries}
 Through this paper, security parameter is denoted as $\lambda$. The notion $negl(\lambda)$ is used to denote a negligible function in $\lambda$, i.e., it always holds that $negl(\lambda) < \frac{1}{\lambda^c}$ for any $0<c \in \mathbb{Z}$ for sufficient large $\lambda$. \\
 
-Let $\Pi$ be an e-voting system and $\mathcal{P} = \{P_1,\dots,P_m\}$ be a set of $m$ candidates. Voters $\mathcal{V} = \{V_1,\dots,V_n\}$ use $\Pi$ to vote for some allowed subset of candidates selections from the collection of allowed selections $\mathcal{U}$ (which may include a 'blank' option too). \\
+Let $\Pi$ be an e-voting system and $\mathcal{P} = \{P_1,\dots,P_m\}$ be a set of $m$ candidates. Voters $\mathcal{V} = \{V_1,\dots,V_n\}$ use $\Pi$ to vote for some allowed subset of candidates selections from the collection of allowed selections $\mathcal{U}$ (including 'blank' option as well). \\
  
- In this modelling, the election system involves five types of entities, the voters $V_1, \dots , V_n$, possibly equipped with the voting supporting device ($\vsd$) and the auditing supporting device ($\asd$), the election authority ($\ea$), the vote collector ($\voc$), the trustee ($T$), and the bulletin board ($\bb$) whose only role is to provide storage for the election transcript for the purpose of verification. 
+ In this modelling, the election system involves five types of entities, the voters $V_1, \dots , V_n$, possibly equipped with the voting supporting device ($\vsd$) and the auditing supporting device ($\asd$), the election authority ($\ea$), the vote collector ($\voc$), the trustee ($\T$), and the bulletin board ($\bb$) whose . 
 \begin{enumerate}
-\item $\bb$ is completely passive and is only writeable by the $\voc$, $T$ and $\ea$ and readable by anyone. 
-\item Voters submit their votes by engaging in the ballot casting protocol to the $\voc$ and they are not allowed to interact with each other. 
+\item $\bb$ is completely passive and provides storage for the election transcript for the verification purpose. It is writeable by the $\voc$, $\T$ and $\ea$ and readable by anyone. 
+\item Voters submit their votes by starting the \textbf{Cast} protocol with $\vsd$ and providing their credentials and preferences as input. The main restriction is that voters are not allowed to interact with each other. 
 \item $\voc$ only role is to collect votes and write them to $\bb$
-\item $T$ is responsible for computing the tally and announcing the election result.
+\item $\T$ is responsible for computing the tally and announcing the election result.
 \item $\ea$ - prepares all the election setup information and distributes the voters' ballots.
 \end{enumerate}
 
-In many election systems, the $\ea$ and $T$ are implemented by more than a single authority.  However, since  the system is considered to be malicious as a whole, this is completely immaterial. Hence, for simplicity in the syntax, we assume that both $\ea$ and $T$ are single entities. 
+In many election systems, the $\ea$ and $\T$ are implemented by more than a single authority.  However, we consider an entity to be malicious as a whole, therefore, for simplicity in the syntax, we assume that both $\ea$ and $\T$ are single entities. 
 
-\subsection{Syntax and Correctness} 
+\section{Syntax and Correctness} 
 \begin{figure}
 \begin{tikzpicture}[scale=0.8]
   %\draw[step=10pt,gray,very thin] (0,0) grid (30,30);
@@ -162,32 +162,29 @@ In many election systems, the $\ea$ and $T$ are implemented by more than a singl
 \end{figure}
 An e-voting system $\Pi$ is a quintuple of algorithms and protocols  \textbf{(Setup, Cast, Tally, Result, Verify)}, that takes  voters' preferences as an input and aims to return a tally, the protocols specified as follows:
 \begin{enumerate}
-\item The interactive protocol \textbf{Setup} is executed by the $\ea$ and $T$. During the setup phase, $\ea$ generates $\Pi$'s public parameters $Pub$ (which include $P, V, U$) and the voters' secrets $s_1, \dots , s_n$. The part of the interactive protocol during which $\ea$ distributes secrets among voters is defined as \textbf{Registration}. At the same time, $T$ generates pre-election $\bb$ data and posts it on $\bb$.
+\item The interactive protocol \textbf{Setup} is executed by the $\ea$ and $\T$. During the setup phase, $\ea$ generates $\Pi$'s public parameters $Pub$ (which include $P, V, U$) and the voters' secrets $s_1, \dots , s_n$. The part of the interactive protocol during which $\ea$ distributes secrets among voters is defined as \textbf{Registration}. At the same time, $\T$ generates pre-election $\bb$ data and posts it on $\bb$.
 \item The interactive protocol \textbf{Cast} is executed between three parties, the voter $V_l$, the $\bb$ and the $\voc$. During this interaction, the voter uses $\vsd$, his secret $s_l$ and an option $U_l$ to generate the ballot $b_l$ and sends this ballot to $\voc$. Upon successful termination, $\voc$ posts ballot $b_l$ to $\bb$ and the voter $V_l$ receives a receipt $\alpha_l$.
-\item The algorithm \textbf{Result} is executed by $T$ and outputs the result $\tau$ for the election or returns $\perp$ in case such result is undefined.
-\item  The algorithm \textbf{Verify} on input $\alpha,\tau$ outputs a value in $\{0,1\}$, where  $\alpha$ is a voter receipt (that corresponds to the voter's output from the \textbf{Cast} protocol).
+\item The algorithm \textbf{Result} is executed by $\T$ and outputs the result $\tau$ for the election or returns $\perp$ if result is undefined.
+\item  The algorithm \textbf{Verify} on input $\alpha,\tau$ outputs a bit that determine whether the verification was successful or not.  $\alpha$ is a voter receipt obtained after the \textbf{Cast} protocol execution.
 \end{enumerate}
-In some e-voting systems \textbf{Registration} part is omitted and voters are expected to receive their credentials via a secure channel such as post mail, polling place etc.\\
-
+In some e-voting systems \textbf{Registration} part is omitted and voters are expected to receive their credentials via a secure channel such as post mail, polling place etc.
 \begin{definition}[Correctness of e-voting system]
 It is said that a system $\Pi$ has (perfect) correctness, if for any honest execution of any subset of not abstained voters that results in a public transcript $\tau$, where the voters $V_1, . . . , V_n$ cast votes for options $U_1, . . . , U_n$, it holds that $Result(\tau) = f(U_1,...,U_n)$, where $f(U_1,...,U_n)$ is the m-vector whose i-th location is equal to the number of times a candidate $P_i \in \{P_1,\dots, P_m\}$ was chosen in the candidate selections $U_1, . . . , U_n$.
 \end{definition}
-\subsection{Election process}
+\section{Election process}
 Any electronic voting procedure can be split into three general stages: Pre-election, Election and Post-election. For some specific e-voting schemes, the first or the last stage can be omitted.
 \begin{enumerate}
-\item Pre-election: $\ea$ generates public pre-election data and posts it on the $\bb$. Also, $\ea$ creates and distributes envelopes with private voters' information among all eligible voters. Meanwhile, $T$ obtains secret data that would be used for producing the result and posts its own pre-election data to the $\bb$.
+\item Pre-election: $\ea$ generates public pre-election data and posts it on the $\bb$. Also, $\ea$ creates and distributes envelopes with private voters' information among all eligible voters. Meanwhile, $\T$ obtains secret data that would be used for producing the result and posts its own pre-election data to the $\bb$.
 \item Election: this stage typically is split into two parts:
 \begin{enumerate}
 \item Registration: A voter and $\ea$ engaged in an interaction during which the voter proofs to the $\ea$ his identity and obtains credentials for vote casting. In some e-voting systems, the registration part is omitted, and voters receive their credentials in envelopes via some secure channel. 
 \item Vote casting: A voter starts an interaction with $\vsd$ using his credentials as proof of his eligibility to cast a vote for preferred candidates. Upon successful termination, $\voc$ receives a ballot from $\vsd$ and posts it on the $\bb$. 
 \end{enumerate}
-\item Post-election: After the election is closed, the election result is computed and announced by $T$.  If verification is supported, anyone may check the validity of the election procedure. 
+\item Post-election: After the election is closed, the election result is computed and announced by $\T$.  If verification is supported, anyone may check the validity of the election procedure. 
 \end{enumerate}
 
-\subsection{E2E Verifiability}
-E2E verifiability is a very strong level of security that allows voters  to detect that a malicious e-voting system tries to misrepresent the election outcome. \\
-
-Three aspects of verifiability are usually distinguished:
+\section{E2E Verifiability}
+E2E verifiability is a very strong level of security that allows voters  to detect that a malicious e-voting system tries to misrepresent the election outcome. Three aspects of verifiability are usually distinguished:
 \begin{enumerate}
 \item \textit{Individual verifiability}: a voter can check that his ballot is counted correctly \cite{Chaum1981}.
 \item \textit{Universal verifiability}: anyone can check that the election outcome is obtained from the ballots published on the $\bb$ \cite{Sako1995}.
@@ -195,10 +192,7 @@ Three aspects of verifiability are usually distinguished:
 \end{enumerate}
 
  In this work, we use the E2E-verifiability definition by Kiayias et al. \cite{Kiayias2015a},\cite{Kiayias2015}, that is given in Figure \ref{sec:e2e}. 
-According to the definition, an adversary $\mathcal{A}$ can control all $\vsd$'s, $\ea$, $\voc$ and some fraction of voters, however, it still can not manipulate the results without a high detection probability.  The entities involved are $\bb$, $\vsd$ and $\ea$ that can be split on $\ea$, that involved on pre-election stage only, and $T$ that computes the results. The algorithm \textbf{Cast} is run interactively between tree parties the $\bb$, the voter $V_l$ and $T$ that uses $\vsd$ with the following inputs: public parameters $Pub$, voter's secret $s_l$ and voter's choice $\mathcal{U}_l$. Upon successful termination, $V_l$ obtains a receipt $\alpha_l$. The algorithm \textbf{Verify}($\tau,\alpha_l$) outputs a bit, based on voter's receipt $\alpha_l$ and the public transcript $\tau$. The algorithm \textbf{Result}($\tau$) given the public transcript $\tau$  outputs the result for the election or $\bot$ if the result is undefined.\\
-
-We prefer the definition by Kiayias et al over the one given by K\"{u}sters et al \cite{Kusters2010}, because it is given in game-based settings. Moreover, this definition of E2E Verifiability does not require any additional assumptions, except for the existence of the $\bb$, therefore it is achievable in the standard model. Furthermore, there is an ideal functionality that captures the essential aspects of the E2E Verifiability \cite{idfunc}.  
-
+According to the definition, an adversary $\mathcal{A}$ can control all $\vsd$'s, $\ea$, $\voc$ and some fraction of voters, however, it still can not manipulate the results without a high detection probability.  The entities involved are $\bb$, $\vsd$ and $\ea$ that can be split on $\ea$, that involved on pre-election stage only, and $\T$ that computes the results. The algorithm \textbf{Cast} is run interactively between tree parties the $\bb$, the voter $V_l$ and $\T$ that uses $\vsd$ with the following inputs: public parameters $Pub$, voter's secret $s_l$ and voter's choice $\mathcal{U}_l$. Upon successful termination, $V_l$ obtains a receipt $\alpha_l$. The algorithm \textbf{Verify}($\tau,\alpha_l$) outputs a bit, based on voter's receipt $\alpha_l$ and the public transcript $\tau$. The algorithm \textbf{Result}($\tau$) given the public transcript $\tau$  outputs the result for the election or $\bot$ if the result is undefined.\\
 \begin{figure}[h!]
  \fbox{\parbox{\textwidth}{
 \underline{ E2E Verifiability Game $G^{\mathcal{A},\mathcal{E},d,\theta}_{E2E-Ver}(1^{\lambda},m,n)$}:
@@ -219,6 +213,7 @@ and either one of the following two conditions: \\
 \caption{E2E-verifiability by Kiayias et al.}
  \label{sec:e2e}
  \end{figure}
+ We prefer the definition by Kiayias et al over the one given by K\"{u}sters et al \cite{Kusters2010}, because it is given in game-based settings. Moreover, this definition of E2E Verifiability does not require any additional assumptions, except for the existence of the $\bb$, therefore it is achievable in the standard model. Furthermore, there is an ideal functionality that captures the essential aspects of the E2E Verifiability \cite{idfunc}.  
  
 
 
