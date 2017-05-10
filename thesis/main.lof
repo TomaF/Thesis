@@ -1,0 +1,13 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1-1}{\ignorespaces The interaction among the entities in an e-voting execution. The dotted lines denote read-only access to the BB. The dashed arrows denote channels for voters' private inputs distribution. Annotation: (1a): distribution of voter's private inputs; (1b): pre-election BB data; (2): vote casting; (3): writing votes to BB; (4) post-election BB data; (5): auditing.}}{17}
+\contentsline {figure}{\numberline {1-2}{\ignorespaces E2E-verifiability by Kiayias et al.}}{20}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2-1}{\ignorespaces $G_{t-priv,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda },n,m)$}}{23}
+\contentsline {figure}{\numberline {2-2}{\ignorespaces $G_{t-priv,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}}{29}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3-1}{\ignorespaces $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}}{47}
+\contentsline {figure}{\numberline {3-2}{\ignorespaces $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda })$}}{51}
+\contentsline {figure}{\numberline {3-3}{\ignorespaces Real and Ideal Execution}}{57}
+\contentsline {figure}{\numberline {3-4}{\ignorespaces $\mathcal {A}$}}{58}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

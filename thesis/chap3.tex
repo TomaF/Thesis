@@ -6,7 +6,7 @@
 %% prompt when you run the file main.tex through LaTeX.
 \chapter{Strict privacy notion}
 \label{strict}
-In this section I introduce a strong privacy definition where \textbf{all} voters are corrupted but an adversary is still unable to break privacy, denoted as strict privacy. I formally define strict voter privacy via a \textit{Strict Voter Privacy} game , denoted as $G_{strict,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$,  that is played between an adversary A and a challenger C.\\
+In this section we introduce a strong privacy definition where \textbf{all} voters are corrupted but an adversary is still unable to break privacy, denoted as strict privacy. We formally define strict voter privacy via a \textit{Strict Voter Privacy} game , denoted as $G_{strict,<honest~entities>}^{\mathcal{A}, Sim}(1^{\lambda})$,  that is played between an adversary A and a challenger C.\\
 
 According to the game rules, an adversary is allowed to define the election parameters, corrupt some entities, and act on behalf of all voters.  $\mathcal{C}$ plays role of honest parties and returns to the adversary simulated and real view of a voter in order defined by a pre-flipped coin $a$ (If $a=0$, $\mathcal{C}$ returns $(simulated\_view,real\_view)$ and  $(real\_view,simulated\_view)$ otherwise). During the interaction with  $\mathcal{C}$,  $\mathcal{A}$ would try to guess the coin $a$. The \textit{Strict Voter Privacy} game takes as input the security parameter $\lambda$, the number of candidates m and the number of voters n, where $n,m$ are polynomial in $\lambda$, and returns 1 or 0 depending on whether the adversary wins or not.\\
 
@@ -14,7 +14,7 @@ The only difference between Strict privacy and Privacy is the number of corrupte
 
  The specification of trusted entities splits the Voter Privacy into different scenarios. All meaningful cases of collusion fall into two scenarios: (1) EA and T are hones and (2) VSD and T are honest. It is possible to construct e-voting scheme, that is private with respect to only trusted VSD, however most known schemes require trusted T as well. \\
  
-I will show that the notion of strict privacy is the weakest level of privacy that contradicts end-to-end verifiability. To prove the contradiction I used the E2E verifiability definition given by Kiayias et al [1] and considered a strict voter privacy case where all voters are corrupted but an adversary is still unable to break privacy. Under this framework, I prove that it is not possible to achieve E2E verifiability in any strictly private system. Moreover, any meaningful relaxation of the strict privacy definition, leads to a notion if privacy that is feasible by some E2E verifiable e-voting system.
+We will show that the notion of strict privacy is the weakest level of privacy that contradicts end-to-end verifiability. To prove the contradiction we used the E2E verifiability definition given by Kiayias et al [1] and considered a strict voter privacy case where all voters are corrupted but an adversary is still unable to break privacy. Under this framework, we prove that it is not possible to achieve E2E verifiability in any strictly private system. Moreover, any meaningful relaxation of the strict privacy definition, leads to a notion if privacy that is feasible by some E2E verifiable e-voting system.
 
 \section{$\ea$ and $T$ are honest: $G_{strict,\ea,T}^{\mathcal{A}, Sim}(1^{\lambda})$}
 \textit{Strict Voter Privacy} implies that even if all voters are corrupted,   an adversary $\mathcal{A}$ is still unable to break the individual privacy and learn the actual votes. The \textit{Strict Voter Privacy}  game is similar to the \textit{Voter Privacy} game, but instead of scheduling the \textbf{Registration} protocol for a voter $V$,  $\mathcal{A}$ starts the protocol itself. \\
@@ -72,7 +72,7 @@ The e-voting system $\Pi$ achieves strict voter privacy in case of trusted $\ea$
 %This case is meaningful for e-voting, only if there exists some entity, let us call it a trustee $T$, which must participate in the $Tally$ protocol for an election transcript to be produced. If there is no such trusted entity, than an adversary, who corrupts $\ea$, has all necessary information for breaking everyone's privacy. It happens due to the following e-voting assumption: voters are not expected to collaborate in order to preserve privacy or integrity of an election. \\\\
 %The following definition of strict privacy applies only to cases where $\ea$ is corrupted, $\vsd$ is honest and there is at least one trusted entity, which must participate in the $Tally$ protocol for producing an election tally. \\\\
 
-In \textit{Strict Voter Privacy} game I do not consider the case where privacy of voters relies on trusted $\vsd$ \textbf{only} since the case is rather extreme and rare. The definition of strict voter privacy below is given for trusted $\vsd$ and $T$. However, I identify changes that would transform the given definition into \textbf{only} $\vsd$ is trusted case.\\
+In \textit{Strict Voter Privacy} game we do not consider the case where privacy of voters relies on trusted $\vsd$ \textbf{only} since the case is rather extreme and rare. The definition of strict voter privacy below is given for trusted $\vsd$ and $T$. However, we identify changes that would transform the given definition into \textbf{only} $\vsd$ is trusted case.\\
 
  In the game $G_{strict,\vsd,T}^{\mathcal{A}, Sim}(1^{\lambda},n,m)$ there is no honest voters, instead an adversary $\mathcal{A}$ operates on behalf of the all voters , $\ea$ and $\voc$.  $\mathcal{C}$ plays on behalf of $\vsd$ and $T$.  $\bb$ is completely passive and represents a publicly accessible database.\\
  
@@ -106,7 +106,7 @@ $\mathcal{A}$ can control $T$ and perform \textbf{Tally} procedure. However, in 
 The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ is trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
  $|\Pr[G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda},n,m) = 1] - \frac{1}{2}| = negl(\lambda)$\\\\
  
- Because \textit{Demos Privacy} implies the weaker security than \textit{Voter Privacy}, the same holds for strict privacy notion. I introduce \textit{Strict Version of Demos Privacy}, where $\mathcal{A}$ does not corrupt any entity, but operates on behalf of all voters. \\
+ Because \textit{Demos Privacy} implies the weaker security than \textit{Voter Privacy}, the same holds for strict privacy notion. We introduce \textit{Strict Version of Demos Privacy}, where $\mathcal{A}$ does not corrupt any entity, but operates on behalf of all voters. \\
    
  \textbf{Strict version of Demos Privacy}\\
  $G_{DEMOS,strict}^{*\mathcal{A}, \mathcal{S}}(1^{\lambda},n,m)$ defined as follows:\\
@@ -135,7 +135,7 @@ Originally UC considers the execution of an unbounded number of concurrent proto
 
 In stand-alone model an adversary is restricted from communicating with the environment during the protocol execution. Stand-alone model enables one to design a protocol using calls to an ideal functionality, which is secure by design,  and check whether a real protocol properly implements this ideal protocol. This makes security analysis significantly more simple. A protocol is said to be secure if for all adversaries, there exists a simulator, so that real and ideal executions are indistinguishable for and any environment \cite{Lindell2016}. \\
 
-In this section I prove that "Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable".\\
+In this section we prove that "Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable".\\
 
 The Real and Ideal executions in this case are shown on the figure 6.
  \begin{figure}
@@ -222,7 +222,7 @@ The Real and Ideal executions in this case are shown on the figure 6.
         \caption{Real and Ideal Execution}
         \label{ RI}
 \end{figure}\\
-Security requires existence of some simulator program $\mathcal{S}$ such that the real and ideal executions are indistinguishable for and any environment  $\mathcal{Z}$. Unfortunately, as I am about to show, no such simulator exists.\\\\
+Security requires existence of some simulator program $\mathcal{S}$ such that the real and ideal executions are indistinguishable for and any environment  $\mathcal{Z}$. Unfortunately, as we are about to show, no such simulator exists.\\\\
 \textbf{Theorem:}\\ 
 For any system $\Pi$ that satisfies the definition of strict privacy, there is an adversary $\mathcal{A}$  such that for any simulator $\mathcal{S}$, there is an environment $\mathcal{Z}$ that distinguishes ideal and real executions $\exec_{\mathcal{Z}, \mathcal{S}}^{\mathcal{F}, \mathcal{G}_{BB}} \not \approx \exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}}$ \\\\
 
@@ -255,7 +255,7 @@ $\mathcal{Z}$:\\
  Since $\Pi$ is strictly private, probability, that an adversary $\mathcal{D}$ engaging in the \textbf{Cast} protocol would distinguish real and simulated view and win the attack against the strict privacy $Pr[G_{strict,\vsd,T}^{\mathcal{D},Sim}(1^{\lambda,n,m}) = 1] = \frac{1}{2} + \alpha$ where $\alpha$ is negligible. In case of corrupted $\ea$, $\mathcal{C}$ returns a real pair of ballot and receipt and a real view and also a simulated via $Sim$ pair and fake view. This means that in a strictly private system an adversary has a negligible chance to distinguish the ballot and receipt for his option and for some $U_a$ option. \\\\
 During the Real Execution a voter can either accept or reject the cast ballot. Rejection is possible only if he detects that the returned receipt, ballot and view are faked. The probability that a voter distinguish the receipt and ballot for his option from for the `no-one' option and rejects is $\Pr[V_i~rejects] \leq  \alpha$, where $\alpha$ is negligible.\\\\
  By nature of the attack,  fake receipt is the perfectly valid receipt for the $U_a$ option and the cast ballot would always be successfully verified. Therefore in the Real Execution $\mathcal{Z}$ would get a successful verification response from all n voters and output 1 with the probability $\Pr[\exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}} = 1] =  \Pr[all~V_i~accept] = \prod_{i=0}^n(1- \Pr[V_i~rejects] ) \geq (1 - \alpha)^n = 1 - n\alpha = 1- \beta$, where $\beta = n\alpha $ is negligible. Thus, $\Pr[\exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}} = 0] = 1 - \Pr[\exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}} = 1] \leq \beta$, where $\beta$ is negligible.\\\\
-Suppose for the sake of contradiction that $\Pr[\exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}} = 0] \geq  \beta$, where $\beta$ is non-negligible. This means that at least one voter rejects the receipt. I will show that this contradicts the definition of strict privacy. Consider an attacker $\mathcal{B}$ against strict privacy which exploits the environment  $\mathcal{Z}$. \\\\
+Suppose for the sake of contradiction that $\Pr[\exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}} = 0] \geq  \beta$, where $\beta$ is non-negligible. This means that at least one voter rejects the receipt. We will show that this contradicts the definition of strict privacy. Consider an attacker $\mathcal{B}$ against strict privacy which exploits the environment  $\mathcal{Z}$. \\\\
 \begin{tikzpicture}
     \node (s) [a] {$\mathcal{C}$};
     \path (s.east)+(1.5*\blockdist,0) node (system) [draw, text width=8em, 
@@ -332,7 +332,7 @@ Since $\Pi'$ is strictly private, probability, that an adversary engaging in the
 %%%%%
 In the Real Execution a voter $V_i$ starts the Cast protocol using fake credentials $s_i'$ and an option $`no~one'$. However, $\mathcal{A'}$ substitutes his ballot and receipt with the ballot and receipt generated for a fake voter with real credentials and $U_a$ option. By nature of the attack, the returned receipt generated for real credentials and the $U_a$ option is identical to the receipt produced for a fake credentials and $`no~one'$ option. Therefore in the Real Execution $\mathcal{Z'}$ would output 1 if non of the voters would detect that he was given a receipt for fake credentials. The probability of this event is $\Pr[\exec_{\mathcal{Z'},\mathcal{A'}}^{\Pi', \mathcal{G}_{BB}} = 1] =  \Pr[all~V_i~accept] = \prod_{i=0}^n(1- \Pr[V_i~rejects] )$. Suppose, the probability of rejection by $V_i$ is $ \Pr[V_i~rejects] = \zeta$. Thus,   $\Pr[\exec_{\mathcal{Z'},\mathcal{A'}}^{\Pi', \mathcal{G}_{BB}} = 1] = (1 - \zeta)^n = 1 - n\zeta = 1- \zeta'$.\\\\
 %%%%
-Suppose that $ \zeta'$ is not negligible. This means that $\Pr[\exec_{\mathcal{Z'},\mathcal{A'}}^{\Pi', \mathcal{G}_{BB}} = 0] = 1 - \Pr[\exec_{\mathcal{Z'},\mathcal{A'}}^{\Pi', \mathcal{G}_{BB}} = 1] =  \zeta'$, where $ \zeta'$ is not negligible. This means that at least one voter rejects the receipt with a non-negligible probability. I will show that this contradicts the definition of strict privacy. Consider an attacker $\mathcal{B'}$ against strict privacy which exploits the environment  $\mathcal{Z'}$. \\\\
+Suppose that $ \zeta'$ is not negligible. This means that $\Pr[\exec_{\mathcal{Z'},\mathcal{A'}}^{\Pi', \mathcal{G}_{BB}} = 0] = 1 - \Pr[\exec_{\mathcal{Z'},\mathcal{A'}}^{\Pi', \mathcal{G}_{BB}} = 1] =  \zeta'$, where $ \zeta'$ is not negligible. This means that at least one voter rejects the receipt with a non-negligible probability. We will show that this contradicts the definition of strict privacy. Consider an attacker $\mathcal{B'}$ against strict privacy which exploits the environment  $\mathcal{Z'}$. \\\\
 \begin{tikzpicture}
     \node (s) [a] {$\mathcal{C}$};
     \path (s.east)+(1.5*\blockdist,0) node (system) [draw, text width=8em, 
