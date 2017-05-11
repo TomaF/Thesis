@@ -10,21 +10,21 @@
 \contentsline {subsection}{\numberline {2.3.1}Helios. Ballot privacy.}{27}
 \contentsline {subsection}{\numberline {2.3.2}Demos privacy}{29}
 \contentsline {chapter}{\numberline {3}Strict privacy notion}{39}
-\contentsline {section}{\numberline {3.1}$\ea $ and $\T $ are honest: $G_{strict,\ea ,T}^{\mathcal {A}, Sim}(1^{\lambda })$}{40}
-\contentsline {section}{\numberline {3.2}$\vsd $ and $\T $ are honest: $G_{strict,\vsd }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{44}
-\contentsline {section}{\numberline {3.3}Strict privacy vs E2E Verifiability}{49}
+\contentsline {section}{\numberline {3.1}$\ea $ and $\T $ are honest: $G_{strict,\ea ,\T }^{\mathcal {A}, Sim}(1^{\lambda },n,m)$}{40}
+\contentsline {section}{\numberline {3.2}$\vsd $ and $\T $ are honest: $G_{strict,\vsd ,\T }^{\mathcal {A},Sim}(1^{\lambda },n,m)$}{44}
+\contentsline {section}{\numberline {3.3}Strict privacy vs E2E Verifiability}{48}
 \contentsline {section}{\numberline {3.4}Proof part 1: E2E Verifiability vs Strict privacy with respect to $\ea $ and $\T $.}{50}
 \contentsline {section}{\numberline {3.5}Proof part 2: E2E Verifiability vs Strict privacy with respect to $\vsd $ and $\T $.}{56}
 \contentsline {chapter}{\numberline {4}Blind signature e-voting scheme}{61}
-\contentsline {subsection}{\numberline {4.0.1}Presentation of the blind signature e-voting scheme}{62}
-\contentsline {subsection}{\numberline {4.0.2}Setup and parameters}{62}
-\contentsline {subsection}{\numberline {4.0.3}Syntax}{63}
-\contentsline {subsection}{\numberline {4.0.4}Building blocks}{64}
-\contentsline {subsubsection}{Blind signature}{64}
-\contentsline {subsubsection}{Homomorphic Integer Commitment and Homomorphic Cryptosystem}{66}
-\contentsline {subsubsection}{Proving signature knowledge}{67}
-\contentsline {subsubsection}{Proving that a ciphertext encrypts 0 or 1}{68}
-\contentsline {subsection}{\numberline {4.0.5}System Design}{70}
-\contentsline {subsection}{\numberline {4.0.6}E2E Verifiability}{73}
-\contentsline {section}{\numberline {4.1}Implementation}{75}
+\contentsline {section}{\numberline {4.1}Presentation of the blind signature e-voting scheme}{62}
+\contentsline {section}{\numberline {4.2}Setup and parameters}{62}
+\contentsline {section}{\numberline {4.3}Syntax}{63}
+\contentsline {section}{\numberline {4.4}Building blocks}{64}
+\contentsline {subsection}{\numberline {4.4.1}Blind signature}{64}
+\contentsline {subsection}{\numberline {4.4.2}Homomorphic Integer Commitment and Homomorphic Cryptosystem}{66}
+\contentsline {subsection}{\numberline {4.4.3}Proving signature knowledge}{67}
+\contentsline {subsection}{\numberline {4.4.4}Proving that a ciphertext encrypts 0 or 1}{68}
+\contentsline {section}{\numberline {4.5}System Design}{70}
+\contentsline {section}{\numberline {4.6}E2E Verifiability}{73}
+\contentsline {section}{\numberline {4.7}Implementation}{75}
 \contentsline {chapter}{\numberline {5}Conclusion}{77}
