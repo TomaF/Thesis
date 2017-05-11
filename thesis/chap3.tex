@@ -84,7 +84,7 @@ Denote the list of voters for which $\mathcal{A}$ chooses to post the left ballo
 
 
 
-The game $G_{strict, \vsd}^{\mathcal{A},Sim}(1^{\lambda})$ is defined as follows:
+The game $G_{strict, \vsd,\T}^{\mathcal{A},Sim}(1^{\lambda})$ is defined as follows:
 \begin{enumerate} 
 \item $\mathcal{A}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, chooses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of allowed candidates' selections $\mathcal{U}$.  $\mathcal{A}$ starts an election using $\mathcal{V}, \mathcal{P}, \mathcal{U}$ as input parameters.
 \item $\mathcal{C}$ flips a coin $a \leftarrow \{0,1\}$ to define an order according to which real and simulated ballots and receipts would be returned to $\mathcal{A}$.
@@ -104,39 +104,15 @@ where the pair $(b_i, r_i)$ is the ballot and receipt for an adversarial option 
 \end{enumerate}
 \textbf{*Remark:}\\
 $\mathcal{A}$ can control $\T$ and perform the \textbf{Tally} procedure. However, in such a case, it should be impossible for $\T$ to learn the underline vote for any individual ballot or compute the result for $\bb$ that does not contain all ballots $b_i^0,b_i^1$. The only exception is the case when lists  $\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}^0} $ and  $\langle \mathcal{U}^1_i \rangle _{V_i \in \tilde{\mathcal{V}}^1} $  are summed up to the same tally as lists  $\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}^1} $ and  $\langle \mathcal{U}^1_i \rangle _{V_i \in \tilde{\mathcal{V}}^0} $, for this situation $\mathcal{A}$ may perform \textbf{Tally} operation without challenger's ballots. \\\\
-\begin{definition}[Strict privacy: $\vsd$ is honest]
-The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ is trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{strict,\vsd}^{\mathcal{A},Sim}(1^{\lambda},n,m) = 1] - \frac{1}{2}| = negl(\lambda)$
- \end{definition}
-Because \textit{Demos Privacy} implies the weaker security than \textit{Voter Privacy}, the same holds for strict privacy notion. We introduce \textit{Strict Version of Demos Privacy}, where $\mathcal{A}$ does not corrupt any entity, but operates on behalf of all voters. \\\\
- \textbf{Strict version of Demos Privacy}\\
- $G_{DEMOS,strict}^{*\mathcal{A}, \mathcal{S}}(1^{\lambda},n,m)$ defined as follows:\\
-\begin{enumerate}
-\item $\mathcal{A}$ on input $1^{\lambda},n,m$ defines a set of voters  $\mathcal{V} = \{V_1,...,V_n\}$, chooses a list of candidates  $\mathcal{P} = \{P_1,...,P_m\}$ and the set of the allowed candidates' selections $\mathcal{U}$.  It provides $\mathcal{C}$ with $\mathcal{V}, \mathcal{P}, \mathcal{U}$.
-\item $\mathcal{C}$ flips a coin $b\in \{0,1\}$ and perform the \textbf{Setup} protocol on input $1^{\lambda},\mathcal{V}, \mathcal{P}, \mathcal{U}$ to obtain $msk,s_1,...,s_n, Pub$; it provides  $\mathcal{A}$ with $Pub$. 
-\item The adversary $\mathcal{A}$  and $\mathcal{C}$ engage in an interaction where $\mathcal{A}$ runs the \textbf{Cast} protocols on behalf of all voters:
-\begin{enumerate}
-\item[] --  $\mathcal{A}$ provides two candidates selections $\langle \mathcal{U}^0_l , \mathcal{U}^1_l \rangle$ to the challenger $\mathcal{C}$ and plays on behalf $V_i$. $\mathcal{C}$ uses $\mathcal{U}^b_l$ as the $V_i$'s input. When the  \textbf{Cast} protocol terminates, the challenger  $\mathcal{C}$ provides to $\mathcal{A}$: (i) the receipt $\alpha_l$ and (ii) if b = 0, the real view of internal state of the voter $V_l$, $view_l$ obtained from the \textbf{Cast} protocol execution; or  a simulated view of the internal state of $V_l$ produced by $\mathcal{S}(view_l)$.
-\end{enumerate}
-\item $\mathcal{C}$ performs the  \textbf{Tally} protocol playing the role of $\ea$, $\T$  and $\bb$. $\mathcal{A}$ is allowed to observe the network trace of that protocol. 
-\item Finally, $\mathcal{A}$ using all information collected above (including the contents of the BB) outputs a bit $b^*$
-\item  The game returns a bit which is 1 if both conditions are true: 1) $b = b^*$ and 2) $f(\langle \mathcal{U}^1_i \rangle _{V_i \in \tilde{\mathcal{V}}} ) =  f(\langle \mathcal{U}^0_i \rangle _{V_i \in \tilde{\mathcal{V}}} )$ and 0 otherwise
-\end{enumerate}
-\begin{definition}[Strict Demos Privacy]
-The e-voting system $\Pi$ achieves strict demos voter privacy, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
- $|\Pr[G_{DEMOS,strict}^{*\mathcal{A},Sim}(1^{\lambda},n,m) = 1] - \frac{1}{2}| = negl(\lambda)$
+\begin{definition}[Strict privacy: $\vsd$ and $\T$ are honest]
+The e-voting system $\Pi$ achieves strict voter privacy in case when $\vsd$ and $\T$ are trusted, if there is a PPT simulator $Sim$ such that for any PPT adversary $\mathcal{A}$:\\\\
+ $|\Pr[G_{strict,\vsd,\T}^{\mathcal{A},Sim}(1^{\lambda},n,m) = 1] - \frac{1}{2}| = negl(\lambda)$
  \end{definition}
  %
 %=============================================================================================================
 %
-\section{Strict privacy vs E2E Verifiability}
-The Universal Composability (UC) is a framework for representing cryptographic protocols and analysing their security \cite{Canetti2001}. UC provides very  strong security guarantees and allows to specify security requirements in a unified and systematic way. There are just tree entities involved: a protocol, an adversary and an environment that captures everything else that goes beyond the protocol execution. The best explanation what does UC mean is given by Jens Groth: "In the UC framework, an execution of a multi-party computation protocol is compared to an execution where a trusted ideal functionality handles the data and produces the output. A protocol is said to be secure if an adversary operating in a real-life model can be simulated in the ideal process model with the ideal functionality. In the case of voting, the ideal functionality takes as input the votes and outputs the result of the election. This ideal functionality corresponds to the old method of voters marking their choice on paper and putting the ballot in a box, which is opened once the election is over."\cite{Groth2004}.\\
-
-Originally UC considers the execution of an unbounded number of concurrent protocols in the arbitrary environment, controlled by an adversary. Even though UC seems to be the most realistic level of security, it cannot be achieved in general without some trusted setup assumptions \cite{Lin2009}. The stand-alone setting on the other hand only allows the execution of a single instance of the protocol at a time and guarantees the security under sequential composition, namely if a protocol is secure in the stand-along model it maintains its security in sequential runs, where each execution concludes before the next one begins.  Sequential composition does not imply security in the concurrent composition, however, it provides reasonably high-security guarantees.\\ 
-
-In the stand-alone model, an adversary is restricted from communicating with the environment during the protocol execution. The stand-alone model enables one to design a protocol using calls to an ideal functionality, which is secure by design,  and check whether a real protocol properly implements this ideal protocol. This makes security analysis significantly more simple. A protocol is said to be secure if, for all adversaries, there exists a simulator so that real and ideal executions are indistinguishable for and any environment \cite{Lindell2016}. \\
-
-In this section, we prove that "Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable".\\
+\section{Strict Privacy contradicts E2E Verifiability. }
+As we discuss in section \ref{demospriv}, \textit{Demos Privacy} implies the weaker security than \textit{Voter Privacy}, therefore the same holds for strict privacy notion. However, we use our Strict Privacy definition instead of strict version of Demos Privacy to prove that "Any system $\Pi$ that satisfies the definition of strict privacy, is "receipt free" but not E2E Verifiable", because we need privacy guarantees for the different tallies case. As for E2E Verifiability, we use the ideal functionality designed by V. Teague, A. Kiayias, T. Zacharias et al. \cite{idfunc} that captures the E2E Verifiability definition by Kiayias et. al.  The paper, where the ideal functionality for end-to-end verifiable elections is defined, currently is under submission, therefore we do not list the functionality here.\\
 
 The Real and Ideal executions, in this case, are shown in figure 6.
  \begin{figure}
@@ -224,11 +200,11 @@ The Real and Ideal executions, in this case, are shown in figure 6.
         \label{ RI}
 \end{figure}\\
 Security requires the existence of some simulator program $\mathcal{S}$ such that the real and ideal executions are indistinguishable for and any environment  $\mathcal{Z}$. Unfortunately, as we are about to show, no such simulator exists.
-\begin{theorem} 
+\begin{theorem}[Strict Privacy contradicts E2E Verifiability] 
 For any system $\Pi$ that satisfies the definition of strict privacy, there is an adversary $\mathcal{A}$  such that for any simulator $\mathcal{S}$, there is an environment $\mathcal{Z}$ that distinguishes ideal and real executions $\exec_{\mathcal{Z}, \mathcal{S}}^{\mathcal{F}, \mathcal{G}_{BB}} \not \approx \exec_{\mathcal{Z},\mathcal{A}}^{\Pi, \mathcal{G}_{BB}}$ 
 \end{theorem}
 
-\section{Proof part 1: E2E Verifiability vs Strict privacy with respect to $\ea$ and $\T$.}
+\subsection{Part 1: E2E Verifiability vs Strict privacy with respect to $\ea$ and $\T$.}
 Suppose there is a system $\Pi$, which is strictly private in case ``$\ea$ is corrupted, but $\vsd$ and $\T$ are honest".\\
 Consider the following attack against E2E Verifiability: \\
 \fbox{\begin{minipage}{30em}
@@ -308,7 +284,7 @@ $ \begin{cases}
 $\tilde{\mathcal{Z}}$ would still output 1 in case of the real execution since the number of non-blank votes would be at least $\gamma$ due to successful attack  $\mathcal{A}$. However  $\tilde{\mathcal{Z}}$ would not find at least $\gamma$ non-blank votes and output 0 in the ideal execution. \\\\
 Thus, there is the attacker $\mathcal{A}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z}}$ or $\mathcal{Z}$ which can always distinguish real and ideal executions. \\
 
-\section{Proof part 2: E2E Verifiability vs Strict privacy with respect to $\vsd$ and $\T$.}
+\subsection{Part 2: E2E Verifiability vs Strict privacy with respect to $\vsd$ and $\T$.}
 Suppose there is a system $\Pi'$, which is strictly private in case ``$\ea$ is honest, but $\vsd$ is corrupted".\\
 Consider the following attack against E2E Verifiability: \\
 \fbox{\begin{minipage}{30em}
@@ -384,4 +360,4 @@ $ \begin{cases}
 \end{minipage}}
 
 $\tilde{\mathcal{Z'}}$ would still output 1 in case of the real execution since the number of non-blank votes would be at least $\gamma$ due to successful attack  $\mathcal{A}$. However  $\tilde{\mathcal{Z'}}$ would not find at least $\gamma$ non-blank votes and output 0 in the ideal execution. \\\\
-Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z'}}$ or $\mathcal{Z'}$ which can always distinguish real and ideal executions. 
+Thus, there is the attacker $\mathcal{A'}$ such that for any simulator $\mathcal{S}$ there is the environment $\tilde{\mathcal{Z'}}$ or $\mathcal{Z'}$ which can always distinguish real and ideal executions.

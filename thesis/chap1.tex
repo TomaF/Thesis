@@ -26,7 +26,7 @@ However, all of the potential benefits are moot if we can not trust the election
  
 Among the security properties that have been identified for e-voting, there are two highly desirable properties that are considered to be crucial and has been investigated extensively: E2E Verifiability and Voter Privacy.\\
 
- E2E Verifiability means that it is possible to verify the correctness of the election tally based on feedback from the participants and by examining the public election transcript. Informally the E2E verifiable property means that any voter can detect that the election outcome has been manipulated.  Formally, E2E verifiability is defined as the ability of a voter  to verify that: 1) his vote was properly cast, 2) recorded as cast and 3) tallied into the election result as recorded. \\
+ E2E Verifiability means that it is possible to verify the correctness of the election outcome based on feedbacks from voters and examination of the public election transcript. Informally the E2E verifiable property means that any voter can detect that the election outcome has been manipulated.  Formally, E2E verifiability is defined as the ability of a voter  to verify that: 1) his vote was properly cast, 2) recorded as cast and 3) tallied into the election result as recorded. \\
  
  Voter Privacy can be described as follows: e-voting system should not reveal how a particular voter voted. Voter privacy can be divided into tree levels of different strength (in increasing order):
 \begin{enumerate}
@@ -168,7 +168,7 @@ An e-voting system $\Pi$ is a quintuple of algorithms and protocols  \textbf{(Se
 \item  The algorithm \textbf{Verify} on input $\alpha,\tau$ outputs a bit that determine whether the verification was successful or not.  $\alpha$ is a voter receipt obtained after the \textbf{Cast} protocol execution.
 \end{enumerate}
 In some e-voting systems \textbf{Registration} part is omitted and voters are expected to receive their credentials via a secure channel such as post mail, polling place etc.
-\begin{definition}[Correctness of e-voting system]
+\begin{definition}[Correctness of e-voting system by Kiayias et al. \cite{Kiayias2015}]
 It is said that a system $\Pi$ has (perfect) correctness, if for any honest execution of any subset of not abstained voters that results in a public transcript $\tau$, where the voters $V_1, . . . , V_n$ cast votes for options $U_1, . . . , U_n$, it holds that $Result(\tau) = f(U_1,...,U_n)$, where $f(U_1,...,U_n)$ is the m-vector whose i-th location is equal to the number of times a candidate $P_i \in \{P_1,\dots, P_m\}$ was chosen in the candidate selections $U_1, . . . , U_n$.
 \end{definition}
 \section{Election process}
@@ -184,6 +184,7 @@ Any electronic voting procedure can be split into three general stages: Pre-elec
 \end{enumerate}
 
 \section{E2E Verifiability}
+\label{e2e}
 E2E verifiability is a very strong level of security that allows voters  to detect that a malicious e-voting system tries to misrepresent the election outcome. Three aspects of verifiability are usually distinguished:
 \begin{enumerate}
 \item \textit{Individual verifiability}: a voter can check that his ballot is counted correctly \cite{Chaum1981}.
@@ -191,7 +192,7 @@ E2E verifiability is a very strong level of security that allows voters  to dete
 \item \textit{End-to-end verifiability}: a voter can check that his vote was cast-as-intended and recorded-as-cast, also anyone can check that the ballots were tallied-as-recorded \cite{Neff2004},\cite{Chaum2004}.
 \end{enumerate}
 
- In this work, we use the E2E-verifiability definition by Kiayias et al. \cite{Kiayias2015a},\cite{Kiayias2015}, that is given in Figure \ref{sec:e2e}. 
+ In this work, we use the E2E-verifiability definition by Kiayias et al. \cite{Kiayias2015a},\cite{Kiayias2015}, the definition is listed in Figure \ref{sec:e2e}. 
 According to the definition, an adversary $\mathcal{A}$ can control all $\vsd$'s, $\ea$, $\voc$ and some fraction of voters, however, it still can not manipulate the results without a high detection probability.  The entities involved are $\bb$, $\vsd$ and $\ea$ that can be split on $\ea$, that involved on pre-election stage only, and $\T$ that computes the results. The algorithm \textbf{Cast} is run interactively between tree parties the $\bb$, the voter $V_l$ and $\T$ that uses $\vsd$ with the following inputs: public parameters $Pub$, voter's secret $s_l$ and voter's choice $\mathcal{U}_l$. Upon successful termination, $V_l$ obtains a receipt $\alpha_l$. The algorithm \textbf{Verify}($\tau,\alpha_l$) outputs a bit, based on voter's receipt $\alpha_l$ and the public transcript $\tau$. The algorithm \textbf{Result}($\tau$) given the public transcript $\tau$  outputs the result for the election or $\bot$ if the result is undefined.\\
 \begin{figure}[h!]
  \fbox{\parbox{\textwidth}{
@@ -215,6 +216,17 @@ and either one of the following two conditions: \\
  \end{figure}
  We prefer the definition by Kiayias et al over the one given by K\"{u}sters et al \cite{Kusters2010}, because it is given in game-based settings. Moreover, this definition of E2E Verifiability does not require any additional assumptions, except for the existence of the $\bb$, therefore it is achievable in the standard model. Furthermore, there is an ideal functionality that captures the essential aspects of the E2E Verifiability \cite{idfunc}.  
  
+ \section{The Universal Composability Framework}
+ \label{uc}
+The Universal Composability (UC) is a framework for representing cryptographic protocols and analysing their security \cite{Canetti2001}. UC provides very  strong security guarantees and allows to specify security requirements in a unified and systematic way. There are just tree entities involved: a protocol, an adversary and an environment that captures everything else that goes beyond the protocol execution. The best explanation what does UC mean is given by Jens Groth: "In the UC framework, an execution of a multi-party computation protocol is compared to an execution where a trusted ideal functionality handles the data and produces the output. A protocol is said to be secure if an adversary operating in a real-life model can be simulated in the ideal process model with the ideal functionality. In the case of voting, the ideal functionality takes as input the votes and outputs the result of the election. This ideal functionality corresponds to the old method of voters marking their choice on paper and putting the ballot in a box, which is opened once the election is over."\cite{Groth2004}.\\
 
+Originally UC considers the execution of an unbounded number of concurrent protocols in the arbitrary environment, controlled by an adversary. Even though UC seems to be the most realistic level of security, it cannot be achieved in general without some trusted setup assumptions \cite{Lin2009}. The stand-alone setting on the other hand only allows the execution of a single instance of the protocol at a time and guarantees the security under sequential composition, namely if a protocol is secure in the stand-along model it maintains its security in sequential runs, where each execution concludes before the next one begins.  Sequential composition does not imply security in the concurrent composition, however, it provides reasonably high-security guarantees.\\ 
 
+In the stand-alone model, an adversary is restricted from communicating with the environment during the protocol execution. The stand-alone model enables one to design a protocol using calls to an ideal functionality, which is secure by design,  and check whether a real protocol properly implements this ideal protocol. This makes security analysis significantly more simple. A protocol is said to be secure if, for all adversaries, there exists a simulator so that real and ideal executions are indistinguishable for and any environment \cite{Lindell2016}. 
+\section{Random Oracle}
+\label{rom}
+Random Oracle Model was invented as an artificial  way to construct formal security proofs for certain types of cryptographic protocols \cite{Bellare1993}. The model can be described as a black box with a perfectly random function we know nothing about . We can input some new date into the box (ask quires) and receive an uniformly distributed random output. However, if given an already seen input, the box outputs whatever it returned the last time. \\
 
+Basically, Random Oracle is an perfect hash function i.e. a \textit{random function} with memory. Unfortunately, random functions are impractical -- it is just an model, that can not be implemented in the real life. There exist signature and encryption schemes that are secure in the Random Oracle Model, but for which any implementation of the random oracle results in insecure schemes. Therefore for constructing security proofs in Random Oracle model, we pretend that some real implementation of the hash function is perfectly random, even though it is decidedly not random. The problem with this approach is that it is unclear what security guarantees it buy us in the real world. Canetti et al. \cite{Canetti2004} prove that there are protocols that secure in Random Oracle model, but any implementation of such protocols results in insecure schemes. However, despite everything, security proofs in Random Oracle model are much better than no proofs at all and this model was wildly used for proving security of RSA, ElGamal etc.\\
+
+Definitions are given in the Standard and Random Oracle models are incomparable. The Standard model implies that security relies on the standard cryptographic assumptions, while in Random Oracle we assume that our implementation of the hash function is perfectly random, even thought it is not. 

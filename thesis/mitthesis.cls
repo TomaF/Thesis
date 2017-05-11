@@ -335,7 +335,7 @@
 \if@leftblank
 % Prints "THIS PAGE INTENTIONALLY LEFT BLANK" on blank pages.
 \def\chapter{\clearpage\ifodd\c@page\else
-   \hbox{}\par\vfill\centerline%
+%   \hbox{}\par\vfill\centerline%
    {THIS PAGE INTENTIONALLY LEFT BLANK}%
    \vfill\newpage\fi
    \thispagestyle{plain}	% Page style of chapter page is 'plain'
